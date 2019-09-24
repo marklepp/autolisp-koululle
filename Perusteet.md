@@ -50,6 +50,7 @@ Näiden lisäksi on nil, joka tarkoittaa tiedon puutetta*. Muilla kielillä täm
 
 ### Luvut
 Luvut ovat joko kokonaislukuja `5` tai reaalilukuja `5.0`. Lisp muuttaa kokonaisluvun automaattisesti reaaliluvuksi, jos yksi laskutoimituksen luvuista on reaaliluku. Jakolaskut kokonaisluvuilla eivät huomioi tuloksen desimaaleja lainkaan, mutta jos toiseen luvuista on merkattu desimaalit, lisp muuntaa tuloksenkin reaaliluvuksi.
+
 Visual Lisp Console:
 ```lisp
 _$ (/ 5 2)
@@ -62,6 +63,7 @@ _$ (/ 5.0 2)
 
 ### Merkkijono
 Lisp ymmärtää koodin merkkijonoksi, jos sen ympäröi lainausmerkeillä. Esimerkissä alla on ensin kirjoitettu konsoliin merkkijono "tekstiä", jonka lisp ymmärtää merkkijonoksi ja palauttaa sen. Ilman lainausmerkkejä lisp ymmärtää kirjoitetun asian symboliksi, ja yrittää lukea symbolin arvoa, mutta koska sillä ei ole arvoa, lisp palauttaa nil. 
+
 Visual Lisp Console:
 ```lisp
 _$ "tekstiä"
