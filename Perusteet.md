@@ -44,7 +44,7 @@ Tietotyyppi on tiedon tallennusmuoto, mikä määrittelee, miten ohjelma käsitt
  * lista (list)
  * tiedosto-osoitin (file descriptor)
  * valintajoukko (selection set)
- * kokonaisuustunniste / osanimi (entity name)
+ * entiteettinimi / kokonaisuustunniste (entity name)
  * VLA-objekti (VLA-object)
 
 Näiden lisäksi on nil, joka tarkoittaa tiedon puutetta*. Muilla kielillä tämä on usein null.
@@ -82,7 +82,7 @@ nil
 Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (esim. `*globaali-muuttuja*`).
 
 #### Muuttujat
-Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muuttujaan. Toisin kui9n monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan asetetaan tietoa komennolla `setq`, joka palauttaa muuttujaan asetetun arvon. Muuttujaa voi asetuksen jälkeen käyttää myöhemmissä komennoissa.
+Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muuttujaan. Toisin kuin monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan asetetaan tietoa komennolla `setq`, joka palauttaa muuttujaan asetetun arvon. Muuttujaa voi asetuksen jälkeen käyttää myöhemmissä komennoissa.
 
 Visual Lisp Console:
 ```lisp
@@ -200,6 +200,48 @@ _$ (nth 3 koottu-lista)
 _$ (reverse koottu-lista)
 ("c" 2 "a" "jäsen" "c" 2 "a")
 ```
+
+---
+### Tiedosto-osoitin
+Tietoa voi tallentaa ja lukea tiedostosta käyttämällä tiedosto-osoittimia. Kun avaamme tiedoston lispin kautta, avoin tiedosto palauttaa muuttujaan tiedosto-osoittimen. Tiedosto-osoitin muistaa kohdan, josta tiedostoa viimeksi luettiin.
+
+Tiedoston voi avata komennolla `open`. Komento ottaa kaksi parametria: tiedostopolun ja tiedoston avausmoodin. Tiedoston avausmoodi voi olla luku "r", kirjoitus "w" tai jatkaminen "a" (read, write, append). Lukumoodissa tiedostosta voi vain lukea tietoa, kirjoituksessa voidaan kirjoittaa tietoa olemassa olevan sisällön päälle, ja jatkamisessa kirjoitetaan tietoa olemassa olevan sisällön perään. 
+
+Tiedostosta voidaan lukea rivi kerrallaan komennolla `read-line`. `read-line` palauttaa rivin tekstinä, ja mikäli tiedosto on loppu, se palauttaa `nil`. Vastaavasti tekstiä voi kirjoittaa tiedostoon rivi kerrallaan komennolla `write-line`. Mikäli tiedostoa ei ole vielä olemassa merkityssä kansiossa ennen kirjoitusta, moodit "w" ja "a" alkavat kirjoittaa suoraan uuteen tiedostoon annetulla tiedostonimellä.
+
+Mikäli lispille ei anna koko tiedostopolkua, se luo tiedoston tämänhetkiseen oletuskansioon. 
+
+Tiedosto täytyy muistaa sulkea käytön jälkeen, tai muut ohjelmat eivät voi muokata sitä tai tiedosto voi olla vaikea poistaa. Tiedosto suljetaan komennolla `close`. Mikäli tämä unohtuu, voi joutua käynnistämään koneen uudelleen, jotta kaikki tiedostot sulkeutuvat ja niitä voi muokata taas.
+
+Visual Lisp Console:
+```lisp
+_$ (setq uusi-tiedosto (open "testi.txt" "w"))
+#<file "testi.txt">
+_$ (write-line "Tämä on ensimmäinen rivi." uusi-tiedosto)
+"Tämä on ensimmäinen rivi."
+#<file "testi.txt">
+_$ (setq avoin-tiedosto (open "testi.txt" "r"))
+#<file "testi.txt">
+_$ (read-line avoin-tiedosto)
+"Tämä on ensimmäinen rivi."
+_$ (read-line avoin-tiedosto)
+"Tässäpä on toinen rivi!"
+_$ (read-line avoin-tiedosto)
+nil
+_$ (close avoin-tiedosto)
+nil
+```
+
+---
+### Valintajoukko
+
+---
+### Entiteettinimi / kokonaisuustunniste
+
+---
+### VLA-objekti
+
+
 ---
 ## Tekstin kirjoittaminen AutoCADin command promptiin tai tiedostoon
 
