@@ -4,6 +4,7 @@ AutoLISP (myös Visual Lisp) on AutoDeskin kehittämä ohjelmointikieli AutoCADi
 
 AutoLISP on helposti lähestyttävä kieli, vaikka ulkonäkö on erikoinen: sulkuja, sulkuja ja sulkuja. Lisp on lyhenne sanoista List processing (listaprosessointi), mikä on kuvaavaa, sillä lispissä on vain yksi, monipuolinen tietorakenne: lista. Itse lisp-koodikin kirjoitetaan lispin ymmärtämässä listamuodossa.
 
+---
 ## Lispin syntaksi eli lausemuoto
 
 AutoLISPin lauseet noudattavat yhtä kaavaa: `(komento parametri1 parametri2 ...)`. Sulkujen sisällä on ensin komento, ja sen jälkeen komennolle annetut parametrit, joilla komento suoritetaan. 
@@ -25,12 +26,14 @@ joka palauttaa luvun 5.
 #### Mitä tarkoittaa palauttaminen? Miten se toimii lispissä?
 Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin arvon takaisin. Lispissä lause palauttaa aina sen viimeisimmän arvon. Tämän tarkoitus näkyy paremmin myöhemmissä esimerkeissä.
 
+---
 ## Visual Lisp-kehitysympäristö
 
 Jotta pääsemme alkuun, on hyvä avata AutoCADiin Visual lisp-kehitysympäristö. Tämä onnistuu, kun menee "Manage"-välilehdellä osioon "Applications" ja klikkaa "Visual LISP-editor". Tästä avautuu ikkuna, jonka sisällä on ikkuna Visual LISP Console. Tähän kirjoittamalla voi kokeilla komentojen toimintaa. Vasemmasta yläkulmasta saa avattua uuden tiedoston, johon voi alkaa kirjoittaa lisp-koodia*. Kun etsii apua komennon löytämiseen, F1 avaa AutoCADin help-ikkunan, josta voi seikkailla AutoLISP-reference -osioon, jossa kerrotaan kaikkien AutoLISPin komentojen toiminnasta. Täältä on myös pienen harjoittelun jälkeen helppo löytää sopiva komento ohjelmoinnin avuksi.
 
 *) Kehitysympäristö on melko ikääntynyt, joten vakavassa käytössä suosittelen käyttämään sitä vain testaukseen. Koodin muokkaukseen suosittelen tekstieditoreja kuten Visual Studio Code tai Notepad++. Visual Studio Codeen saa ladattua lisäosan, joka värittää AutoLisp-syntaksin oikein. Opintojakson tarpeisiin kehitysympäristö on kuitenkin riittävä.
 
+---
 ## Tietotyypit ja lista
 
 Tietotyyppi on tiedon tallennusmuoto, mikä määrittelee, miten ohjelma käsittelee tietoa. AutoLISPissä tietotyyppejä ovat:
@@ -48,6 +51,7 @@ Näiden lisäksi on nil, joka tarkoittaa tiedon puutetta*. Muilla kielillä täm
 
 *) Tarkkaan ottaen nil tarkoittaa tyhjää listaa `'()`, mutta käytännössä tämä ei näy. 
 
+---
 ### Luvut
 Luvut ovat joko kokonaislukuja `5` tai reaalilukuja `5.0`. Lisp muuttaa kokonaisluvun automaattisesti reaaliluvuksi, jos yksi laskutoimituksen luvuista on reaaliluku. Jakolaskut kokonaisluvuilla eivät huomioi tuloksen desimaaleja lainkaan, mutta jos toiseen luvuista on merkattu desimaalit, lisp muuntaa tuloksenkin reaaliluvuksi.
 
@@ -61,6 +65,7 @@ _$ (/ 5.0 2)
 2.5
 ```
 
+---
 ### Merkkijono
 Lisp ymmärtää koodin merkkijonoksi, jos sen ympäröi lainausmerkeillä. Esimerkissä alla on ensin kirjoitettu konsoliin merkkijono "tekstiä", jonka lisp ymmärtää merkkijonoksi ja palauttaa sen. Ilman lainausmerkkejä lisp ymmärtää kirjoitetun asian symboliksi, ja yrittää lukea symbolin arvoa, mutta koska sillä ei ole arvoa, lisp palauttaa nil. 
 
@@ -72,6 +77,7 @@ _$ tekstiä
 nil
 ```
 
+---
 ### Symbolit ja muuttujat
 Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (esim. `*globaali-muuttuja*`).
 
@@ -163,7 +169,7 @@ _$ (nimi-globaali "Matti" "Meikäläinen")
 _$ kokonimi
 "Matti Meikäläinen"
 ```
-
+---
 ### Lista
 Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka voivat olla mitä vain tietotyyppiä. Listojen käsittelyyn AutoLISPissä on monia valmiita funktioita. Alla on vain pintaraapaisu.
 
@@ -194,7 +200,7 @@ _$ (nth 3 koottu-lista)
 _$ (reverse koottu-lista)
 ("c" 2 "a" "jäsen" "c" 2 "a")
 ```
-
+---
 ## Tekstin kirjoittaminen AutoCADin command promptiin tai tiedostoon
 
 Koodin sisältä voidaan käyttäjälle näyttää viestejä AutoCADin command promptissa eli komentorivillä. Tämä tapahtuu käyttämällä jotain komennoista _princ_, _prin1_ tai _print_. Kaikki näistä toimivat periaatteella (_komento_ _asia_). Tätä voit kokeilla command promptissa:
