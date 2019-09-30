@@ -38,8 +38,8 @@ Tietotyyppi on tiedon tallennusmuoto, mikä määrittelee, miten ohjelma käsitt
  * reaaliluku (real)
  * merkkijono / teksti (string)
  * symbolit ja muuttujat (symbol, variable)
- * tiedosto-osoitin (file descriptor)
  * lista (list)
+ * tiedosto-osoitin (file descriptor)
  * valintajoukko (selection set)
  * kokonaisuustunniste / osanimi (entity name)
  * VLA-objekti (VLA-object)
@@ -70,6 +70,129 @@ _$ "tekstiä"
 "tekstiä"
 _$ tekstiä
 nil
+```
+
+### Symbolit ja muuttujat
+Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (esim. `*globaali-muuttuja*`).
+
+#### Muuttujat
+Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muuttujaan. Toisin kui9n monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan asetetaan tietoa komennolla `setq`, joka palauttaa muuttujaan asetetun arvon. Muuttujaa voi asetuksen jälkeen käyttää myöhemmissä komennoissa.
+
+Visual Lisp Console:
+```lisp
+_$ (setq numero 5)
+5
+_$ (+ numero 1)
+6
+_$ numero
+5
+_$ (setq tervehdys "Hei")
+"Hei"
+_$ tervehdys
+"Hei"
+_$ (strcat tervehdys " maailma!") 
+"Hei maailma!"
+```
+
+#### Funktiot
+Funktioilla voidaan kirjoittaa koodia itse nimettyihin komentoihin, joita voidaan myöhemmin käyttää samalla tavalla ohjelman osana. Tämä johtaa helpommin ymmärrettävään koodiin, sillä yksittäiselle funktiolle annettu nimi kertoo paljon enemmän kuin monta riviä erillistä koodia.
+Funktio määritellään komennolla `defun` (lyhenne sanoista "define function").
+
+Syötetään Visual Lisp -konsoliin alla oleva esimerkkifunktio, joka laskee kolmen luvun keskiarvon ja palauttaa reaaliluvun:
+```lisp
+(defun keskiarvo (eka toka kolmas)
+  (/ (+ eka toka kolmas) 3.0)
+)
+```
+
+Visual Lisp Console:
+```lisp
+_$ (defun keskiarvo (eka toka kolmas)
+  (/ (+ eka toka kolmas) 3.0)
+)
+KESKIARVO
+_$ (keskiarvo 3 4 5)
+4.0
+_$ (keskiarvo 1 4 9)
+4.66667
+```
+
+Esimerkissä lisp-konsoli palauttaa funktion määrittelyn jälkeen funktion symbolin `KESKIARVO`. Tämän jälkeen keskiarvo-funktio on vapaasti käytettävissä kuten muut komennot. 
+
+Mikäli funktio halutaan käyttöön AutoCADin piirtotilassa, laitetaan funktion nimen eteen `c:`:
+```lisp
+(defun c:heippa ()
+  (princ "Hei maailma!")
+  (princ)
+)
+```
+Tämän jälkeen komentoa voi käyttää piirtotilassa kuten muita piirtokomentoja, kuten BLOCK tai LINE. Kun ylläolevan funktion kopioi lisp-konsoliin, piirtotilan komentoehdotuksiin ilmestyy "HEIPPA".
+
+#### Funktion määrittelyn osat
+Funktiomäärittelyn syntaksi koostuu nimen lisäksi neljästä osasta; nimi, argumentit, paikalliset muuttujat ja suoritettavat komennot: 
+```lisp
+(defun nimi (argumentti-1 argumentti-2  / paikalliset-muuttujat)
+  (komento ...)
+  ...
+  (komento ...)
+)
+```
+Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun `(nimi arvo-1 arvo-2)` kohdalla arvo-1 kopioituu argumentti-1:een ja arvo-2 kopioituu argumentti-2:een. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumentti-1:tä ja argumentti-2:ta.
+
+Paikalliset muuttujat on muuttujia, joita funktiossa käytetään, mutta joiden arvon ei haluta säilyvän funktion ulkopuolella. Jos esimerkiksi asetamme muuttujaan `kokonimi` arvon `"Matti Meikäläinen"` funktion nimi sisällä, ja kerromme muuttujan olevan paikallinen, `kokonimi` unohtaa arvonsa heti kun poistutaan funktiosta.
+
+Visual Lisp Console:
+```lisp
+_$ ; Funktio globaalilla muuttujalla:
+(defun nimi-globaali (etunimi sukunimi)
+  (setq kokonimi (strcat etunimi " " sukunimi))
+)
+
+; Funktio paikallisella muuttujalla:
+(defun nimi-paikallinen (etunimi sukunimi / kokonimi)
+  (setq kokonimi (strcat etunimi " " sukunimi))
+)
+NIMI-GLOBAALI
+NIMI-PAIKALLINEN
+_$ (nimi-paikallinen "Matti" "Meikäläinen")
+"Matti Meikäläinen"
+_$ kokonimi
+nil
+_$ (nimi-globaali "Matti" "Meikäläinen")
+"Matti Meikäläinen"
+_$ kokonimi
+"Matti Meikäläinen"
+```
+
+### Lista
+Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka voivat olla mitä vain tietotyyppiä. Listojen käsittelyyn AutoLISPissä on monia valmiita funktioita. Alla on vain pintaraapaisu.
+
+Lista voidaan luoda monella tapaa. Yksi on käyttää komentoa `list`, joka ottaa annetut arvot ja kasaa niistä listan siinä järjestyksessä kuin ne on sille annettu:
+
+Visual Lisp Console:
+```lisp
+_$ (setq lista-1 (list "a" 2 "c"))
+("a" 2 "c")
+```
+
+Listaan voidaan lisätä jäseniä komennolla `cons` (tulee sanasta "construct"). Cons lisää jäsenen listan ensimmäiseksi:
+```lisp
+_$ (setq lista-2 (cons "jäsen" lista-1))
+("jäsen" "a" 2 "c")
+```
+
+Listoja voidaan myös ketjuttaa toisiinsa komennolla `append`:
+```lisp
+_$ (setq koottu-lista (append lista-1 lista-2))
+("a" 2 "c" "jäsen" "a" 2 "c")
+```
+
+Listan jäseniin pääsee käsiksi komennolla `nth`. Järjestysnumerot lähtevät nollasta. Jos palautetaan neljäs jäsen listalta, kutsutaan `(nth 3 koottu-lista)`. Listan voi kääntää komennolla `reverse`:
+```lisp
+_$ (nth 3 koottu-lista)
+"jäsen"
+_$ (reverse koottu-lista)
+("c" 2 "a" "jäsen" "c" 2 "a")
 ```
 
 ## Tekstin kirjoittaminen AutoCADin command promptiin tai tiedostoon
