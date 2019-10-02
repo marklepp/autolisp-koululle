@@ -215,11 +215,22 @@ Tiedosto täytyy muistaa sulkea käytön jälkeen, tai muut ohjelmat eivät voi 
 
 Visual Lisp Console:
 ```lisp
+_$ ; Avataan uusi tiedosto kirjoitettavaksi, kirjoitetaan siihen rivi ja suljetaan se.
 _$ (setq uusi-tiedosto (open "testi.txt" "w"))
 #<file "testi.txt">
 _$ (write-line "Tämä on ensimmäinen rivi." uusi-tiedosto)
 "Tämä on ensimmäinen rivi."
+_$ (close uusi-tiedosto)
+nil
+_$ ; Avataan tiedosto jatkettavaksi, jatketaan sitä rivillä ja suljetaan se.
+_$ (setq jatkettava-tiedosto (open "testi.txt" "a"))
 #<file "testi.txt">
+_$ (write-line "Tässäpä on toinen rivi!" jatkettava-tiedosto)
+"Tässäpä on toinen rivi!"
+_$ (close jatkettava-tiedosto)
+nil
+_$ ; Avataan tiedosto luettavaksi, luetaan se kokonaan ja suljetaan se.
+_$ ; Tiedostossa on vain kaksi riviä, joten kolmas luku palauttaa nil.
 _$ (setq avoin-tiedosto (open "testi.txt" "r"))
 #<file "testi.txt">
 _$ (read-line avoin-tiedosto)
