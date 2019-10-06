@@ -17,6 +17,9 @@ DXF-koodit on AutoCADin piirustusformaatin tapa jaotella tietoa entiteeteissä. 
     - entiteettitunniste, joka säilyy tallennettaessa toisin kuin entiteettinimi
   - 8 tasonimi (layer name)
     - millä tasolla entiteetti on
+  - 67 sijaitseeko mallissa vai layoutissa
+    - 0 = mallissa/modelissa (in model space)
+    - 1 = layoutissa (in paper space)
 - Yhteisiä ATTDEF, ATTRIB ja TEXT-tyypeille
   - 7 tekstityyli (text style)
   - 10 tekstin aloituspiste
