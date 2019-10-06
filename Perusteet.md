@@ -364,6 +364,8 @@ Ominaisuuden muokkaus voidaan toteuttaa komennoin:
  - päivitetään entiteetti: `entupd`
  - tyhjennetään valintajoukko
 
+Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".
+
 Visual Lisp Console:
  ```lisp
 _$ (setq kaikki-tekstit (ssget "X" '((0 . "TEXT"))))
@@ -371,18 +373,18 @@ _$ (setq kaikki-tekstit (ssget "X" '((0 . "TEXT"))))
 _$ (setq tekstientity (ssname kaikki-tekstit 0))
 <Entity name: 23d99607c30>
 _$ (setq entOminaisuudet (entget tekstientity))
-((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "LAITE-ERITTELY") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") ... (1 . "LAITE-ERITTELY") ...)
 _$ (setq entOminaisuudet (subst '(1 . "uusi teksti") (assoc 1 entOminaisuudet) entOminaisuudet))
-((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "uusi teksti") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") ... (1 . "uusi teksti") ...)
 _$ (entmod entOminaisuudet)
-((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "uusi teksti") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") ... (1 . "uusi teksti") ...)
 _$ (entupd tekstientity)
 <Entity name: 23d99607c30>
 _$ (setq kaikki-tekstit nil)
 nil
  ```
 Attribuutit ovat erityisiä siinä, ettei niitä pysty suoraan valitsemaan, vaan niihin pääsee käsiksi vain blokin kautta. Eli ensin valitaan blokki, selvitetään sen entiteettinimi, jonka jälkeen aletaan kulkea blokin alaisia entiteettejä `entnext`-komennolla.
-`entnext` palauttaa seuraavan entitynimen tietokannassa, ja jos blokilla on attribuutteja, nämä ovat listana blokin jälkeen. Attribuutit on käyty läpi, kun seuraava entiteettityyppi (DXF-koodi 0) ei enää ole "ATTRIB". Esimerkissä valitaan blokki nimeltä "BJR_TUNNUS" ja käydään sen attribuutit läpi. Blokilla on kuusi attribuuttia: PROSESSIASEMA, JR_PA, NAYTTO, JR_NAUTTO, POS ja JR_HUONE. Attribuutin näkyvä tekstiarvo on DXF-koodi 1. Blokin tai attribuutin nimi on DXF-koodi 2. Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".
+`entnext` palauttaa seuraavan entitynimen tietokannassa, ja jos blokilla on attribuutteja, nämä ovat listana blokin jälkeen. Attribuutit on käyty läpi, kun seuraava entiteettityyppi (DXF-koodi 0) ei enää ole "ATTRIB". Esimerkissä valitaan blokki nimeltä "BJR_TUNNUS" ja käydään sen attribuutit läpi. Blokilla on kuusi attribuuttia: PROSESSIASEMA, JR_PA, NAYTTO, JR_NAUTTO, POS ja JR_HUONE. Attribuutin näkyvä tekstiarvo on DXF-koodi 1. Blokin tai attribuutin nimi on DXF-koodi 2.
 
 Visual Lisp Console:
 ```lisp
