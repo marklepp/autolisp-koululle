@@ -1,0 +1,98 @@
+
+# DXF-koodeja
+DXF-koodit on AutoCADin piirustusformaatin tapa jaotella tietoa entiteeteissä. Alla muutama tärkeimmistä arvoista.
+
+- Yhteisiä kaikille entiteeteille
+  - 0 entiteettityyppi
+    - "ATTDEF" = attribuuttimääritys (attribute definition)
+    - "ATTRIB" = attribuutti (attribute)
+    - "INSERT" = blokki (block reference)
+    - "MTEXT" = mteksti (multiline text)
+    - "TEXT" = teksti
+    - "ARC" = kaari
+    - "CIRCLE" = ympyrä 
+    - "LINE" = viiva
+    - "LWPOLYLINE" = polyline
+  - 5 handle 
+    - entiteettitunniste, joka säilyy tallennettaessa toisin kuin entiteettinimi
+  - 8 tasonimi (layer name)
+    - millä tasolla entiteetti on
+- Yhteisiä ATTDEF, ATTRIB ja TEXT-tyypeille
+  - 7 tekstityyli (text style)
+  - 10 tekstin aloituspiste
+  - 11 toinen tasauspiste
+    - vaikuttaa vain, jos 72 tai 73 =/= 0
+  - 40 tekstikorkeus (text height)
+  - 41 tekstin leveyskeroin (text X scale factor / width)
+  - 50 tekstin kulma radiaaneina (text rotation)
+  - 71 tekstin generointiasetus (text generation flags)
+    - 0 = oletus
+    - 2 = teksti on väärinpäin (text is backward (mirrored in X))
+    - 4 = teksti on ylösalaisin (text is upside down (mirrored in Y))
+    - 6 = teksti väärinpäin ja ylösalaisin
+  - 72 vaakasuuntainen tasaustyyppi
+    - 0 = vasen (left)
+    - 1 = keski (center)
+    - 2 = oikea (right)
+    - 3 = tasattu kahden pisteen väliin (aligned) (jos 73 = 0)
+    - 4 = keskipiste (middle) (jos 73 = 0)
+    - 5 = sovitettu kahden pisteen väliin (fit) (jos 73 = 0)
+  - 73 pystysuuntainen tasaustyyppi
+    - 0 oletus (baseline)
+    - 1 pohja (bottom)
+    - 2 keski (middle)
+    - 3 ylä (top)
+- ATTDEF-tyyppi
+  - 1 oletusarvo (default value)
+  - 2 attribuutin nimi / tag-nimi (tag name)
+  - 3 prompt-teksti
+- ATTRIB
+  - 1 oletusarvo (default value)
+  - 2 attribuutin nimi / tag-nimi (tag name)
+- TEXT
+  - 1 tekstiarvo (text string)
+- MTEXT
+  - 1 tekstiarvo (text string)
+  - 7 tekstityyli
+  - 10 paikka kuvassa (insertion point)
+  - 40 oletustekstikorkeus (nominal (initial) text height)
+  - 41 viitenelikulmion leveys (reference rectangle width)
+  - 50 tekstin kulma radiaaneina
+  - 71 kiinnityspiste (attachment point);
+    tekstilaatikon viitepiste (muuttaa myös insertion pointia vastaamaan asetusta)
+    - 1 ylävasen
+    - 2 yläkeski
+    - 3 yläoikea
+    - 4 keskivasen
+    - ...
+    - 9 alaoikea
+  - 72 piirtosuunta
+    - 1 vasemmalta oikealle
+    - 3 ylhäältä alas
+    - 5 tekstityylin mukaan
+- INSERT eli block-viite (block reference)
+  - 2 blokin nimi (block name)
+  - 10 paikka kuvassa (insertion point)
+  - 41 x-skaalaus
+  - 42 y-skaalaus
+  - 43 z-skaalaus
+  - 50 kulma radiaaneina
+  - 66 onko blokilla attribuutteja
+    - 0 ei attribuutteja
+    - 1 on attribuutteja
+- ARC
+  - 10 keskipiste
+  - 40 säde (radius)
+  - 50 aloituskulma
+  - 51 lopetuskulma
+- CIRCLE
+  - 10 keskipiste
+  - 40 säde (radius)
+- LINE
+  - 10 aloituspiste
+  - 11 lopetuspiste
+- LWPOLYLINE
+  - 10 moniviivan pisteet; yksi per piste, jonka kautta kuljetaan
+  - 70 piirtoasetukset
+    - 0 = oletus
+    - 1 = suljettu (yhdistää viivan ensimmäisen ja viimeisen pisteen)
