@@ -27,9 +27,9 @@ joka palauttaa luvun 5.
 Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin arvon takaisin. Lispissä lause palauttaa aina sen viimeisimmän arvon. Tämän tarkoitus näkyy paremmin myöhemmissä esimerkeissä.
 
 ---
-## Visual Lisp-kehitysympäristö
+## Visual Lisp-kehitysympäristö VLIDE
 
-Jotta pääsemme alkuun, on hyvä avata AutoCADiin Visual lisp-kehitysympäristö. Tämä onnistuu, kun menee "Manage"-välilehdellä osioon "Applications" ja klikkaa "Visual LISP-editor". Tästä avautuu ikkuna, jonka sisällä on ikkuna Visual LISP Console. Tähän kirjoittamalla voi kokeilla komentojen toimintaa. Vasemmasta yläkulmasta saa avattua uuden tiedoston, johon voi alkaa kirjoittaa lisp-koodia*. Kun etsii apua komennon löytämiseen, F1 avaa AutoCADin help-ikkunan, josta voi seikkailla AutoLISP-reference -osioon, jossa kerrotaan kaikkien AutoLISPin komentojen toiminnasta. Täältä on myös pienen harjoittelun jälkeen helppo löytää sopiva komento ohjelmoinnin avuksi.
+Jotta pääsemme alkuun, on hyvä avata AutoCADiin Visual lisp-kehitysympäristö. Tämä onnistuu, kun menee "Manage"-välilehdellä osioon "Applications" ja klikkaa "Visual LISP-editor", tai kirjoittaa CADin komentoriville VLIDE. Tästä avautuu ikkuna, jonka sisällä on ikkuna Visual LISP Console. Tähän kirjoittamalla voi kokeilla komentojen toimintaa. Vasemmasta yläkulmasta saa avattua uuden tiedoston, johon voi alkaa kirjoittaa lisp-koodia*. Kun etsii apua komennon löytämiseen, F1 avaa AutoCADin help-ikkunan, josta voi seikkailla AutoLISP-reference -osioon, jossa kerrotaan kaikkien AutoLISPin komentojen toiminnasta. Täältä on myös pienen harjoittelun jälkeen helppo löytää sopiva komento ohjelmoinnin avuksi.
 
 Tässä oppaassa käytetään esimerkkeinä Visual Lisp -konsoliin syötettyjä komentoja. Konsoli odottaa komentoa, kun sen rivin alussa on `_$`. Tämän perään voi kirjoittaa komennon, ja konsoli suorittaa komennon kun painetaan `enter`. Komennon palauttama arvo ilmestyy kirjoitetun rivin alle. Esimerkkinä syötetään komento `(+ 10 5)` konsoliin, jolloin seuraavalle riville ilmestyy palautettu arvo `15` ja konsoli ilmoittaa odottavansa seuraavaa komentoa uudella rivillä taas merkein `_$`:
 ```lisp
@@ -324,7 +324,32 @@ nil
 
 ---
 ### Valintajoukko (selection set)
-Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöstä. Kuvasta voi valita/hakea sisältöä annettujen parametrien perusteella. Parametrit annetaan assosiaatiolistana komennolle `ssget`. 
+Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöstä (entiteeteistä lisää seuraavassa osiossa). Kuvasta voi valita/hakea sisältöä annettujen tietojen perusteella. Tiedot annetaan assosiaatiolistana komennolle `ssget`. Valintajoukko tallennetaan muuttujaan aivan kuten muutkin tietotyypit `(setq valintajoukko (ssget))`. Valintajoukkoja voi olla samaan aikaan vain rajattu määrä (128), joten tallennettu valintajoukkomuuttuja kannattaa heti tyhjentää käytön jälkeen antamalla komento `(setq valintajoukko nil)`.
+
+`ssget`:llä voi hakea entiteettejä joko tietyltä alueelta kuvasta tai koko kuvan tietokannasta. Tarkemmat tiedot löytyy AutoCADin lisp-referenssistä, johon pääsee CADin helpin kautta. Eniten kuvan käsittelyssä tulee kuitenkin käytettyä kolmea moodia: koko kuvan tietokannasta hakua, valmiista valinnasta hakua tai annetaan käyttäjän valita. Jos ei anneta käyttäjän valita, `ssget` ottaa kaksi parametria: valintamoodin ja assosiaatiolistan haettavista ominaisuukista. `"X"` tarkoittaa, että haetaan asioita koko kuvan tietokannasta, ja `"I"` tarkoittaa, että haetaan sopivia entiteettejä käyttäjän valmiiksi valitsemalta alueelta. Kun moodi-parametri jätetään pois, Lisp odottaa, että käyttäjä valitsee kuvasta haluamansa asiat. Jos esimerkiksi halutaan valita kaikki text-tyyppiset entiteetit kuvasta, käytetään komentoa `(ssget "X" '((0 . "TEXT")))`. Mikäli haku halutaan rajata valmiiksi valittuihin asioihin, vaihdetaan X:n paikalle I: `(ssget "I" '((0 . "TEXT")))`. Ilman moodia käyttäjä saa valita tekstit itse, ja valinta ei ota muita entiteettejä ollenkaan huomioon `(ssget '((0 . "TEXT")))`. Jos halutaan antaa käyttäjälle täysi vapaus valintaan, ei anneta mitään parametreja: `(ssget)`.
+
+`sslength` palauttaa valintajoukon pituuden, eli sen, montako entiteettiä on valittuna. `ssname` palauttaa annetun järjestysnumeron mukaisen entiteettinimen. Jälleen, järjestysnumerot lähtevät nollasta.
+Esimerkissä avoinna on piirustus, jossa on yksi teksti ja 72 blokkia. 0 on assosiaatiotunniste, joka viittaa entiteettityyppiin. Näistä arvoista lisää entiteettikappaleessa. 
+
+Visual Lisp Console:
+```lisp
+_$ (setq tekstit (ssget "X" '((0 . "TEXT"))))
+<Selection set: 71>
+_$ (sslength tekstit)
+1
+_$ (ssname tekstit 0)
+<Entity name: 1e57bdcdc30>
+_$ (setq tekstit nil)
+nil
+_$ (setq blokit (ssget "X" '((0 . "INSERT"))))
+<Selection set: 73>
+_$ (sslength blokit)
+72
+_$ (ssname blokit 20)
+<Entity name: 1e57bdd0910>
+_$ (setq blokit nil)
+nil
+```
 
 ---
 ### Entiteettinimi / kokonaisuustunniste (entity name)
@@ -337,6 +362,10 @@ Ominaisuuden muokkaus voidaan toteuttaa näin:
  - vaihdetaan listasta haluttu ominaisuus `subst`-komennolla
  - tallennetaan muutettu lista entiteettiin `entmod`-komennolla
  - päivitetään entiteetti `entupd`-komennolla
+
+ ```lisp
+_$ ()
+ ```
 
 ---
 ### VLA-objekti (VLA-object)
