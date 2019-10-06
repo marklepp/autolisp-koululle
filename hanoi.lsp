@@ -5,10 +5,10 @@
 ;  - Vain yhtä levyä saa siirtää kerrallaan
 ;  - Levyn päälle ei saa laittaa sitä suurempaa levyä
 ;
-;       (|)        |         |
-;      ((|))       |         |
-;     (((|)))      |         |
-;    ((((|))))     |         |
+;       <|>        |         |
+;      <<|>>       |         |
+;     <<<|>>>      |         |
+;    <<<<|>>>>     |         |
 ; -----------------------------------
 ;        A         B         C
 ; 
@@ -30,9 +30,6 @@
 ; pois, siirtää alin levy oikeaan paikkaan ja sen jälkeen siirtää levyt taas suurimman päälle.
 ; Tämä logiikka toimii kun levyjä > 0, ja jos levyjä on 0, ei tehdä mitään.
 (hanoi 4 "A" "B" "C")
-
-
-
 
 ; Loppu on visualisointikoodia (hanoiprint 4 500) 
 (defun hanoiprint (montako-levya viive-ms / siirto a b c)
@@ -84,9 +81,9 @@
   (if (<= rivi (length kasa))
     (strcat
       (setq tila (toista " " (- korkeus (setq eka (nth (1- rivi) (reverse kasa))))))
-      (toista "(" eka)
+      (toista "<" eka)
       "|"
-      (toista ")" eka)
+      (toista ">" eka)
       tila
     )
     (strcat 

@@ -31,6 +31,15 @@ Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin
 
 Jotta pääsemme alkuun, on hyvä avata AutoCADiin Visual lisp-kehitysympäristö. Tämä onnistuu, kun menee "Manage"-välilehdellä osioon "Applications" ja klikkaa "Visual LISP-editor". Tästä avautuu ikkuna, jonka sisällä on ikkuna Visual LISP Console. Tähän kirjoittamalla voi kokeilla komentojen toimintaa. Vasemmasta yläkulmasta saa avattua uuden tiedoston, johon voi alkaa kirjoittaa lisp-koodia*. Kun etsii apua komennon löytämiseen, F1 avaa AutoCADin help-ikkunan, josta voi seikkailla AutoLISP-reference -osioon, jossa kerrotaan kaikkien AutoLISPin komentojen toiminnasta. Täältä on myös pienen harjoittelun jälkeen helppo löytää sopiva komento ohjelmoinnin avuksi.
 
+Tässä oppaassa käytetään esimerkkeinä Visual Lisp -konsoliin syötettyjä komentoja. Konsoli odottaa komentoa, kun sen rivin alussa on `_$`. Tämän perään voi kirjoittaa komennon, ja konsoli suorittaa komennon kun painetaan `enter`. Komennon palauttama arvo ilmestyy kirjoitetun rivin alle. Esimerkkinä syötetään komento `(+ 10 5)` konsoliin, jolloin seuraavalle riville ilmestyy palautettu arvo `15` ja konsoli ilmoittaa odottavansa seuraavaa komentoa uudella rivillä taas merkein `_$`:
+```lisp
+_$ (+ 10 5)
+15
+_$
+```
+
+Konsoliin voi kirjoittaa useamman rivin ennen suoritusta, jos painaa `shift + enter` kun haluaa riviä. Esimerkeissä annan koodipätkiä, jotka voi myös itse kirjoittaa konsoliin ja nähdä miten AutoLISP toimii.
+
 *) Kehitysympäristö on melko ikääntynyt, joten vakavassa käytössä suosittelen käyttämään sitä vain testaukseen. Koodin muokkaukseen suosittelen tekstieditoreja kuten Visual Studio Code tai Notepad++. Visual Studio Codeen saa ladattua lisäosan, joka värittää AutoLisp-syntaksin oikein. Opintojakson tarpeisiin kehitysympäristö on kuitenkin riittävä.
 
 ---
@@ -49,10 +58,10 @@ Tietotyyppi on tiedon tallennusmuoto, mikä määrittelee, miten ohjelma käsitt
 
 Näiden lisäksi on nil, joka tarkoittaa tiedon puutetta*. Muilla kielillä tämä on usein null.
 
-*) Tarkkaan ottaen nil tarkoittaa tyhjää listaa `'()`, mutta käytännössä tämä ei näy. 
+*) Tarkkaan ottaen nil tarkoittaa tyhjää listaa `'()`, mutta käytännössä tämä ei näy. Tästä lisää lista-osiossa.
 
 ---
-### Luvut
+### Luvut: kokonaisluku (integer) ja reaaliluku (real)
 Luvut ovat joko kokonaislukuja `5` tai reaalilukuja `5.0`. Lisp muuttaa kokonaisluvun automaattisesti reaaliluvuksi, jos yksi laskutoimituksen luvuista on reaaliluku. Jakolaskut kokonaisluvuilla eivät huomioi tuloksen desimaaleja lainkaan, mutta jos toiseen luvuista on merkattu desimaalit, lisp muuntaa tuloksenkin reaaliluvuksi.
 
 Visual Lisp Console:
@@ -66,7 +75,7 @@ _$ (/ 5.0 2)
 ```
 
 ---
-### Merkkijono
+### Merkkijono (string)
 Lisp ymmärtää koodin merkkijonoksi, jos sen ympäröi lainausmerkeillä. Esimerkissä alla on ensin kirjoitettu konsoliin merkkijono "tekstiä", jonka lisp ymmärtää merkkijonoksi ja palauttaa sen. Ilman lainausmerkkejä lisp ymmärtää kirjoitetun asian symboliksi, ja yrittää lukea symbolin arvoa, mutta koska sillä ei ole arvoa, lisp palauttaa nil. 
 
 Visual Lisp Console:
@@ -78,11 +87,11 @@ nil
 ```
 
 ---
-### Symbolit ja muuttujat
-Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (esim. `*globaali-muuttuja*`).
+### Symbolit ja muuttujat (symbol, variable)
+Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (malli: `*globaali-muuttuja*`), mutta tämä ei ole välttämätöntä.
 
 #### Muuttujat
-Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muuttujaan. Toisin kuin monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan asetetaan tietoa komennolla `setq`, joka palauttaa muuttujaan asetetun arvon. Muuttujaa voi asetuksen jälkeen käyttää myöhemmissä komennoissa.
+Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muistiin muuttujaan. Toisin kuin monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan tallennetaan tietoa komennolla `setq`, joka myös palauttaa muuttujaan asetetun arvon. Muuttujaa voi tallennuksen jälkeen käyttää myöhemmissä komennoissa. Muuttujan arvo ei muutu, ennen kuin siihen tallentaa uuden arvon `setq`-komennolla. 
 
 Visual Lisp Console:
 ```lisp
@@ -170,7 +179,7 @@ _$ kokonimi
 "Matti Meikäläinen"
 ```
 ---
-### Lista
+### Lista (list)
 Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka voivat olla mitä vain tietotyyppiä. Listojen käsittelyyn AutoLISPissä on monia valmiita funktioita. Alla on vain pintaraapaisu.
 
 Lista voidaan luoda monella tapaa. Yksi on käyttää komentoa `list`, joka ottaa annetut arvot ja kasaa niistä listan siinä järjestyksessä kuin ne on sille annettu:
@@ -180,12 +189,14 @@ Visual Lisp Console:
 _$ (setq lista-1 (list "a" 2 "c"))
 ("a" 2 "c")
 ```
+Saman voi tehdä myös antamalla listan kirjaimellisesti, jolloin kirjoitamme listan heittomerkin jälkeen `'("a" 2 "b")`. Tällöin yksittäiset elementit täytyy olla jo tiedossa, sillä heittomerkki listan edessä tarkoittaa, ettei lisp yritä suorittaa seuraavana tulevaa osaa, vaan ottaa sen sellaisenaan. Tämä tarkoittaa, ettei listan sisäisiä komentoja suoriteta, vaan ne tulkitaan listan jäseniksi.
 
 Listaan voidaan lisätä jäseniä komennolla `cons` (tulee sanasta "construct"). Cons lisää jäsenen listan ensimmäiseksi:
 ```lisp
 _$ (setq lista-2 (cons "jäsen" lista-1))
 ("jäsen" "a" 2 "c")
 ```
+Cons toimii joskus yllättävällä tavalla, mitä selitän assosiaatiolistojen osiossa lisää.
 
 Listoja voidaan myös ketjuttaa toisiinsa komennolla `append`:
 ```lisp
@@ -193,16 +204,84 @@ _$ (setq koottu-lista (append lista-1 lista-2))
 ("a" 2 "c" "jäsen" "a" 2 "c")
 ```
 
-Listan jäseniin pääsee käsiksi komennolla `nth`. Järjestysnumerot lähtevät nollasta. Jos palautetaan neljäs jäsen listalta, kutsutaan `(nth 3 koottu-lista)`. Listan voi kääntää komennolla `reverse`:
+Listan jäseniin pääsee käsiksi komennoilla `nth`, `car` ja `cdr`. Komento `nth` palauttaa "ännännen" jäsenen, eli annetun järjestysnumeron mukaisen jäsenen. Järjestysnumerot lähtevät nollasta, joten jos halutaan neljäs jäsen listalta, kutsutaan `(nth 3 koottu-lista)`. `car` palauttaa listan ensimmäisen jäsenen. `cdr` palauttaa listan lopun toisesta jäsenestä lähtien. On olemassa myös komentojen `car` ja `cdr` yhdistelmiä kuten `cadr`, joka vastaa komentoa `(car (cdr lista))`. Näitä yhdistelmiä on neljään komentoon asti, eli esimerkiksi `cddddr` palauttaa listan lopun viidennestä jäsenestä lähtien. Listan voi kääntää komennolla `reverse`:
 ```lisp
 _$ (nth 3 koottu-lista)
 "jäsen"
+_$ (car koottu-lista)
+"a"
+_$ (cdr koottu-lista)
+(2 "c" "jäsen" "a" 2 "c")
+_$ (cddddr koottu-lista)
+("a" 2 "c")
 _$ (reverse koottu-lista)
 ("c" 2 "a" "jäsen" "c" 2 "a")
 ```
 
+Listasta voi korvata jäsenen komennolla `subst`:
+```lisp
+_$ (subst "uusi" "jäsen" koottu-lista)
+("a" 2 "c" "uusi" "a" 2 "c")
+_$ (subst "uusi" "a" koottu-lista)
+("uusi" 2 "c" "jäsen" "uusi" 2 "c")
+```
+
+#### Assosiaatiolista (association list, lyhyesti assoc list)
+AutoLISPin tieto on usein tallennettu assosiaatiolistoihin. Assosiaatiolista on lista, jossa kunkin jäsenen ensimmäinen osa on tunniste, ja toinen osa on sisältöä. Tämä mahdollistaa hakea listasta tietoa tunnisteen mukaan. Tätä käytetään entiteettien ominaisuuksien hallinnassa, josta kerrotaan vähän lisää myöhemmin.
+
+Käyttötarkoituksena on tiedon jäsennys eri ryhmiin. Esimerkkinä voitaisiin luoda attribuuttilista, jossa listan jäsenen ensimmäisenä arvona on attribuutin nimi, ja sisältönä attribuutin arvo. Esimerkkinä blokki, jolla on attribuutit: Valmistaja: ABB, malli: S201-C10, nimellisjännite: 230V, nimellisvirta: 10A. Assosiaatiolistasta voi hakea tarvitun tiedon nimen perusteella komennolla `assoc`, joka palauttaa sen assiosiaation, joka vastaa annettua arvoa. Usein associa käytetään kuitenkin `cdr`-komennon kanssa, koska halutaan päästä käsiksi varsinaiseen sisältöön.
+
+Visual Lisp Console:
+```lisp
+_$ (setq johdonsuojakatkaisija '(("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A")))
+(("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A"))
+_$ (assoc "NIMELLISJÄNNITE" johdonsuojakatkaisija)
+("NIMELLISJÄNNITE" . "230V")
+_$ (cdr (assoc "MALLI" johdonsuojakatkaisija))
+"S201-C10"
+```
+
+Tunnisteen ja sisällön yhdistelmä on erityinen lista. Kuten esimerkistä voi huomata, assosiaatiolistan jäsenissä on piste tunnisteen ja sisällön välillä. Tämä johtuu lispin pohjimmaisesta listarakenteesta. Listan elementti koostuu kahdesta osasta: sisällöstä ja osoittimesta listan seuraavaan osaan. Pisteellä on tarkoitus esittää näiden osien ero. Assosiaatiolistan jäsenessä `'("tunniste" . "sisältö")` toinen osa on täytetty osoittimen sijaan tiedolla. Normaali lista `'("a" "b" "c")` voitaisiin kirjoittaa oikeammin näin: `'("a" . ("b" . ("c" . nil)))`, mutta listan käyttöä on helpotettu poistamalla ylimääräiset merkit. Tämä kirjoitusmuoto toimii, jos sitä haluaa kokeilla:
+```lisp
+_$ (setq oikea-lista '("a" . ("b" . ("c" . nil))))
+("a" "b" "c")
+```
+
+Tästä johtuu myös `cons` komennon erikoinen toiminta yksittäisillä elementeillä:
+```lisp
+_$ (cons "a" "b")
+("a" . "b")
+_$ (cons "a" (list "b"))
+("a" "b")
+_$ (cons "a" nil)
+("a")
+```
+Kun kutsumme `(cons "a" "b")`, saamme vastaukseksi `("a" . "b")`, koska käytämme toisena osana merkkijonoa emmekä listaa. `nil` on todellisuudessa tyhjä lista `'()`, minkä takia siihen lisäämällä saa luotua yksijäsenisen listan. Seuraavassa esimerkissä näkyy todellisen listarakenteen vastaavuudet cons-komennon kanssa:
+```lisp
+_$ '("a" . ("b" . ("c" . nil)))
+("a" "b" "c")
+_$ (cons "a" (cons "b" (cons "c" nil)))
+("a" "b" "c")
+_$ '("a" . "b")
+("a" . "b")
+_$ (cons "a" "b")
+("a" . "b")
+_$ '("a" . nil)
+("a")
+_$ (cons "a" nil)
+("a")
+_$ '("a" . ())
+("a")
+_$ (cons "a" '())
+("a")
+_$ '(("tunniste" . "sisältö") . (("tunniste2" . "sisältö2") . nil))
+(("tunniste" . "sisältö") ("tunniste2" . "sisältö2"))
+_$ (cons (cons "tunniste" "sisältö") (cons (cons "tunniste2" "sisältö2") nil))
+(("tunniste" . "sisältö") ("tunniste2" . "sisältö2"))
+```
+
 ---
-### Tiedosto-osoitin
+### Tiedosto-osoitin (file descriptor)
 Tietoa voi tallentaa ja lukea tiedostosta käyttämällä tiedosto-osoittimia. Kun avaamme tiedoston lispin kautta, avoin tiedosto palauttaa muuttujaan tiedosto-osoittimen. Tiedosto-osoitin muistaa kohdan, josta tiedostoa viimeksi luettiin.
 
 Tiedoston voi avata komennolla `open`. Komento ottaa kaksi parametria: tiedostopolun ja tiedoston avausmoodin. Tiedoston avausmoodi voi olla luku "r", kirjoitus "w" tai jatkaminen "a" (read, write, append). Lukumoodissa tiedostosta voi vain lukea tietoa, kirjoituksessa voidaan kirjoittaa tietoa olemassa olevan sisällön päälle, ja jatkamisessa kirjoitetaan tietoa olemassa olevan sisällön perään. 
@@ -244,13 +323,23 @@ nil
 ```
 
 ---
-### Valintajoukko
+### Valintajoukko (selection set)
+Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöstä. Kuvasta voi valita/hakea sisältöä annettujen parametrien perusteella. Parametrit annetaan assosiaatiolistana komennolle `ssget`. 
 
 ---
-### Entiteettinimi / kokonaisuustunniste
+### Entiteettinimi / kokonaisuustunniste (entity name)
+Entiteetit ovat AutoCAD-piirustuksen sisältöä, esimerkiksi blokkeja, viivoja, tekstejä tai attribuutteja. Kullakin entiteetillä on oma tunniste, jolla lisp pääsee sitä käsittelemään. Tätä tunnistetta kutsutaan entiteettinimeksi. 
+
+Kullakin entiteetillä on kokoelma ominaisuuksia, joita pääsee lispistä muokkaamaan. 
+Ominaisuuden muokkaus voidaan toteuttaa näin: 
+ - selvitetään muokattavan asian entiteettinimi
+ - haetaan tämän entiteetin ominaisuuslista `entget`-komennolla
+ - vaihdetaan listasta haluttu ominaisuus `subst`-komennolla
+ - tallennetaan muutettu lista entiteettiin `entmod`-komennolla
+ - päivitetään entiteetti `entupd`-komennolla
 
 ---
-### VLA-objekti
+### VLA-objekti (VLA-object)
 
 
 ---
@@ -264,3 +353,16 @@ Koodin sisältä voidaan käyttäjälle näyttää viestejä AutoCADin command p
 ```
 
 Samat komennot kirjoittavat dataa tiedostoon: `(komento asia avoin-tiedosto)`. Princ riisuu asiasta kaiken tietotyyppiin liittyvän tiedon, kun taas prin1 ja print säilyttävät lispin ymmärtämät muotoilut, jolloin tiedostosta voisi lukea suoraan dataa ohjelmaan. Pelkän tekstin kirjoittamiseen komento _write-line_ on parempi. `(write-line merkkijono avoin-tiedosto)` kirjoittaa merkkijonon tiedostoon ja vaihtaa seuraavalle riville. Tiedoston avaamisesta kerrotaan myöhemmin.
+
+
+
+- About Data Types (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-7E568541-F1D0-49C4-B878-15880486825F-htm.html
+  - About Integers (AutpLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-EF6114FC-F1E4-4C71-91CC-07D01E6C8ABB-htm.html
+  - About Reals (AutoLISP)  https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-F2BFD097-295B-4499-BBD9-0A785C377070-htm.html
+  - About Strings (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-D7C33A49-9715-4E9B-9D8A-4C2E7BFC0FE5-htm.html
+  - About Lists (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-F8074AA9-F361-4960-B628-681465B74229-htm.html
+  - About Selection Sets (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-E0CCD0D3-AB95-40CE-A5DD-8E9214DC5469-htm.html
+  - About Entity Names (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-9CB07C25-4439-445D-B1B3-92174C53C571-htm.html
+  - About VLA-objects (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-F6477DD7-7982-4742-95CA-F30BBBBE80B1-htm.html
+  - About File Descriptors (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-EDADF856-4D64-4E19-A7BD-5017C4135A01-htm.html
+  - About Symbols and Variables (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-1855E7B0-2474-49E6-9EE3-8BC541FC1CC8-htm.html
