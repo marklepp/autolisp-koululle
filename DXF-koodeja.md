@@ -3,6 +3,7 @@
 DXF-koodit on AutoCADin piirustusformaatin tapa jaotella tietoa entiteeteissä. Alla muutama tärkeimmistä arvoista.
 
 - Yhteisiä kaikille entiteeteille
+  - -1 entiteettinimi (entity name)
   - 0 entiteettityyppi
     - "ATTDEF" = attribuuttimääritys (attribute definition)
     - "ATTRIB" = attribuutti (attribute)

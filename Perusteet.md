@@ -38,7 +38,7 @@ _$ (+ 10 5)
 _$
 ```
 
-Konsoliin voi kirjoittaa useamman rivin ennen suoritusta, jos painaa `shift + enter` kun haluaa riviä. Esimerkeissä annan koodipätkiä, jotka voi myös itse kirjoittaa konsoliin ja nähdä miten AutoLISP toimii.
+Konsoliin voi kirjoittaa useamman rivin ennen suoritusta, jos painaa `shift + enter` kun haluaa riviä. Esimerkeissä annan koodipätkiä, jotka voi myös itse kirjoittaa konsoliin. Nämä eivät välttämättä ole kaikkein käytännöllisimpiä esimerkkejä, mutta niistä näkee, mitä AutoLISPissä oikein tapahtuu, rivi riviltä.
 
 *) Kehitysympäristö on melko ikääntynyt, joten vakavassa käytössä suosittelen käyttämään sitä vain testaukseen. Koodin muokkaukseen suosittelen tekstieditoreja kuten Visual Studio Code tai Notepad++. Visual Studio Codeen saa ladattua lisäosan, joka värittää AutoLisp-syntaksin oikein. Opintojakson tarpeisiin kehitysympäristö on kuitenkin riittävä.
 
@@ -329,7 +329,7 @@ Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöst
 `ssget`:llä voi hakea entiteettejä joko tietyltä alueelta kuvasta tai koko kuvan tietokannasta. Tarkemmat tiedot löytyy AutoCADin lisp-referenssistä, johon pääsee CADin helpin kautta. Eniten kuvan käsittelyssä tulee kuitenkin käytettyä kolmea moodia: koko kuvan tietokannasta hakua, valmiista valinnasta hakua tai annetaan käyttäjän valita. Jos ei anneta käyttäjän valita, `ssget` ottaa kaksi parametria: valintamoodin ja assosiaatiolistan haettavista ominaisuukista. `"X"` tarkoittaa, että haetaan asioita koko kuvan tietokannasta, ja `"I"` tarkoittaa, että haetaan sopivia entiteettejä käyttäjän valmiiksi valitsemalta alueelta. Kun moodi-parametri jätetään pois, Lisp odottaa, että käyttäjä valitsee kuvasta haluamansa asiat. Jos esimerkiksi halutaan valita kaikki text-tyyppiset entiteetit kuvasta, käytetään komentoa `(ssget "X" '((0 . "TEXT")))`. Mikäli haku halutaan rajata valmiiksi valittuihin asioihin, vaihdetaan X:n paikalle I: `(ssget "I" '((0 . "TEXT")))`. Ilman moodia käyttäjä saa valita tekstit itse, ja valinta ei ota muita entiteettejä ollenkaan huomioon `(ssget '((0 . "TEXT")))`. Jos halutaan antaa käyttäjälle täysi vapaus valintaan, ei anneta mitään parametreja: `(ssget)`.
 
 `sslength` palauttaa valintajoukon pituuden, eli sen, montako entiteettiä on valittuna. `ssname` palauttaa annetun järjestysnumeron mukaisen entiteettinimen. Jälleen, järjestysnumerot lähtevät nollasta.
-Esimerkissä avoinna on piirustus, jossa on yksi teksti ja 72 blokkia. 0 on assosiaatiotunniste, joka viittaa entiteettityyppiin. Näistä arvoista lisää entiteettikappaleessa. 
+Esimerkissä avoinna on piirustus, jossa on yksi teksti ja 72 blokkia. 0 on assosiaatiotunniste, joka viittaa entiteettityyppiin. Näistä arvoista lisää seuraavassa kappaleessa, ja tiedostossa DXF-koodeja.md. 
 
 Visual Lisp Console:
 ```lisp
@@ -353,19 +353,72 @@ nil
 
 ---
 ### Entiteettinimi / kokonaisuustunniste (entity name)
-Entiteetit ovat AutoCAD-piirustuksen sisältöä, esimerkiksi blokkeja, viivoja, tekstejä tai attribuutteja. Kullakin entiteetillä on oma tunniste, jolla lisp pääsee sitä käsittelemään. Tätä tunnistetta kutsutaan entiteettinimeksi. 
+Entiteetit ovat AutoCAD-piirustuksen sisältöä, esimerkiksi blokkeja, viivoja, tekstejä tai attribuutteja. Kullakin entiteetillä on oma tunniste, jolla lisp pääsee sitä käsittelemään. Tätä tunnistetta kutsutaan entiteettinimeksi. Kullakin entiteetillä on kokoelma ominaisuuksia, joita pääsee lispistä käsin muokkaamaan. Ominaisuudet esitetään assosiaatiolistassa, jossa kutakin ominaisuutta vastaa jokin numero. Näitä kutsutaan DXF-koodeksi*.
 
-Kullakin entiteetillä on kokoelma ominaisuuksia, joita pääsee lispistä muokkaamaan. 
-Ominaisuuden muokkaus voidaan toteuttaa näin: 
- - selvitetään muokattavan asian entiteettinimi
- - haetaan tämän entiteetin ominaisuuslista `entget`-komennolla
- - vaihdetaan listasta haluttu ominaisuus `subst`-komennolla
- - tallennetaan muutettu lista entiteettiin `entmod`-komennolla
- - päivitetään entiteetti `entupd`-komennolla
+Ominaisuuden muokkaus voidaan toteuttaa komennoin: 
+ - valitaan kuvasta halutut asiat: `ssget`
+ - selvitetään muokattavan asian entiteettinimi: `ssname`
+ - haetaan tämän entiteetin ominaisuuslista: `entget`
+ - vaihdetaan listasta haluttu ominaisuus: `subst`
+ - tallennetaan muutettu lista entiteettiin: `entmod`
+ - päivitetään entiteetti: `entupd`
+ - tyhjennetään valintajoukko
 
+Visual Lisp Console:
  ```lisp
-_$ ()
+_$ (setq kaikki-tekstit (ssget "X" '((0 . "TEXT"))))
+<Selection set: 6>
+_$ (setq tekstientity (ssname kaikki-tekstit 0))
+<Entity name: 23d99607c30>
+_$ (setq entOminaisuudet (entget tekstientity))
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "LAITE-ERITTELY") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+_$ (setq entOminaisuudet (subst '(1 . "uusi teksti") (assoc 1 entOminaisuudet) entOminaisuudet))
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "uusi teksti") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+_$ (entmod entOminaisuudet)
+((-1 . <Entity name: 23d99607c30>) (0 . "TEXT") (330 . <Entity name: 23d99e929f0>) (5 . "742B") (100 . "AcDbEntity") (67 . 0) (410 . "Model") (8 . "0") (100 . "AcDbText") (10 331.294 279.259 0.0) (40 . 5.0) (1 . "uusi teksti") (50 . 0.0) (41 . 1.0) (51 . 0.0) (7 . "ISO Proportional") (71 . 0) (72 . 0) (11 0.0 0.0 0.0) (210 0.0 0.0 1.0) (100 . "AcDbText") (73 . 0))
+_$ (entupd tekstientity)
+<Entity name: 23d99607c30>
+_$ (setq kaikki-tekstit nil)
+nil
  ```
+Attribuutit ovat erityisiä siinä, ettei niitä pysty suoraan valitsemaan, vaan niihin pääsee käsiksi vain blokin kautta. Eli ensin valitaan blokki, selvitetään sen entiteettinimi, jonka jälkeen aletaan kulkea blokin alaisia entiteettejä `entnext`-komennolla.
+`entnext` palauttaa seuraavan entitynimen tietokannassa, ja jos blokilla on attribuutteja, nämä ovat listana blokin jälkeen. Attribuutit on käyty läpi, kun seuraava entiteettityyppi (DXF-koodi 0) ei enää ole "ATTRIB". Esimerkissä valitaan blokki nimeltä "BJR_TUNNUS" ja käydään sen attribuutit läpi. Blokilla on kuusi attribuuttia: PROSESSIASEMA, JR_PA, NAYTTO, JR_NAUTTO, POS ja JR_HUONE. Attribuutin näkyvä tekstiarvo on DXF-koodi 1. Blokin tai attribuutin nimi on DXF-koodi 2. Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".
+
+Visual Lisp Console:
+```lisp
+_$ (setq bjr-tunnus-valinta (ssget "X" '((0 . "INSERT") (2 . "BJR_TUNNUS"))))
+<Selection set: 64>
+_$ (setq bjr-tunnus-blokki (ssname bjr-tunnus-valinta 0))
+<Entity name: 23d99601c50>
+_$ (entget bjr-tunnus-blokki)
+((-1 . <Entity name: 23d99601c50>) (0 . "INSERT") ... (66 . 1) (2 . "BJR_TUNNUS") ...)
+_$ (setq alientity (entnext bjr-tunnus-blokki))
+<Entity name: 23d99601c60>
+_$ (entget alientity)
+((-1 . <Entity name: 23d99601c60>) (0 . "ATTRIB") ... (1 . "PROSESSIASEMA") ... (2 . "PROSESSIASEMA") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601c70>
+((-1 . <Entity name: 23d99601c70>) (0 . "ATTRIB") ... (1 . "FP01") ... (2 . "JR_PA") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601c80>
+((-1 . <Entity name: 23d99601c80>) (0 . "ATTRIB") ... (1 . "NÄYTTÖ") ... (2 . "NAYTTO") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601c90>
+((-1 . <Entity name: 23d99601c90>) (0 . "ATTRIB") ... (1 . "x.x.x") ... (2 . "JR_NAUTTO") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601ca0>
+((-1 . <Entity name: 23d99601ca0>) (0 . "ATTRIB") ... (1 . "") ... (2 . "POS") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601cb0>
+((-1 . <Entity name: 23d99601cb0>) (0 . "ATTRIB") ... (1 . "") ... (2 . "JR_HUONE") ...)
+_$ (setq alientity (entnext alientity))(entget alientity)
+<Entity name: 23d99601cc0>
+((-1 . <Entity name: 23d99601cc0>) (0 . "SEQEND") ...)
+_$ (setq bjr-tunnus-valinta nil)
+nil
+```
+
+*) AutoDeskin kehittämä piirustustallennusmuoto on DXF, "Drawing eXchange Format". Tämän formaatin tarkoituksena oli tehdä AutoCAD-kuvista jaettavia eri suunnitteluohjelmistojen kesken. Dwg-formaatti on kompressoitua DXF-tietoa. AutoDesk edelleen hallinnoi DXF-formaattia. DXF-koodeista saa lisää tietoa hakemalla AutoCADin dokumentaatiosta "DXF". Tiedostossa DXF-koodeja.md on kuitenkin muutama tärkeimmistä arvoista.
 
 ---
 ### VLA-objekti (VLA-object)
