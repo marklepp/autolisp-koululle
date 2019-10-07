@@ -1,0 +1,15 @@
+-ATTEDIT
+;Edit attributes one at a time? [yes/no] <Y>
+No
+;Edit only attributes visible on screen? [yes/no] <Y>
+No
+;Enter block name specification <*>
+Title_block_ENG
+;Enter attribute tag specification <*>
+
+;Enter attribute value specification <*>
+
+;Enter string to change:
+\
+;Enter new string
+plaap
