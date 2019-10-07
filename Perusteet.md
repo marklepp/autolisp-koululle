@@ -424,7 +424,62 @@ nil
 
 ---
 ### VLA-objekti (VLA-object)
+Kuvan sisältöä voi muokata entiteetti-esitystavan lisäksi myös VLA-objekteina. Tämä toiminnallisuus on saatavilla vain Windowsilla.
 
+VLA-objektit kuuluvat AutoCADin ActiveX-objektirakenteeseen, ja niitä muokataan Visual Basic for Applications (VBA) tyyppisillä komennoilla. ActiveX:n / Common Object Modelin kautta pääsee käsiksi myös muihin ohjelmiin (kuten Exceliin). AutoCADissä tuli ennen VBA-kehitysympäristö mukana, mutta tätä kieltä ei tueta enää Microsoftin kautta, joten se pudotettiin AutoCADin oletussisällöstä. Tämän saa kuitenkin vielä ladattua laajennoksena AutoCADin sivuilta. AutoCADin ActiveX-rakennetta kuitenkin tuetaan Visual Lispin kautta. Tämä antaa pääsyn VBA:n komentoihin vla- ja vlax-laajennoksilla. Laajennos otetaan käyttöön antamalla komento `(vl-load-com)`. Tämän mukana tulee monia muitakin apufunktioita kuin ActiveX-rakenteeseen pääsevät komennot. 
+
+Lisp entiteettinimen pystyy muuttamaan VLA-objektiksi komennolla `vlax-ename->vla-object` ja takaisin `vlax-vla-object->ename`. VLA-objektin ominaisuuksia (property) voi hakea komennolla `vlax-get-property` ja muuttaa komennolla `vlax-put-property`. Objektin kaikki ominaisuudet saa "dumpattua" komennolla `vlax-dump-object`. VLA-objektikomennot tekevät ominaisuuksien muokkamisesta helpompaa, sillä ominaisuuksien nimet ovat selkokielisiä DXF-koodien sijaan.
+
+Visual Lisp Console:
+```lisp
+_$ (vl-load-com)
+_$ (setq ss (ssget "X" '((0 . "TEXT"))))
+<Selection set: 71>
+_$ (setq tekstiobjekti (vlax-ename->vla-object (ssname ss 0)))
+#<VLA-OBJECT IAcadText 0000023d9a5ce468>
+_$ (vlax-dump-object tekstiobjekti)
+; IAcadText: AutoCAD Text Interface
+; Property values:
+;   Alignment = 0
+;   Application (RO) = #<VLA-OBJECT IAcadApplication 00007ff7142c70d8>
+;   Backward = 0
+;   Document (RO) = #<VLA-OBJECT IAcadDocument 0000023d995a2008>
+;   EntityTransparency = "ByLayer"
+;   Handle (RO) = "742B"
+;   HasExtensionDictionary (RO) = 0
+;   Height = 5.0
+;   Hyperlinks (RO) = #<VLA-OBJECT IAcadHyperlinks 0000023d9f4052c8>
+;   InsertionPoint = (331.294 279.259 0.0)
+;   Layer = "0"
+;   Linetype = "ByLayer"
+;   LinetypeScale = 1.0
+;   Lineweight = -1
+;   Material = "ByLayer"
+;   Normal = (0.0 0.0 1.0)
+;   ObjectID (RO) = 152
+;   ObjectName (RO) = "AcDbText"
+;   ObliqueAngle = 0.0
+;   OwnerID (RO) = 43
+;   PlotStyleName = "ByLayer"
+;   Rotation = 0.0
+;   ScaleFactor = 1.0
+;   StyleName = "ISO Proportional"
+;   TextAlignmentPoint = (0.0 0.0 0.0)
+;   TextGenerationFlag = 0
+;   TextString = "LAITE-ERITTELY"
+;   Thickness = 0.0
+;   TrueColor = #<VLA-OBJECT IAcadAcCmColor 0000023d9f405680>
+;   UpsideDown = 0
+;   Visible = -1
+T
+_$ (vlax-get-property tekstiobjekti "TextString")
+"LAITE-ERITTELY"
+_$ (vlax-put-property tekstiobjekti "TextString" "uusi teksti")
+nil
+_$ (vlax-get-property tekstiobjekti "TextString")
+"uusi teksti"
+_$ 
+```
 
 ---
 ## Tekstin kirjoittaminen AutoCADin command promptiin tai tiedostoon
