@@ -1,12 +1,16 @@
-(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto otsikkorivi otsikot otsikko)
+(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto uusi-rivi sisalto otsikkorivi otsikot otsikko)
   "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
   riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
   sopivien otsikoiden alle"
-  (setq avoin-tiedosto (open avoin-tiedosto "r")
-        otsikkorivi (read-line avoin-tiedosto))
+  (setq avoin-tiedosto (open tiedostopolku "r")
+        otsikkorivi (read-line avoin-tiedosto)
+  )
+  (while (setq uusi-rivi (read-line avoin-tiedosto))
+    (setq sisalto (cons uusi-rivi sisalto))
+  )
   (close avoin-tiedosto)
 
-  (setq otsikot (split otsikkorivi ";"))'
+  (setq otsikot (split otsikkorivi ";"))
 
   (foreach otsikko otsikot
     (if (setq attribuutti (assoc otsikko assoclista))
@@ -23,8 +27,24 @@
           kirjoitettavat (cons (cdr attribuutti) kirjoitettavat)
     )
   )
-  ;; tästä kesken!!
+  (setq otsikot (join (reverse otsikot) ";")
+        kirjoitettavat (join (reverse kirjoitettavat) ";")
+        sisalto (cons otsikot (reverse (cons kirjoitettavat sisalto)))
+  )
 
+  (setq avoin-tiedosto (open tiedostopolku "w"))
+  (foreach rivi sisalto
+    (write-line rivi avoin-tiedosto)
+  )
+  (close avoin-tiedosto)
+)
+
+
+(defun join (lista erotin)
+  (if (cdr lista)
+    (strcat (car lista) ";" (join (cdr lista) ";"))
+    (car lista)
+  )
 )
 
 
