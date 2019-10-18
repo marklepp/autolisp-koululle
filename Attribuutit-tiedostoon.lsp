@@ -1,17 +1,13 @@
-(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto uusi-rivi sisalto otsikkorivi otsikot otsikko kirjoitettavat attribuutti)
+(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto sisalto otsikkorivi otsikot otsikko kirjoitettavat attribuutti)
   "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
   riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
   sopivien otsikoiden alle"
-  (if (setq avoin-tiedosto (open tiedostopolku "r"))
-    (progn
-      (setq otsikkorivi (read-line avoin-tiedosto))
-      (while (setq uusi-rivi (read-line avoin-tiedosto))
-        (setq sisalto (cons uusi-rivi sisalto))
-      )
-      (close avoin-tiedosto)
-    )
+  (setq sisalto (lue-tiedosto-listaan tiedostopolku)
+        otsikkorivi (car sisalto)
+        sisalto (cdr sisalto)
+        EROTIN ";"
+        otsikot (split otsikkorivi EROTIN)
   )
-  (setq otsikot (split otsikkorivi ";"))
   (foreach otsikko otsikot
     (if (setq attribuutti (assoc otsikko assoclista))
       (progn
@@ -27,23 +23,42 @@
           kirjoitettavat (cons (cdr attribuutti) kirjoitettavat)
     )
   )
-  (setq otsikot (join (reverse otsikot) ";")
-        kirjoitettavat (join (reverse kirjoitettavat) ";")
+  (setq otsikot (join (reverse otsikot) EROTIN)
+        kirjoitettavat (join (reverse kirjoitettavat) EROTIN)
         sisalto (cons otsikot (reverse (cons kirjoitettavat sisalto)))
   )
 
-  (setq avoin-tiedosto (open tiedostopolku "w"))
+  (kirjoita-lista-tiedostoon sisalto tiedostopolku "w")
+
+  (princ)
+)
+
+
+(defun kirjoita-lista-tiedostoon (sisalto tiedostopolku mode / avoin-tiedosto rivi)
+  (setq avoin-tiedosto (open tiedostopolku mode))
   (foreach rivi sisalto
     (write-line rivi avoin-tiedosto)
   )
   (close avoin-tiedosto)
-  (princ)
+)
+
+
+(defun lue-tiedosto-listaan (tiedostopolku / sisalto uusi-rivi avoin-tiedosto)
+  (if (setq avoin-tiedosto (open tiedostopolku "r"))
+    (progn
+      (while (setq uusi-rivi (read-line avoin-tiedosto))
+        (setq sisalto (cons uusi-rivi sisalto))
+      )
+      (close avoin-tiedosto)
+    )
+  )
+  (reverse sisalto)
 )
 
 
 (defun join (lista erotin)
   (if (cdr lista)
-    (strcat (car lista) ";" (join (cdr lista) ";"))
+    (strcat (car lista) erotin (join (cdr lista) erotin))
     (car lista)
   )
 )
@@ -212,5 +227,8 @@
   (princ)
 )
 
-(printtaa-lista (ensimmaisen-blokin-attribuutit "Title_block_ENG"))
-(printtaa-lista (ensimmaisen-blokin-tiedot "Title_block_ENG"))
+;(printtaa-lista (ensimmaisen-blokin-attribuutit "Title_block_ENG"))
+;(printtaa-lista (ensimmaisen-blokin-tiedot "Title_block_ENG"))
+;(attribuutit-tiedostoon "testi.csv" (ensimmaisen-blokin-tiedot "Title_block_ENG"))
+;(attribuutit-tiedostoon "testi.csv" (ensimmaisen-blokin-tiedot "Title_block_ENG"))
+;(startapp "explorer" (findfile "testi.csv"))
