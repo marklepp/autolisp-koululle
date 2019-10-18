@@ -2,24 +2,24 @@
   "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
   riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
   sopivien otsikoiden alle"
-  (setq avoin-tiedosto (open tiedostopolku "r")
-        otsikkorivi (read-line avoin-tiedosto)
+  (if (setq avoin-tiedosto (open tiedostopolku "r"))
+    (progn
+      (setq otsikkorivi (read-line avoin-tiedosto))
+      (while (setq uusi-rivi (read-line avoin-tiedosto))
+        (setq sisalto (cons uusi-rivi sisalto))
+      )
+      (close avoin-tiedosto)
+    )
   )
-  (while (setq uusi-rivi (read-line avoin-tiedosto))
-    (setq sisalto (cons uusi-rivi sisalto))
-  )
-  (close avoin-tiedosto)
-
   (setq otsikot (split otsikkorivi ";"))
-
   (foreach otsikko otsikot
     (if (setq attribuutti (assoc otsikko assoclista))
       (progn
         (setq kirjoitettavat (cons (cdr attribuutti) kirjoitettavat))
-        (vl-remove attribuutti assoclista)
+        (setq assoclista (vl-remove attribuutti assoclista))
       )
+      (setq kirjoitettavat (cons "<>" kirjoitettavat))
     )
-    (setq kirjoitettavat (cons "<>" kirjoitettavat))
   )
   (setq otsikot (reverse otsikot))
   (foreach attribuutti assoclista
@@ -37,6 +37,7 @@
     (write-line rivi avoin-tiedosto)
   )
   (close avoin-tiedosto)
+  (princ)
 )
 
 
@@ -49,21 +50,29 @@
 
 
 (defun split (rivi erotin / monesko lista)
-  (if (setq monesko (etsi-kirjain rivi erotin))
-    (setq lista 
-      (cons (substr rivi 1 (1- monesko)) 
-        (split (substr rivi (1+ monesko)) erotin))
+  (if rivi
+    (if (setq monesko (etsi-kirjain rivi erotin))
+      (setq lista 
+        (cons (substr rivi 1 (1- monesko)) 
+          (split (substr rivi (1+ monesko)) erotin))
+      )
+      (cons rivi nil)
     )
-    (cons rivi nil)
+    nil
   )
 )
 
 
 (defun etsi-kirjain (teksti kirjain / i)
-  (setq i 0)
-  (while (and (<= (setq i (1+ i)) (strlen teksti)) (not (equal kirjain (substr teksti i 1)))))
-  (if (<= i (strlen teksti))
-    i
+  (if teksti
+    (progn
+      (setq i 0)
+      (while (and (<= (setq i (1+ i)) (strlen teksti)) (not (equal kirjain (substr teksti i 1)))))
+      (if (<= i (strlen teksti))
+        i
+        nil
+      )
+    )
     nil
   )
 )
@@ -120,8 +129,8 @@
         handle (cons "Handle" (strcat "'" (cdr (assoc 5 entdata))))
         bl-nimi (cons "Blokin nimi" (cdr (assoc 2 entdata)))
         koordinaatit (cdr (assoc 10 entdata))
-        x-koord (cons "X" (car koordinaatit))
-        y-koord (cons "Y" (cadr koordinaatit))
+        x-koord (cons "X" (rtos (car koordinaatit) 2 16))
+        y-koord (cons "Y" (rtos (cadr koordinaatit) 2 16))
         attribuutit (hae-attribuutit blokkientity)
         tiedot 
           (cons handle
