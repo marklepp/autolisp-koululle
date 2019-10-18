@@ -1,4 +1,4 @@
-(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto uusi-rivi sisalto otsikkorivi otsikot otsikko)
+(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto uusi-rivi sisalto otsikkorivi otsikot otsikko kirjoitettavat attribuutti)
   "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
   riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
   sopivien otsikoiden alle"
@@ -112,7 +112,7 @@
 )
 
 
-(defun blokin-tiedot (blokkientity)
+(defun blokin-tiedot (blokkientity / entdata handle bl-nimi koordinaatit x-koord y-koord attribuutit tiedot)
   "Ottaa blokin entitynimen, ja palauttaa listan,
   jossa on handle, blokin nimi, X- ja Y-koordinaatit 
   sekä blokin attribuutit"
@@ -123,7 +123,7 @@
         x-koord (cons "X" (car koordinaatit))
         y-koord (cons "Y" (cadr koordinaatit))
         attribuutit (hae-attribuutit blokkientity)
-        blokin-tiedot 
+        tiedot 
           (cons handle
             (cons bl-nimi
               (cons x-koord
