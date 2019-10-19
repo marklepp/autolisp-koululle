@@ -8,28 +8,79 @@
         EROTIN ";"
         otsikot (split otsikkorivi EROTIN)
   )
-  (foreach otsikko otsikot
-    (if (setq attribuutti (assoc otsikko assoclista))
-      (progn
-        (setq kirjoitettavat (cons (cdr attribuutti) kirjoitettavat))
-        (setq assoclista (vl-remove attribuutti assoclista))
+
+  (poimi-arvot-nimien-mukaan 
+    otsikot assoclista 'kirjoitettavat 'assoclista)
+
+  (setq sisalto
+    (alusta-tuntemattomat-arvot-vanhoilla-riveilla
+      assoclista sisalto)
+  )
+
+  (pura-assoclista-nimiin-ja-arvoihin 
+    assoclista (reverse otsikot) kirjoitettavat 'otsikot 'kirjoitettavat)
+
+  (setq sisalto (sandwich 
+      (join (reverse otsikot) EROTIN)
+      sisalto
+      (join (reverse kirjoitettavat) EROTIN)
+    )
+  )
+
+  (kirjoita-lista-tiedostoon 
+    sisalto tiedostopolku "w")
+
+  (princ)
+)
+
+
+(defun alusta-tuntemattomat-arvot-vanhoilla-riveilla (assoclista sisalto / rivi)
+  (mapcar (function (lambda (rivi) 
+      (repeat (length assoclista)
+        (setq rivi (strcat rivi ";<>"))
       )
-      (setq kirjoitettavat (cons "<>" kirjoitettavat))
+      rivi
+    ))
+    sisalto
+  )
+)
+
+
+(defun sandwich (alkuun lista loppuun)
+  (cons alkuun (reverse (cons loppuun (reverse lista))))
+)
+
+
+(defun pura-assoclista-nimiin-ja-arvoihin (<assoclista> <nimet> <arvot> <qnimet> <qarvot> / <assosiaatio>)
+  "Cons assoclistan nimet ja arvot omiin muuttujiinsa. Ottaa olemassa olevat
+  listat ja palauttaa nämä täydennettyinä qnimiin ja qarvoihin. Nimet ovat \"<>\"
+  sisällä, jotta vältytään symbolikonfliktilta kutsujan kanssa."
+  (foreach <assosiaatio> <assoclista>
+    (setq <nimet> (cons (car <assosiaatio>) <nimet>)
+          <arvot> (cons (cdr <assosiaatio>) <arvot>)
     )
   )
-  (setq otsikot (reverse otsikot))
-  (foreach attribuutti assoclista
-    (setq otsikot (cons (car attribuutti) otsikot)
-          kirjoitettavat (cons (cdr attribuutti) kirjoitettavat)
+  (set <qnimet> <nimet>)
+  (set <qarvot> <arvot>)
+  (princ)
+)
+
+
+(defun poimi-arvot-nimien-mukaan (<nimet> <assoclista> <qpoimitut> <qassocloput> / <nimi> <assosiaatio> <poimitut>)
+  "Poimii nimen perusteella assoclistan arvoja ja 
+  lopulta palauttaa poimitut qpoimitut-muuttujaan. 
+  qassocloput-muuttuja saa jäljelle jääneet assoclistan jäsenet. Nimet ovat \"<>\"
+  sisällä, jotta vältytään symbolikonfliktilta kutsujan kanssa."
+  (foreach <nimi> <nimet>
+    (if (setq <assosiaatio> (assoc <nimi> <assoclista>))
+      (setq <poimitut> (cons (cdr <assosiaatio>) <poimitut>)
+            <assoclista> (vl-remove <assosiaatio> <assoclista>)
+      )
+      (setq <poimitut> (cons "<>" <poimitut>))
     )
   )
-  (setq otsikot (join (reverse otsikot) EROTIN)
-        kirjoitettavat (join (reverse kirjoitettavat) EROTIN)
-        sisalto (cons otsikot (reverse (cons kirjoitettavat sisalto)))
-  )
-
-  (kirjoita-lista-tiedostoon sisalto tiedostopolku "w")
-
+  (set <qpoimitut> <poimitut>)
+  (set <qassocloput> <assoclista>)
   (princ)
 )
 
@@ -40,6 +91,7 @@
     (write-line rivi avoin-tiedosto)
   )
   (close avoin-tiedosto)
+  (princ)
 )
 
 
