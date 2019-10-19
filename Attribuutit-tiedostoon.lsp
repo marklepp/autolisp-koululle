@@ -1,3 +1,36 @@
+(defun tallenna-kaikki-blokit-tiedostoon (tiedostopolku / ss)
+  (setq ss (ssget "X" '((0 . "INSERT"))))
+  (blokit-valintajoukosta-tiedostoon ss tiedostopolku)
+  (princ)
+)
+
+(defun tallenna-listan-blokit-tiedostoon (tiedostopolku bl-nimilista / ss bl-nimi)
+  (if (not bl-nimilista)
+    (progn (alert "Blokkilista puuttuu") (exit))
+
+    (foreach bl-nimi bl-nimilista
+      (setq ss (valitse-blokit bl-nimi))
+      (blokit-valintajoukosta-tiedostoon ss tiedostopolku)
+      (setq ss nil)
+    )
+  )
+  (princ)
+)
+
+(defun blokit-valintajoukosta-tiedostoon (ss tiedostopolku / i assoclista)
+  (if ss
+    (repeat (setq i (sslength ss))
+      (setq 
+        i (1- i)
+        assoclista (blokin-tiedot (ssname ss i))
+      )
+      (attribuutit-tiedostoon tiedostopolku assoclista)
+    )
+  )
+  (princ)
+)
+
+
 (defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto sisalto otsikkorivi otsikot otsikko kirjoitettavat attribuutti)
   "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
   riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
@@ -144,7 +177,7 @@
   )
 )
 
-(defun lista-tiedostoon (tiedostopolku lista / i avoin-tiedosto lista)
+(defun lista-tiedostoon (tiedostopolku lista / i avoin-tiedosto)
   "Ottaa tiedostopolun ja listan, tallentaa arvot tiedoston seuraavalle 
   riville"
   (setq avoin-tiedosto (open tiedostopolku "a"))
@@ -192,19 +225,22 @@
   "Ottaa blokin entitynimen, ja palauttaa listan,
   jossa on handle, blokin nimi, X- ja Y-koordinaatit 
   sekä blokin attribuutit"
-  (setq entdata (entget blokkientity)
-        handle (cons "Handle" (strcat "'" (cdr (assoc 5 entdata))))
-        bl-nimi (cons "Blokin nimi" (cdr (assoc 2 entdata)))
-        koordinaatit (cdr (assoc 10 entdata))
-        x-koord (cons "X" (rtos (car koordinaatit) 2 16))
-        y-koord (cons "Y" (rtos (cadr koordinaatit) 2 16))
-        attribuutit (hae-attribuutit blokkientity)
-        tiedot 
-          (cons handle
-            (cons bl-nimi
-              (cons x-koord
-                (cons y-koord
-                  attribuutit))))
+  (if blokkientity
+    (setq entdata (entget blokkientity)
+          handle (cons "Handle" (strcat "'" (cdr (assoc 5 entdata))))
+          bl-nimi (cons "Blokin nimi" (cdr (assoc 2 entdata)))
+          koordinaatit (cdr (assoc 10 entdata))
+          x-koord (cons "X" (rtos (car koordinaatit) 2 16))
+          y-koord (cons "Y" (rtos (cadr koordinaatit) 2 16))
+          attribuutit (hae-attribuutit blokkientity)
+          tiedot 
+            (cons handle
+              (cons bl-nimi
+                (cons x-koord
+                  (cons y-koord
+                    attribuutit))))
+    )
+    nil
   )
 )
 
@@ -263,6 +299,23 @@
     (princ (strcat "Blokkia '" bl-nimi "' ei ole kuvassa\n"))
   )
   joukon-eka
+)
+
+
+(defun hae-blokkien-nimet-listaan ( / ss i bl-nimi bl-nimet)
+  (setq ss (ssget "X" '((0 . "INSERT"))))
+  (if ss
+    (repeat (setq i (sslength ss))
+      (setq 
+        i (1- i)
+        bl-nimi (cdr (assoc 2 (entget (ssname ss i))))
+      )
+      (if (not (member bl-nimi bl-nimet))
+        (setq bl-nimet (cons bl-nimi bl-nimet))
+      )
+    )
+  )
+  bl-nimet
 )
 
 
