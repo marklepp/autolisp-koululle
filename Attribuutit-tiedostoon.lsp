@@ -1,3 +1,23 @@
+(defun attribuutit-tiedostosta (tiedostopolku / avoin-tiedosto otsikot arvot blokki ent)
+  (if (not (findfile tiedostopolku))
+    (progn (alert (strcat "Tiedostoa " tiedostopolku " ei löytynyt")) (princ))
+
+    (progn
+      (setq avoin-tiedosto (open tiedostopolku "r"))
+      (setq otsikot (split (read-line avoin-tiedosto) ";"))
+      (while (setq arvot (split (read-line avoin-tiedosto) ";"))
+        (setq blokki (mapcar 'cons otsikot arvot))
+        (if (setq ent (handent (vl-string-left-trim "'" (cdr (assoc "Handle" blokki)))))
+          (vie-attribuutit ent blokki)
+        )
+      )
+      (close avoin-tiedosto)
+    )
+  )
+  (princ)
+)
+
+
 (defun tallenna-kaikki-blokit-tiedostoon (tiedostopolku / ss)
   (setq ss (ssget "X" '((0 . "INSERT"))))
   (blokit-valintajoukosta-tiedostoon ss tiedostopolku)
@@ -7,7 +27,7 @@
 
 (defun tallenna-listan-blokit-tiedostoon (tiedostopolku bl-nimilista / ss bl-nimi)
   (if (not bl-nimilista)
-    (progn (alert "Blokkilista puuttuu") (exit))
+    (progn (alert "Blokkilista puuttuu") (princ))
 
     (foreach bl-nimi bl-nimilista
       (setq ss (valitse-blokit bl-nimi))
@@ -279,6 +299,28 @@
     )
     nil ; ei entityä
   )
+)
+
+
+(defun vie-attribuutit (entnimi assoclista / entdata att-nimi vanha-arvo vanha-att uusi-arvo uusi-att) 
+  "Ottaa blokin entitynimen ja assosiaatiolistan attribuuteista, ja vie attribuutit blokkiin"
+  (while (and (setq entnimi (entnext entnimi))
+              (= "ATTRIB" (cdr (assoc 0 (setq entdata (entget entnimi)))))
+         )
+    (setq att-nimi (cdr (assoc 2 entdata))
+          vanha-arvo (cdr (setq vanha-att (assoc 1 entdata)))
+          uusi-arvo (cdr (assoc att-nimi assoclista))
+          uusi-att (cons 1 uusi-arvo)
+    )
+    (if (and uusi-arvo (/= uusi-arvo vanha-arvo))
+        (progn
+          (princ (strcat "\nMuutetaan " att-nimi ": \"" vanha-arvo "\" -> \"" uusi-arvo "\""))
+          (entmod (subst uusi-att vanha-att entdata))
+          (entupd entnimi)
+        )
+    )
+  )
+  (princ)
 )
 
 ; Demot/testit
