@@ -1,3 +1,36 @@
+(defun c:tuo-att ( / tiedostopolku bl-nimet)
+  (if (setq tiedostopolku (getfiled 
+        "Mistä tiedostosta tuodaan tiedot?" 
+        (strcat (vl-filename-base (getvar "dwgname")) ".csv")
+        "csv"
+        0
+      ))
+    (attribuutit-tiedostosta tiedostopolku)
+    (princ "\n--Toiminto peruutettu--")
+  )
+  (princ)
+)
+
+
+(defun c:vie-att ( / tiedostopolku bl-nimet)
+  (if (setq tiedostopolku (getfiled 
+        "Millä nimellä haluat tallentaa tiedoston?" 
+        (strcat (vl-filename-base (getvar "dwgname")) ".csv")
+        "csv"
+        1
+      ))
+    (if (setq bl-nimet (hae-blokkien-nimet-listaan))
+        (progn 
+          (tallenna-listan-blokit-tiedostoon tiedostopolku bl-nimet)
+          (startapp "explorer" tiedostopolku)
+        )
+    )
+    (princ "\n--Toiminto peruutettu--")
+  )
+  (princ)
+)
+
+
 (defun attribuutit-tiedostosta (tiedostopolku / avoin-tiedosto otsikot arvot blokki ent)
   (if (not (findfile tiedostopolku))
     (progn (alert (strcat "Tiedostoa " tiedostopolku " ei löytynyt")) (princ))
@@ -361,7 +394,7 @@
       )
     )
   )
-  bl-nimet
+  (reverse bl-nimet)
 )
 
 
