@@ -4,6 +4,7 @@
   (princ)
 )
 
+
 (defun tallenna-listan-blokit-tiedostoon (tiedostopolku bl-nimilista / ss bl-nimi)
   (if (not bl-nimilista)
     (progn (alert "Blokkilista puuttuu") (exit))
@@ -16,6 +17,7 @@
   )
   (princ)
 )
+
 
 (defun blokit-valintajoukosta-tiedostoon (ss tiedostopolku / i assoclista)
   (if ss
@@ -177,6 +179,7 @@
   )
 )
 
+
 (defun lista-tiedostoon (tiedostopolku lista / i avoin-tiedosto)
   "Ottaa tiedostopolun ja listan, tallentaa arvot tiedoston seuraavalle 
   riville"
@@ -192,6 +195,7 @@
   (princ "\n" avoin-tiedosto)
   (close avoin-tiedosto)
 )
+
 
 (defun assosiaatiolista-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto lista)
   "Ottaa tiedostopolun ja assosiaatiolistan, tallentaa nimet tiedoston 
