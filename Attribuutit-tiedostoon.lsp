@@ -19,11 +19,12 @@
         "csv"
         1
       ))
-    (if (setq bl-nimet (hae-blokkien-nimet-listaan))
-        (progn 
-          (tallenna-listan-blokit-tiedostoon tiedostopolku bl-nimet)
-          (startapp "explorer" tiedostopolku)
-        )
+    (progn
+      (if (findfile tiedostopolku)
+        (vl-file-delete tiedostopolku)
+      )
+      (tallenna-kaikki-blokit-tiedostoon tiedostopolku)
+      (startapp "explorer" tiedostopolku)
     )
     (princ "\n--Toiminto peruutettu--")
   )
@@ -52,7 +53,7 @@
 
 
 (defun tallenna-kaikki-blokit-tiedostoon (tiedostopolku / ss)
-  (setq ss (ssget "X" '((0 . "INSERT"))))
+  (setq ss (ssget "X" '((0 . "INSERT") (66 . 1))))
   (blokit-valintajoukosta-tiedostoon ss tiedostopolku)
   (princ)
 )
@@ -72,17 +73,172 @@
 )
 
 
-(defun blokit-valintajoukosta-tiedostoon (ss tiedostopolku / i assoclista)
+(defun blokit-valintajoukosta-tiedostoon (ss tiedostopolku / vanhat-otsikot otsikot tiedot arvot)
   (if ss
-    (repeat (setq i (sslength ss))
+    (progn
       (setq 
-        i (1- i)
-        assoclista (blokin-tiedot (ssname ss i))
+        vanhat-otsikot (lue-otsikot-tiedostosta tiedostopolku)
+        tiedot (hae-blokkien-tiedot ss vanhat-otsikot)
+        otsikot (car tiedot)
+        arvot (cadr tiedot)
+        arvot (tayta-tyhjat-arvot-listoihin otsikot arvot)
+        arvot (muuta-listat-csv-riveiksi arvot ";")
+        temp-tiedosto (strcat (getenv "TMP") "\\tempcsv.csv")
       )
-      (attribuutit-tiedostoon tiedostopolku assoclista)
+      (if (and (kopioi-tayttaen-tyhjat-arvot-csv-tiedostossa 
+                  ";" otsikot tiedostopolku temp-tiedosto)
+               (kirjoita-lista-tiedostoon arvot temp-tiedosto "a")
+               (if (findfile tiedostopolku) (vl-file-delete tiedostopolku) t)
+               (vl-file-copy temp-tiedosto tiedostopolku nil)
+          )
+        (princ "\nTiedoston kirjoitus onnistui")
+        (progn (alert "\nJokin meni pieleen tiedostoa kirjoittaessa, pysäytetään ohjelma") (exit))
+      )
     )
   )
   (princ)
+)
+
+
+(defun kopioi-tayttaen-tyhjat-arvot-csv-tiedostossa (erotin otsikot alkutied lopputied / progress alkukoko rivi avoin-tiedosto tavoite kopiotiedosto rivilista)
+  (if (and alkutied (findfile alkutied))
+    (progn
+      (setq progress 0
+            alkukoko (vl-file-size alkutied)
+            avoin-tiedosto (open alkutied "r")
+            rivi (read-line avoin-tiedosto)
+            alkukoko (- alkukoko (strlen rivi))
+            vanhat-otsikot (split rivi erotin)
+            tavoite (length otsikot)
+            kopiotiedosto (open lopputied "w")
+      )
+      (write-line (join otsikot erotin) kopiotiedosto)
+      (if (< (length vanhat-otsikot) tavoite)
+        (progn
+          (acet-ui-progress-init "Taytetaan tyhjia alueita" alkukoko)
+          (while (setq rivi (read-line avoin-tiedosto))
+            (setq progress (+ progress (strlen rivi))
+                  rivilista (split rivi erotin)
+                  rivilista (tayta-tyhjat-arvot-listaan tavoite rivilista)
+            )
+            (write-line (join rivilista erotin) kopiotiedosto)
+            (acet-ui-progress-safe progress)
+          )
+          (acet-ui-progress-done)
+        )
+        (while (setq rivi (read-line avoin-tiedosto))
+          (write-line rivi kopiotiedosto)
+        )
+      )
+      (close avoin-tiedosto)
+      (close kopiotiedosto)
+      t
+    )
+    (if lopputied 
+      (progn
+        (setq kopiotiedosto (open lopputied "w"))
+        (write-line (join otsikot erotin) kopiotiedosto)
+        (close kopiotiedosto)
+        t
+      )
+      nil
+    )
+  )
+)
+
+
+(defun muuta-listat-csv-riveiksi (listat erotin / progress rivi i valmiit)
+  (setq progress 0)
+  (acet-ui-progress-init "Muutetaan listoja tekstiksi" (length listat))
+  (repeat (setq i (length listat))
+    (setq
+      i (1- i)
+      rivi (join (nth i listat) erotin)
+      valmiit (cons rivi valmiit)
+      progress (1+ progress)
+    )
+    (acet-ui-progress-safe progress)
+  )
+  (acet-ui-progress-done)
+  valmiit
+)
+
+
+(defun tayta-tyhjat-arvot-listoihin (otsikot arvot / i tavoite valmiit tarkistettava progress)
+  (setq progress 0
+        tavoite (length otsikot)
+  )
+  (acet-ui-progress-init "Tarkistetaan attribuuttilistojen pituudet" (length arvot))
+
+  (repeat (setq i (length arvot))
+    (setq 
+      i (1- i)
+      tarkistettava (nth i arvot)
+      tarkistettava (tayta-tyhjat-arvot-listaan tavoite tarkistettava)
+      valmiit (cons tarkistettava valmiit)
+      progress (1+ progress)
+    )
+    (acet-ui-progress-safe progress)
+  )
+  (acet-ui-progress-done)
+  valmiit
+)
+
+
+(defun tayta-tyhjat-arvot-listaan (tavoitepituus taytettava)
+  (if (< (length taytettava) tavoitepituus)
+    (progn
+      (setq taytettava (reverse taytettava))
+      (while (< (length taytettava) tavoitepituus)
+        (setq taytettava (cons "<>" taytettava))
+      )
+      (setq taytettava (reverse taytettava))
+    )
+  )
+  taytettava
+)
+
+
+(defun hae-blokkien-tiedot (ss otsikot / progress i assoclista jarjestetyt arvot)
+  (setq progress 0)
+  (acet-ui-progress-init "Haetaan blokkeja" (sslength ss))
+  (repeat (setq i (sslength ss))
+    (setq 
+      i (1- i)
+      assoclista (blokin-tiedot (ssname ss i))
+      jarjestetyt (attribuutit-tiedoston-jarjestykseen otsikot assoclista)
+      otsikot (car jarjestetyt)
+      arvot (cons (cadr jarjestetyt) arvot)
+      progress (1+ progress)
+    )
+    (acet-ui-progress-safe progress)
+  )
+  (acet-ui-progress-done)
+  (list otsikot (reverse arvot))
+)
+
+
+(defun lue-otsikot-tiedostosta (tiedostopolku / avoin-tiedosto rivi otsikot)
+  (if (and tiedostopolku (findfile tiedostopolku))
+    (progn 
+      (setq avoin-tiedosto (open tiedostopolku "r"))
+      (if (setq rivi (read-line avoin-tiedosto))
+        (setq otsikot (split rivi ";"))
+      )
+      (close avoin-tiedosto)
+    )
+    (setq otsikot nil)
+  )
+  otsikot
+)
+
+
+(defun attribuutit-tiedoston-jarjestykseen (otsikot assoclista / kirjoitettavat)
+  (poimi-arvot-nimien-mukaan
+    otsikot assoclista 'kirjoitettavat 'assoclista)
+  (pura-assoclista-nimiin-ja-arvoihin
+    assoclista otsikot kirjoitettavat 'otsikot 'kirjoitettavat)
+  (list otsikot kirjoitettavat)
 )
 
 
@@ -97,21 +253,15 @@
         otsikot (split otsikkorivi EROTIN)
   )
 
-  (poimi-arvot-nimien-mukaan 
-    otsikot assoclista 'kirjoitettavat 'assoclista)
-
   (setq sisalto
     (alusta-tuntemattomat-arvot-vanhoilla-riveilla
       assoclista sisalto)
   )
 
-  (pura-assoclista-nimiin-ja-arvoihin 
-    assoclista (reverse otsikot) kirjoitettavat 'otsikot 'kirjoitettavat)
-
   (setq sisalto (sandwich 
-      (join (reverse otsikot) EROTIN)
+      (join otsikot EROTIN)
       sisalto
-      (join (reverse kirjoitettavat) EROTIN)
+      (join kirjoitettavat EROTIN)
     )
   )
 
@@ -143,13 +293,16 @@
   "Cons assoclistan nimet ja arvot omiin muuttujiinsa. Ottaa olemassa olevat
   listat ja palauttaa nämä täydennettyinä qnimiin ja qarvoihin. Nimet ovat \"<>\"
   sisällä, jotta vältytään symbolikonfliktilta kutsujan kanssa."
+  (setq <nimet> (reverse <nimet>)
+        <arvot> (reverse <arvot>)
+  )
   (foreach <assosiaatio> <assoclista>
     (setq <nimet> (cons (car <assosiaatio>) <nimet>)
           <arvot> (cons (cdr <assosiaatio>) <arvot>)
     )
   )
-  (set <qnimet> <nimet>)
-  (set <qarvot> <arvot>)
+  (set <qnimet> (reverse <nimet>))
+  (set <qarvot> (reverse <arvot>))
   (princ)
 )
 
@@ -167,19 +320,29 @@
       (setq <poimitut> (cons "<>" <poimitut>))
     )
   )
-  (set <qpoimitut> <poimitut>)
+  (set <qpoimitut> (reverse <poimitut>))
   (set <qassocloput> <assoclista>)
   (princ)
 )
 
 
-(defun kirjoita-lista-tiedostoon (sisalto tiedostopolku mode / avoin-tiedosto rivi)
-  (setq avoin-tiedosto (open tiedostopolku mode))
-  (foreach rivi sisalto
-    (write-line rivi avoin-tiedosto)
+(defun kirjoita-lista-tiedostoon (sisalto tiedostopolku mode / progress avoin-tiedosto rivi)
+  (if tiedostopolku
+    (progn
+      (setq progress 0)
+      (acet-ui-progress-init "Tiedostoa kirjoitetaan" (length sisalto))
+      (setq avoin-tiedosto (open tiedostopolku mode))
+      (foreach rivi sisalto
+        (write-line rivi avoin-tiedosto)
+        (setq progress (1+ progress))
+        (acet-ui-progress-safe progress)
+      )
+      (close avoin-tiedosto)
+      (acet-ui-progress-done)
+      t
+    )
+    nil
   )
-  (close avoin-tiedosto)
-  (princ)
 )
 
 
@@ -382,7 +545,7 @@
 
 
 (defun hae-blokkien-nimet-listaan ( / ss i bl-nimi bl-nimet)
-  (setq ss (ssget "X" '((0 . "INSERT"))))
+  (setq ss (ssget "X" '((0 . "INSERT") (66 . 1))))
   (if ss
     (repeat (setq i (sslength ss))
       (setq 
