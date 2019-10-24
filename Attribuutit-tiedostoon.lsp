@@ -242,53 +242,6 @@
 )
 
 
-(defun attribuutit-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto sisalto otsikkorivi otsikot otsikko kirjoitettavat attribuutti)
-  "Ottaa tiedostopolun ja assosiaatiolistan, lukee ensimmäiseltä
-  riviltä otsikot, ja sitten kirjoittaa assosiaatiolistan arvot 
-  sopivien otsikoiden alle"
-  (setq sisalto (lue-tiedosto-listaan tiedostopolku)
-        otsikkorivi (car sisalto)
-        sisalto (cdr sisalto)
-        EROTIN ";"
-        otsikot (split otsikkorivi EROTIN)
-  )
-
-  (setq sisalto
-    (alusta-tuntemattomat-arvot-vanhoilla-riveilla
-      assoclista sisalto)
-  )
-
-  (setq sisalto (sandwich 
-      (join otsikot EROTIN)
-      sisalto
-      (join kirjoitettavat EROTIN)
-    )
-  )
-
-  (kirjoita-lista-tiedostoon 
-    sisalto tiedostopolku "w")
-
-  (princ)
-)
-
-
-(defun alusta-tuntemattomat-arvot-vanhoilla-riveilla (assoclista sisalto / rivi)
-  (mapcar (function (lambda (rivi) 
-      (repeat (length assoclista)
-        (setq rivi (strcat rivi ";<>"))
-      )
-      rivi
-    ))
-    sisalto
-  )
-)
-
-
-(defun sandwich (alkuun lista loppuun)
-  (cons alkuun (reverse (cons loppuun (reverse lista))))
-)
-
-
 (defun pura-assoclista-nimiin-ja-arvoihin (<assoclista> <nimet> <arvot> <qnimet> <qarvot> / <assosiaatio>)
   "Cons assoclistan nimet ja arvot omiin muuttujiinsa. Ottaa olemassa olevat
   listat ja palauttaa nämä täydennettyinä qnimiin ja qarvoihin. Nimet ovat \"<>\"
@@ -346,19 +299,6 @@
 )
 
 
-(defun lue-tiedosto-listaan (tiedostopolku / sisalto uusi-rivi avoin-tiedosto)
-  (if (setq avoin-tiedosto (open tiedostopolku "r"))
-    (progn
-      (while (setq uusi-rivi (read-line avoin-tiedosto))
-        (setq sisalto (cons uusi-rivi sisalto))
-      )
-      (close avoin-tiedosto)
-    )
-  )
-  (reverse sisalto)
-)
-
-
 (defun join (lista erotin)
   (if (cdr lista)
     (strcat (car lista) erotin (join (cdr lista) erotin))
@@ -393,51 +333,6 @@
     )
     nil
   )
-)
-
-
-(defun lista-tiedostoon (tiedostopolku lista / i avoin-tiedosto)
-  "Ottaa tiedostopolun ja listan, tallentaa arvot tiedoston seuraavalle 
-  riville"
-  (setq avoin-tiedosto (open tiedostopolku "a"))
-  ; Otsikot
-  (setq i 0)
-  (repeat (1- (length lista))
-    (princ (nth i lista) avoin-tiedosto)
-    (princ ";")
-    (setq i (1+ i))
-  )
-  (princ (nth i lista) avoin-tiedosto)
-  (princ "\n" avoin-tiedosto)
-  (close avoin-tiedosto)
-)
-
-
-(defun assosiaatiolista-tiedostoon (tiedostopolku assoclista / i avoin-tiedosto lista)
-  "Ottaa tiedostopolun ja assosiaatiolistan, tallentaa nimet tiedoston 
-  otsikoiksi ensimmäiselle riville ja arvot seuraavalle 
-  riville"
-  (setq avoin-tiedosto (open tiedostopolku "a"))
-  ; Otsikot
-  (setq i 0)
-  (repeat (1- (length assoclista))
-    (princ (car (nth i assoclista)) avoin-tiedosto)
-    (princ ";")
-    (setq i (1+ i))
-  )
-  (princ (car (nth i assoclista)) avoin-tiedosto)
-  (princ "\n" avoin-tiedosto)
-
-  ; Arvot
-  (setq i 0)
-  (repeat (1- (length assoclista))
-    (princ (cdr (nth i assoclista)) avoin-tiedosto)
-    (princ ";")
-    (setq i (1+ i))
-  )
-  (princ (cdr (nth i assoclista)) avoin-tiedosto)
-  (close avoin-tiedosto)
-  (princ)
 )
 
 
@@ -576,6 +471,4 @@
 
 ;(printtaa-lista (ensimmaisen-blokin-attribuutit "Title_block_ENG"))
 ;(printtaa-lista (ensimmaisen-blokin-tiedot "Title_block_ENG"))
-;(attribuutit-tiedostoon "testi.csv" (ensimmaisen-blokin-tiedot "Title_block_ENG"))
-;(attribuutit-tiedostoon "testi.csv" (ensimmaisen-blokin-tiedot "Title_block_ENG"))
 ;(startapp "explorer" (findfile "testi.csv"))
