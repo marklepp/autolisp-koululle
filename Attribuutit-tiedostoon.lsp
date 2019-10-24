@@ -33,15 +33,22 @@
 
 
 (defun attribuutit-tiedostosta (tiedostopolku / avoin-tiedosto otsikot arvot blokki ent)
+  (defun *error* (msg)
+    (if avoin-tiedosto (close avoin-tiedosto))
+    (princ msg)
+    (princ)
+  )
   (if (not (findfile tiedostopolku))
     (progn (alert (strcat "Tiedostoa " tiedostopolku " ei löytynyt")) (princ))
 
     (progn
-      (setq avoin-tiedosto (open tiedostopolku "r"))
-      (setq otsikot (split (read-line avoin-tiedosto) ";"))
+      (setq tiedostonimi (strcat (getvar "dwgprefix") (getvar "dwgname"))
+            avoin-tiedosto (open tiedostopolku "r")
+            otsikot (split (read-line avoin-tiedosto) ";"))
       (while (setq arvot (split (read-line avoin-tiedosto) ";"))
         (setq blokki (mapcar 'cons otsikot arvot))
-        (if (setq ent (handent (vl-string-left-trim "'" (cdr (assoc "Handle" blokki)))))
+        (if (and (equal tiedostonimi (cdr (assoc "Tiedostonimi" blokki)))
+                 (setq ent (handent (vl-string-left-trim "'" (cdr (assoc "Handle" blokki))))))
           (vie-attribuutit ent blokki)
         )
       )
@@ -200,12 +207,15 @@
 
 
 (defun hae-blokkien-tiedot (ss otsikot / progress i assoclista jarjestetyt arvot)
-  (setq progress 0)
+  (setq progress 0
+        tiedostonimi (cons "Tiedostonimi"  (strcat (getvar "dwgprefix") (getvar "dwgname")))
+  )
   (acet-ui-progress-init "Haetaan blokkeja" (sslength ss))
   (repeat (setq i (sslength ss))
     (setq 
       i (1- i)
       assoclista (blokin-tiedot (ssname ss i))
+      assoclista (cons tiedostonimi assoclista)
       jarjestetyt (attribuutit-tiedoston-jarjestykseen otsikot assoclista)
       otsikot (car jarjestetyt)
       arvot (cons (cadr jarjestetyt) arvot)
