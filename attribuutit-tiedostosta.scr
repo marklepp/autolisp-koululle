@@ -1,0 +1,6 @@
+open
+TIEDOSTONIMI
+(load (strcat (getvar "dwgprefix") "attribuutit-tiedostoon.lsp"))
+(attribuutit-tiedostosta (strcat (getvar "dwgprefix") "attribuutit.csv"))
+qsave
+close
