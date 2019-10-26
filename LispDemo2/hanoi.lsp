@@ -26,13 +26,19 @@
   (princ (strcat "Siirto " mista " -> " mihin "\n"))
   (princ)
 )
+(defun ratkaise-hanoi (montako-levya)
+  (princ (strcat "Ratkaistaan hanoin torni " (itoa montako-levya) " levyllä\n"))
+  (hanoi montako-levya "A" "B" "C")
+  (princ "Hanoin torni ratkaistu!")
+  (princ)
+)
 ; Ratkaisu toimii, koska jos osataan siirtää yksi vähemmän levyjä, voidaan siirtää ne suurimman päältä
 ; pois, siirtää alin levy oikeaan paikkaan ja sen jälkeen siirtää levyt taas suurimman päälle.
 ; Tämä logiikka toimii kun levyjä > 0, ja jos levyjä on 0, ei tehdä mitään.
-(hanoi 4 "A" "B" "C")
+;(hanoi 4 "A" "B" "C")
 
 ; Loppu on visualisointikoodia (hanoiprint 4 500) 
-(defun hanoiprint (montako-levya viive-ms / siirto a b c)
+(defun hanoiprint (montako-levya viive-ms / siirto i a b c)
   (defun siirto (mista mihin)
     (set mihin (cons (car (eval mista)) (eval mihin)))
     (set mista (cdr (eval mista)))
@@ -40,30 +46,37 @@
     (if (>= viive-ms 500) ;pienempi aika voi jökätä autocadin
       (princ (toista "\n" 30))
     )
-
-    (princ (tornit-tekstiksi korkeus korkeus))
+    (princ (strcat "Siirto " (itoa (setq i (1+ i))) ":\n"))
+    (princ (tornit-tekstiksi korkeus korkeus a b c))
     (princ "\n")
     
     (if (>= viive-ms 500) ;pienempi aika voi jökätä autocadin
-        (command "delay" viive-ms)
+        (command-s "delay" viive-ms)
     )
     (princ)
   );defun siirto
-  (setq korkeus montako-levya)
+  (setq korkeus montako-levya
+        i 0)
   (repeat montako-levya
     (setq a (cons montako-levya a)
           montako-levya (1- montako-levya))
   )
-  (princ (tornit-tekstiksi korkeus korkeus))
+  (princ (tornit-tekstiksi korkeus korkeus a b c))
   (princ "\n")
-  (if (>= viive-ms 500) (command "delay" 3000))
+  (if (>= viive-ms 500) (command-s "delay" 3000))
   (hanoi korkeus 'a 'b 'c)
+  (princ "\nHanoin torni ratkaistu!")
   (princ)
 )
 
-(defun tornit-tekstiksi (korkeus rivi)
+(defun tornit-tekstiksi (korkeus rivi a b c)
   (if (= rivi 0)
-    (strcat (toista "-" (+ 8 (* 3 (1+ (* 2 korkeus))))) "\n")
+    (strcat (toista "-" (+ 8 (* 3 (1+ (* 2 korkeus))))) "\n"
+            (toista " " (+ 3 korkeus)) "A" 
+            (toista " " (+ 1 (* 2 korkeus))) "B"
+            (toista " " (+ 1 (* 2 korkeus))) "C"
+            (toista " " (+ 3 korkeus)) "\n"
+    )
     (strcat
       "   "
       (levy-tekstiksi korkeus rivi a)
@@ -73,7 +86,7 @@
       (levy-tekstiksi korkeus rivi c)
       "   "
       "\n"
-      (tornit-tekstiksi korkeus (1- rivi))
+      (tornit-tekstiksi korkeus (1- rivi) a b c)
     )
   )
 )
