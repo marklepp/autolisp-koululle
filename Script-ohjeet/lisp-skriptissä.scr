@@ -1,0 +1,8 @@
+TEXTEVAl 1
+(setq tiedostonimi (getvar "dwgname"))
+TEXT
+30,30
+5
+0
+!tiedostonimi
+TEXTEVAL 0
