@@ -12,6 +12,7 @@
 ; -----------------------------------
 ;        A         B         C
 ; 
+; Esimerkki (hanoi 4 "A" "B" "C")
 (defun hanoi (montako-levya aloitustappi aputappi lopetustappi)
   (if (>= 0 montako-levya)
     (princ)
@@ -26,19 +27,39 @@
   (princ (strcat "Siirto " mista " -> " mihin "\n"))
   (princ)
 )
-(defun ratkaise-hanoi (montako-levya)
-  (princ (strcat "Ratkaistaan hanoin torni " (itoa montako-levya) " levyllä\n"))
-  (hanoi montako-levya "A" "B" "C")
-  (princ "Hanoin torni ratkaistu!")
-  (princ)
-)
 ; Ratkaisu toimii, koska jos osataan siirtää yksi vähemmän levyjä, voidaan siirtää ne suurimman päältä
 ; pois, siirtää alin levy oikeaan paikkaan ja sen jälkeen siirtää levyt taas suurimman päälle.
 ; Tämä logiikka toimii kun levyjä > 0, ja jos levyjä on 0, ei tehdä mitään.
-;(hanoi 4 "A" "B" "C")
 
-; Loppu on visualisointikoodia (hanoiprint 4 500) 
-(defun hanoiprint (montako-levya viive-ms / siirto i a b c)
+
+;Loppu demokoodia, make it pretty!
+; (ratkaise-hanoi 4)
+(defun ratkaise-hanoi (montako-levya / oikea-siirto i maxpituus)
+  (setq oikea-siirto siirto
+        i 0
+        maxpituus (strlen (itoa (expt 2 montako-levya)))
+  )
+  (defun siirto (mista mihin)
+    (defun *error* (msg)
+      (setq siirto oikea-siirto)
+      (princ (strcat "asdf" msg))
+      (princ)
+    )
+    (setq i (1+ i))
+    (princ (strcat (toista " " (- maxpituus (strlen (itoa i)))) (itoa i) ". "))
+    (oikea-siirto mista mihin)
+  )
+  (princ (strcat "Ratkaistaan hanoin torni " (itoa montako-levya) " levyllä\n"))
+  (hanoi montako-levya "A" "B" "C")
+  (princ "Hanoin torni ratkaistu!")
+  (setq siirto oikea-siirto)
+  (princ)
+)
+
+
+; Visualisointi
+; (print-hanoi 4 500) 
+(defun print-hanoi (montako-levya viive-ms / siirto i a b c)
   (defun siirto (mista mihin)
     (set mihin (cons (car (eval mista)) (eval mihin)))
     (set mista (cdr (eval mista)))
@@ -61,6 +82,7 @@
     (setq a (cons montako-levya a)
           montako-levya (1- montako-levya))
   )
+  (princ (strcat "Ratkaistaan hanoin torni " (itoa korkeus) " levyllä\n"))
   (princ (tornit-tekstiksi korkeus korkeus a b c))
   (princ "\n")
   (if (>= viive-ms 500) (command-s "delay" 3000))
@@ -68,6 +90,7 @@
   (princ "\nHanoin torni ratkaistu!")
   (princ)
 )
+
 
 (defun tornit-tekstiksi (korkeus rivi a b c)
   (if (= rivi 0)
@@ -90,6 +113,8 @@
     )
   )
 )
+
+
 (defun levy-tekstiksi (korkeus rivi kasa / tila)
   (if (<= rivi (length kasa))
     (strcat
@@ -106,6 +131,8 @@
     )
   )
 )
+
+
 (defun toista (teksti montako / tulos)
   (repeat montako
     (setq tulos (cons teksti tulos))
