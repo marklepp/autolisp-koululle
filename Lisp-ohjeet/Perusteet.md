@@ -23,24 +23,22 @@ Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin
 
 ---
 ## Lispin syntaksi eli lausemuoto
-
 AutoLISPin lauseet noudattavat yhtä kaavaa: `(komento parametri1 parametri2 ...)`. Sulkujen sisällä on ensin komento, ja sen jälkeen komennolle annetut parametrit, joilla komento suoritetaan. 
 Esimerkkinä tähän on pluslasku 1 + 1: `(+ 1 1)`
 ```lisp
 _$ (+ 1 1)
 2
 ```
-Mikäli halutaan plussata useampi luku, kirjoitetaan ne kaikki komennon "+" jälkeen sulkujen sisään: 1 + 2 + 3 on lispissä
+Mikäli halutaan plussata useampi luku, kirjoitetaan ne kaikki komennon "+" jälkeen sulkujen sisään: 1 + 2 + 3 on lispissä `(+ 1 2 3)`
 ```lisp
 _$ (+ 1 2 3)
 6
 ```
-ja se palauttaa 6.
-Jos haluamme yhdistää komentoja, jokaiselle komennolle on tehtävä omat sulut. Tämä voi aluksi hämätä laskutoimituksissa, mutta on ainakin helppo muistaa. Esimerkkinä lasku 10 / (1 + 1) :
+Jos haluamme yhdistää komentoja, jokaiselle komennolle on tehtävä omat sulut. Tämä voi aluksi hämätä laskutoimituksissa, mutta on ainakin helppo muistaa. Esimerkkinä lasku 10 / (1 + 1): `(/ 10 (+ 1 1))`
 ```lisp
 _$ (/ 10 (+ 1 1))
 5
 ```
-joka palauttaa luvun 5. 
-
 ---
+## AutoCAD-komennot lispin kautta
+AutoCAD-työskentelyssä tulee useasti eteen tilanteita, joissa syötetään monesti komentoja samoilla asetuksilla. 

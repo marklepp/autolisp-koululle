@@ -1,4 +1,4 @@
-# Tietotyypit ja lista
+# Tietotyypit ja niiden käsittely
 
 Tietotyyppi on tiedon tallennusmuoto, mikä määrittelee, miten ohjelma käsittelee tietoa. AutoLISPissä tietotyyppejä ovat:
  * kokonaisluku (englanniksi integer)
