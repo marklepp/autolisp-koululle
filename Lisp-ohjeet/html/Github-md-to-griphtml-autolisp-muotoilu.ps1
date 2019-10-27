@@ -1,3 +1,7 @@
+Get-ChildItem .\..\*.md | 
+  ForEach-Object {
+    grip $_.FullName --export --no-inline ((Get-Location).ToString() + "`\" + $_.BaseName + ".html")
+  }
 $cssCommandClass = "pl-c1"
 $commandsToBeFixed = @( "assoc"
   , "cadr"
