@@ -41,4 +41,14 @@ _$ (/ 10 (+ 1 1))
 ```
 ---
 ## AutoCAD-komennot lispin kautta
-AutoCAD-työskentelyssä tulee useasti eteen tilanteita, joissa syötetään monesti komentoja samoilla asetuksilla. 
+AutoCAD-työskentelyssä tulee useasti eteen tilanteita, joissa syötetään monesti komentoja samoilla asetuksilla. Lisp tarjoaa mahdollisuuden tehdä omia komentoja, joilla voi yhdistellä olemassa olevat komennot paremmiksi omaan käyttöön. Esimerkiksi TEXT-komento kysyy tekstin korkeutta ja kulmaa, vaikka usein pitäisi vain saada teksti paikoilleen. Lisp-komennossa voidaan antaa nämä oletukset:
+```lisp
+(command "TEXT" (getpoint) 5.0 0.0)
+```
+Tästä saa tehtyä oman komennon kirjoittamalla siitä funktiomäärittelyn. Laitetaan halutun toiminnon ympärille `defun` ja annetaan komennolle nimi `c:teksti`:
+```lisp
+(defun c:teksti ()
+  (command "TEXT" (getpoint) 5.0 0.0)
+)
+```
+Tämän jälkeen AutoCAD ehdottaa komentoa "TEKSTI", joka viittaa yllä olevaan funktioon. `c:` laitetaan nimen eteen, että AutoCAD tunnistaa tämän olevan piirtotilassa käytettävä komento.
