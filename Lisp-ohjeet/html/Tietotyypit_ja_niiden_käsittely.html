@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022) -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <title>Tietotyypit_ja_niiden_käsittely.md - Grip</title>
-  <link rel="stylesheet" href="./Tietotyypit_ja_niiden_käsittely.md - Grip_files/frameworks-94d2de65a56b07e193e50e91873678b6.css">
-  <link rel="stylesheet" href="./Tietotyypit_ja_niiden_käsittely.md - Grip_files/github-3c4881237e97cb689271ee2f91e36269.css">
-  <link rel="stylesheet" href="./Tietotyypit_ja_niiden_käsittely.md - Grip_files/site-09367dd1ae1784b858e71c8471ca0949.css">
-  <link rel="stylesheet" href="./Tietotyypit_ja_niiden_käsittely.md - Grip_files/octicons.css">
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Tietotyypit_ja_niiden_käsittely</title>
+  <link rel="icon" href="grip/favicon.ico" />
+  <link rel="stylesheet" href="grip/frameworks-94d2de65a56b07e193e50e91873678b6.css" />
+  <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
+  <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
+  <link rel="stylesheet" href="grip/octicons/octicons.css" />
   <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;} .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
     /* Page tweaks */
     .preview-page {
@@ -25,7 +26,7 @@
 </head>
 <body>
   <div class="page">
-    <div id="preview-page" class="preview-page" data-autorefresh-url="/__/grip/refresh/">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="">
 
     
 
@@ -33,6 +34,8 @@
         <div class="container new-discussion-timeline experiment-repo-nav">
           <div class="repository-content">
             <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+              
+                
               
               <article class="markdown-body entry-content" itemprop="text" id="grip-content">
                 <h1>
@@ -71,6 +74,7 @@ _$ (<span class="pl-c1">/</span> <span class="pl-digits">5.0</span> <span class=
 <span class="pl-s"><span class="pl-pds">"</span>tekstiä<span class="pl-pds">"</span></span>
 _$ tekstiä
 <span class="pl-c1">nil</span></pre></div>
+<div style="page-break-after: always;"></div>
 <hr>
 <h2>
 <a id="user-content-symbolit-ja-muuttujat-symbol-variable" class="anchor" href="#symbolit-ja-muuttujat-symbol-variable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Symbolit ja muuttujat (symbol, variable)</h2>
@@ -109,6 +113,7 @@ _$ (keskiarvo <span class="pl-digits">3</span> <span class="pl-digits">4</span> 
 _$ (keskiarvo <span class="pl-digits">1</span> <span class="pl-digits">4</span> <span class="pl-digits">9</span>)
 <span class="pl-digits">4.66667</span></pre></div>
 <p>Esimerkissä lisp-konsoli palauttaa funktion määrittelyn jälkeen funktion symbolin <code>KESKIARVO</code>. Tämän jälkeen keskiarvo-funktio on vapaasti käytettävissä kuten muut komennot.</p>
+<div style="page-break-after: always;"></div>
 <p>Mikäli funktio halutaan käyttöön AutoCADin piirtotilassa, laitetaan funktion nimen eteen <code>c:</code>:</p>
 <div class="highlight highlight-source-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-en">c</span>:heippa ()
   (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span>Hei maailma!<span class="pl-pds">"</span></span>)
@@ -123,7 +128,7 @@ _$ (keskiarvo <span class="pl-digits">1</span> <span class="pl-digits">4</span> 
   ...
   (komento ...)
 )</pre></div>
-<p>Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun <code>(nimi arvo-1 arvo-2)</code> kohdalla arvo-1 kopioituu argumentti-1:een ja arvo-2 kopioituu argumentti-2:een. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumentti-1:tä ja argumentti-2:ta.</p>
+<p>Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun <code>(nimi arvo-1 arvo-2)</code> kohdalla arvo-1 kopioituu argumenttiyhteen ja arvo-2 kopioituu argumenttikahteen. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumenttiyhtä ja argumenttikahta.</p>
 <p>Paikalliset muuttujat on muuttujia, joita funktiossa käytetään, mutta joiden arvon ei haluta säilyvän funktion ulkopuolella. Jos esimerkiksi asetamme muuttujaan <code>kokonimi</code> arvon <code>"Matti Meikäläinen"</code> funktion nimi sisällä, ja kerromme muuttujan olevan paikallinen, <code>kokonimi</code> unohtaa arvonsa heti kun poistutaan funktiosta.</p>
 <p>Visual Lisp Console:</p>
 <div class="highlight highlight-source-lisp"><pre>_$ <span class="pl-c"><span class="pl-c">;</span> Funktio globaalilla muuttujalla:</span>
@@ -145,6 +150,7 @@ _$ (nimi-globaali <span class="pl-s"><span class="pl-pds">"</span>Matti<span cla
 <span class="pl-s"><span class="pl-pds">"</span>Matti Meikäläinen<span class="pl-pds">"</span></span>
 _$ kokonimi
 <span class="pl-s"><span class="pl-pds">"</span>Matti Meikäläinen<span class="pl-pds">"</span></span></pre></div>
+<div style="page-break-after: always;"></div>
 <hr>
 <h2>
 <a id="user-content-lista-list" class="anchor" href="#lista-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lista (list)</h2>
@@ -180,9 +186,11 @@ _$ (<span class="pl-c1">subst</span> <span class="pl-s"><span class="pl-pds">"</
 <h3>
 <a id="user-content-assosiaatiolista-association-list-lyhyesti-assoc-list" class="anchor" href="#assosiaatiolista-association-list-lyhyesti-assoc-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assosiaatiolista (<span class="pl-c1">assoc</span>iation list, lyhyesti assoc list)</h3>
 <p>AutoLISPin tieto on usein tallennettu assosiaatiolistoihin. Assosiaatiolista on lista, jossa kunkin jäsenen ensimmäinen osa on tunniste, ja toinen osa on sisältöä. Tämä mahdollistaa hakea listasta tietoa tunnisteen mukaan. Tätä käytetään entiteettien ominaisuuksien hallinnassa, josta kerrotaan vähän lisää myöhemmin.</p>
+<div style="page-break-after: always;"></div>
 <p>Käyttötarkoituksena on tiedon jäsennys eri ryhmiin. Esimerkkinä voitaisiin luoda attribuuttilista, jossa listan jäsenen ensimmäisenä arvona on attribuutin nimi, ja sisältönä attribuutin arvo. Esimerkkinä blokki, jolla on attribuutit: Valmistaja: ABB, malli: S201-C10, nimellisjännite: 230V, nimellisvirta: 10A. Assosiaatiolistasta voi hakea tarvitun tiedon nimen perusteella komennolla <code>assoc</code>, joka palauttaa sen assiosiaation, joka vastaa annettua arvoa. Usein associa käytetään kuitenkin <code>cdr</code>-komennon kanssa, koska halutaan päästä käsiksi varsinaiseen sisältöön.</p>
 <p>Visual Lisp Console:</p>
-<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> johdonsuojakatkaisija '((<span class="pl-s"><span class="pl-pds">"</span>VALMISTAJA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>ABB<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>MALLI<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>S201-C10<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISVIRTA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>10A<span class="pl-pds">"</span></span>)))
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> johdonsuojakatkaisija '((<span class="pl-s"><span class="pl-pds">"</span>VALMISTAJA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>ABB<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>MALLI<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>S201-C10<span class="pl-pds">"</span></span>) 
+      (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISVIRTA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>10A<span class="pl-pds">"</span></span>)))
 ((<span class="pl-s"><span class="pl-pds">"</span>VALMISTAJA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>ABB<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>MALLI<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>S201-C10<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISVIRTA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>10A<span class="pl-pds">"</span></span>))
 _$ (<span class="pl-c1">assoc</span> <span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> johdonsuojakatkaisija)
 (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>)
@@ -219,6 +227,7 @@ _$ '((<span class="pl-s"><span class="pl-pds">"</span>tunniste<span class="pl-pd
 ((<span class="pl-s"><span class="pl-pds">"</span>tunniste<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>sisältö<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>tunniste2<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>sisältö2<span class="pl-pds">"</span></span>))
 _$ (<span class="pl-c1">cons</span> (<span class="pl-c1">cons</span> <span class="pl-s"><span class="pl-pds">"</span>tunniste<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>sisältö<span class="pl-pds">"</span></span>) (<span class="pl-c1">cons</span> (<span class="pl-c1">cons</span> <span class="pl-s"><span class="pl-pds">"</span>tunniste2<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>sisältö2<span class="pl-pds">"</span></span>) <span class="pl-c1">nil</span>))
 ((<span class="pl-s"><span class="pl-pds">"</span>tunniste<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>sisältö<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>tunniste2<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>sisältö2<span class="pl-pds">"</span></span>))</pre></div>
+<div style="page-break-after: always;"></div>
 <hr>
 <h2>
 <a id="user-content-tiedosto-osoitin-file-descriptor" class="anchor" href="#tiedosto-osoitin-file-descriptor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tiedosto-osoitin (file descriptor)</h2>
@@ -254,6 +263,7 @@ _$ (<span class="pl-c1">read-line</span> avoin-tiedosto)
 <span class="pl-c1">nil</span>
 _$ (<span class="pl-c1">close</span> avoin-tiedosto)
 <span class="pl-c1">nil</span></pre></div>
+<div style="page-break-after: always;"></div>
 <hr>
 <h2>
 <a id="user-content-valintajoukko-selection-set" class="anchor" href="#valintajoukko-selection-set" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Valintajoukko (selection set)</h2>
@@ -298,6 +308,7 @@ _$ (<span class="pl-c1">setq</span> blokit <span class="pl-c1">nil</span>)
 </li>
 <li>tyhjennetään valintajoukko</li>
 </ul>
+<div style="page-break-after: always;"></div>
 <p>Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".</p>
 <p>Visual Lisp Console:</p>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> kaikki-tekstit (<span class="pl-c1">ssget</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> '((<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>))))
@@ -305,11 +316,11 @@ _$ (<span class="pl-c1">setq</span> blokit <span class="pl-c1">nil</span>)
 _$ (<span class="pl-c1">setq</span> tekstientity (<span class="pl-c1">ssname</span> kaikki-tekstit <span class="pl-digits">0</span>))
 &lt;Entity name: 23d99607c30&gt;
 _$ (<span class="pl-c1">setq</span> entOminaisuudet (<span class="pl-c1">entget</span> tekstientity))
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>LAITE-ERITTELY<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>LAITE-ERITTELY<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> entOminaisuudet (<span class="pl-c1">subst</span> '(<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>) (<span class="pl-c1">assoc</span> <span class="pl-digits">1</span> entOminaisuudet) entOminaisuudet))
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">entmod</span> entOminaisuudet)
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99607c30&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">entupd</span> tekstientity)
 &lt;Entity name: 23d99607c30&gt;
 _$ (<span class="pl-c1">setq</span> kaikki-tekstit <span class="pl-c1">nil</span>)
@@ -322,32 +333,33 @@ _$ (<span class="pl-c1">setq</span> kaikki-tekstit <span class="pl-c1">nil</span
 _$ (<span class="pl-c1">setq</span> bjr-tunnus-blokki (<span class="pl-c1">ssname</span> bjr-tunnus-valinta <span class="pl-digits">0</span>))
 &lt;Entity name: 23d99601c50&gt;
 _$ (<span class="pl-c1">entget</span> bjr-tunnus-blokki)
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601c50&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>INSERT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">66</span> . <span class="pl-digits">1</span>) (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>BJR_TUNNUS<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601c50&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>INSERT<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">66</span> . <span class="pl-digits">1</span>) (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>BJR_TUNNUS<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> bjr-tunnus-blokki))
 &lt;Entity name: 23d99601c60&gt;
 _$ (<span class="pl-c1">entget</span> alientity)
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601c60&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>PROSESSIASEMA<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>PROSESSIASEMA<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601c60&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>PROSESSIASEMA<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>PROSESSIASEMA<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601c70&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601c70&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>FP01<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_PA<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601c70&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>FP01<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_PA<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601c80&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601c80&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>NÄYTTÖ<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>NAYTTO<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601c80&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>NÄYTTÖ<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>NAYTTO<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601c90&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601c90&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>x.x.x<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_NAUTTO<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601c90&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span>x.x.x<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_NAUTTO<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601ca0&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601ca0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>POS<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601ca0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>POS<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601cb0&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601cb0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_HUONE<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601cb0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>ATTRIB<span class="pl-pds">"</span></span>) ... (<span class="pl-digits">1</span> . <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>) ... (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>JR_HUONE<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> alientity (<span class="pl-c1">entnext</span> alientity))(<span class="pl-c1">entget</span> alientity)
 &lt;Entity name: 23d99601cc0&gt;
-((-<span class="pl-digits">1</span> . &lt;Entity name: 23d99601cc0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>SEQEND<span class="pl-pds">"</span></span>) ...)
+((<span class="pl-c1">-</span><span class="pl-digits">1</span> . &lt;Entity name: 23d99601cc0&gt;) (<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>SEQEND<span class="pl-pds">"</span></span>) ...)
 _$ (<span class="pl-c1">setq</span> bjr-tunnus-valinta <span class="pl-c1">nil</span>)
 <span class="pl-c1">nil</span></pre></div>
 <p>*) AutoDeskin kehittämä piirustustallennusmuoto on DXF, "Drawing eXchange Format". Tämän formaatin tarkoituksena oli tehdä AutoCAD-kuvista jaettavia eri suunnitteluohjelmistojen kesken. Dwg-formaatti on kompressoitua DXF-tietoa. AutoDesk edelleen hallinnoi DXF-formaattia. DXF-koodeista saa lisää tietoa hakemalla AutoCADin dokumentaatiosta "DXF". Tiedostossa DXF-koodeja.md on kuitenkin muutama tärkeimmistä arvoista.</p>
+<div style="page-break-after: always;"></div>
 <hr>
 <h2>
 <a id="user-content-vla-objekti-vla-object" class="anchor" href="#vla-objekti-vla-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VLA-objekti (VLA-object)</h2>
@@ -402,7 +414,12 @@ _$ (<span class="pl-c1">vlax-put-property</span> tekstiobjekti <span class="pl-s
 _$ (<span class="pl-c1">vlax-get-property</span> tekstiobjekti <span class="pl-s"><span class="pl-pds">"</span>TextString<span class="pl-pds">"</span></span>)
 <span class="pl-s"><span class="pl-pds">"</span>uusi teksti<span class="pl-pds">"</span></span>
 _$ </pre></div>
-<p>Lähteet AutoCADin sivustolta 15.10.2019</p>
+<div style="page-break-after: always;"></div>
+<hr>
+<h2>
+<a id="user-content-lähteet" class="anchor" href="#l%C3%A4hteet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lähteet</h2>
+<h3>
+<a id="user-content-autocadin-sivustolta-15102019" class="anchor" href="#autocadin-sivustolta-15102019" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoCADin sivustolta 15.10.2019</h3>
 <ul>
 <li>About Data Types (AutoLISP) <a href="https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-7E568541-F1D0-49C4-B878-15880486825F-htm.html" rel="nofollow">https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-7E568541-F1D0-49C4-B878-15880486825F-htm.html</a>
 <ul>
@@ -503,6 +520,6 @@ _$ </pre></div>
       autorefreshContent(autorefreshUrl);
     }
   </script>
-
-</body></html>
+</body>
+</html>
 

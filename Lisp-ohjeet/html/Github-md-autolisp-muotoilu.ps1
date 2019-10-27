@@ -50,7 +50,19 @@ Get-ChildItem *.html |
       $contentToBeFixed -replace "(<style>)",
         '$1 .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}'
     $contentToBeFixed = 
+      $contentToBeFixed -replace "<p>&lt;(div style=`"page-break-after: always;`")&gt;&lt;(/div)&gt;</p>",
+        '<$1><$2>'
+    $contentToBeFixed = 
       $contentToBeFixed -replace "http://localhost:\d+/",
         ''
+    $contentToBeFixed = 
+      $contentToBeFixed -replace "(<title>)([^.]+)`.md - Grip(</title>)",
+        '$1$2$3'
+    $contentToBeFixed = 
+      $contentToBeFixed -replace "<h3>\s*<span class=`"octicon octicon-book`">\s*</span>\s*[^.]+`.md\s*</h3>",
+        ''
+    $contentToBeFixed = 
+      $contentToBeFixed -replace "/__/grip/[^/]*/",
+        'grip/'
     Set-Content $_.FullName $contentToBeFixed
   }

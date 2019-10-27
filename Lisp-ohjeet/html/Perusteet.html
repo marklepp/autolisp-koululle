@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Perusteet</title>
+  <link rel="icon" href="grip/favicon.ico" />
+  <link rel="stylesheet" href="grip/frameworks-94d2de65a56b07e193e50e91873678b6.css" />
+  <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
+  <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
+  <link rel="stylesheet" href="grip/octicons/octicons.css" />
+  <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+    }
+    /* User-content tweaks */
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+    /* User-content overrides */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="">
+
+    
+
+      <div role="main" class="main-content">
+        <div class="container new-discussion-timeline experiment-repo-nav">
+          <div class="repository-content">
+            <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+              
+                
+              
+              <article class="markdown-body entry-content" itemprop="text" id="grip-content">
+                <h1>
+<a id="user-content-autolisp-perusteet" class="anchor" href="#autolisp-perusteet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoLISP-Perusteet</h1>
+<p>AutoLISP (myös Visual Lisp) on AutoDeskin kehittämä ohjelmointikieli AutoCADin toimintojen automatisoimiseen. Tämä tehostaa työtä poistamalla ihmiseltä aikaa vievää, tylsää ja toistuvaa työtä, jättäen aikaa tärkeämpään suunnitteluun.</p>
+<p>AutoLISP on helposti lähestyttävä kieli, vaikka ulkonäkö on erikoinen: sulkuja, sulkuja ja sulkuja. Lisp on lyhenne sanoista List processing (listaprosessointi), mikä on kuvaavaa, sillä lispissä on vain yksi, monipuolinen tietorakenne: <em>lista</em>. Itse lisp-koodikin kirjoitetaan lispin ymmärtämässä listamuodossa.</p>
+<hr>
+<h2>
+<a id="user-content-visual-lisp-kehitysympäristö-vlide" class="anchor" href="#visual-lisp-kehitysymp%C3%A4rist%C3%B6-vlide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visual Lisp-kehitysympäristö VLIDE</h2>
+<p>Jotta pääsemme alkuun, on hyvä avata AutoCADiin Visual lisp-kehitysympäristö. Tämä onnistuu, kun menee "Manage"-välilehdellä osioon "Applications" ja klikkaa "Visual LISP-editor", tai kirjoittaa CADin komentoriville VLIDE. Tästä avautuu ikkuna, jonka sisällä on ikkuna Visual LISP Console. Tähän kirjoittamalla voi kokeilla komentojen toimintaa. Vasemmasta yläkulmasta saa avattua uuden tiedoston, johon voi alkaa kirjoittaa lisp-koodia*. Kun etsii apua komennon löytämiseen, F1 avaa AutoCADin help-ikkunan, josta voi seikkailla AutoLISP-reference -osioon, jossa kerrotaan kaikkien AutoLISPin komentojen toiminnasta. Täältä on myös pienen harjoittelun jälkeen helppo löytää sopiva komento ohjelmoinnin avuksi.</p>
+<p>Tässä oppaassa käytetään esimerkkeinä Visual Lisp -konsoliin syötettyjä komentoja. Konsoli odottaa komentoa, kun sen rivin alussa on <code>_$</code>. Tämän perään voi kirjoittaa komennon, ja konsoli suorittaa komennon kun painetaan <code>enter</code>. Komennon palauttama arvo ilmestyy kirjoitetun rivin alle. Esimerkkinä syötetään komento <code>(<span class="pl-c1">+</span> 10 5)</code> konsoliin, jolloin seuraavalle riville ilmestyy palautettu arvo <code>15</code> ja konsoli ilmoittaa odottavansa seuraavaa komentoa uudella rivillä taas merkein <code>_$</code>:</p>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">+</span> <span class="pl-digits">10</span> <span class="pl-digits">5</span>)
+<span class="pl-digits">15</span>
+_$</pre></div>
+<p>Konsoliin voi kirjoittaa useamman rivin ennen suoritusta, jos painaa <code>shift + enter</code> kun haluaa riviä. Esimerkeissä annan koodipätkiä, jotka voi myös itse kirjoittaa konsoliin. Nämä eivät välttämättä ole kaikkein käytännöllisimpiä esimerkkejä, mutta niistä näkee rivi riviltä, mitä lispissä tapahtuu.</p>
+<h4>
+<a id="user-content-mitä-tarkoittaa-palauttaminen-miten-se-toimii-lispissä" class="anchor" href="#mit%C3%A4-tarkoittaa-palauttaminen-miten-se-toimii-lispiss%C3%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mitä tarkoittaa palauttaminen? Miten se toimii lispissä?</h4>
+<p>Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin arvon takaisin. Lispissä lause palauttaa aina sen viimeisimmän arvon. Tämän tarkoitus näkyy paremmin myöhemmissä esimerkeissä.</p>
+<div style="page-break-after: always;"></div>
+<hr>
+<h2>
+<a id="user-content-lispin-syntaksi-eli-kielioppi" class="anchor" href="#lispin-syntaksi-eli-kielioppi" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lispin syntaksi eli kielioppi</h2>
+<p>AutoLISPin lauseet noudattavat yhtä kaavaa: <code>(komento parametri1 parametri2 ...)</code>. Sulkujen sisällä on ensin komento, ja sen jälkeen komennolle annetut parametrit, joilla komento suoritetaan.
+Esimerkkinä tähän on pluslasku 1 + 1: <code>(<span class="pl-c1">+</span> 1 1)</code></p>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">+</span> <span class="pl-digits">1</span> <span class="pl-digits">1</span>)
+<span class="pl-digits">2</span></pre></div>
+<p>Mikäli halutaan plussata useampi luku, kirjoitetaan ne kaikki komennon "+" jälkeen sulkujen sisään: 1 + 2 + 3 on lispissä <code>(<span class="pl-c1">+</span> 1 2 3)</code></p>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">+</span> <span class="pl-digits">1</span> <span class="pl-digits">2</span> <span class="pl-digits">3</span>)
+<span class="pl-digits">6</span></pre></div>
+<p>Jos haluamme yhdistää komentoja, jokaiselle komennolle on tehtävä omat sulut. Tämä voi aluksi hämätä laskutoimituksissa, mutta on ainakin helppo muistaa. Esimerkkinä lasku 10 / (1 + 1): <code>(<span class="pl-c1">/</span> 10 (<span class="pl-c1">+</span> 1 1))</code></p>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">/</span> <span class="pl-digits">10</span> (<span class="pl-c1">+</span> <span class="pl-digits">1</span> <span class="pl-digits">1</span>))
+<span class="pl-digits">5</span></pre></div>
+<hr>
+<h2>
+<a id="user-content-autocad-komennot-lispin-kautta" class="anchor" href="#autocad-komennot-lispin-kautta" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoCAD-komennot lispin kautta</h2>
+<p>AutoCAD-työskentelyssä tulee useasti eteen tilanteita, joissa syötetään monesti komentoja samoilla asetuksilla. Lisp tarjoaa mahdollisuuden tehdä omia komentoja, joilla voi yhdistellä olemassa olevat komennot paremmiksi omaan käyttöön. Esimerkiksi TEXT-komento kysyy tekstin korkeutta ja kulmaa, vaikka usein pitäisi vain saada teksti paikoilleen. Lisp-komennossa voidaan antaa nämä oletukset:</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">command</span> <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span> (<span class="pl-c1">getpoint</span>) <span class="pl-digits">5.0</span> <span class="pl-digits">0.0</span>)</pre></div>
+<p>Tästä saa tehtyä oman komennon kirjoittamalla siitä funktiomäärittelyn. Laitetaan halutun toiminnon ympärille <code>defun</code> ja annetaan komennolle nimi <code>c:teksti</code>:</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-en">c</span>:teksti ()
+  (<span class="pl-c1">command</span> <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span> (<span class="pl-c1">getpoint</span>) <span class="pl-digits">5.0</span> <span class="pl-digits">0.0</span>)
+)</pre></div>
+<p>Tämän jälkeen AutoCAD ehdottaa komentoa "TEKSTI", joka viittaa yllä olevaan funktioon. <code>c:</code> laitetaan nimen eteen, että AutoCAD tunnistaa tämän olevan piirtotilassa käytettävä komento.</p>
+<p>Käyttäjältä voi myös kysyä tiedot etukäteen, tallentaa ne muuttujaan, ja sitten käyttää niitä useassa komennossa. Alla esimerkkikomento "ALUE", joka kirjoittaa alueen nimen ja piirtää nelikulmion sen ympärille. Tekstin alkupistettä siirretään yksi oikealle ja alas, jotta se ei ole nelikulmion päällä.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-en">c</span>:alue ()
+  (<span class="pl-c1">setq</span> teksti (<span class="pl-c1">getstring</span> <span class="pl-s"><span class="pl-pds">"</span>Anna alueen nimi: <span class="pl-pds">"</span></span>))
+  (<span class="pl-c1">setq</span> ekapiste (<span class="pl-c1">getpoint</span> <span class="pl-s"><span class="pl-pds">"</span>Ensimmäinen piste: <span class="pl-pds">"</span></span>))
+  (<span class="pl-c1">setq</span> tekstipiste (<span class="pl-c1">list</span> (<span class="pl-c1">+</span> (<span class="pl-c1">car</span> ekapiste) <span class="pl-digits">1</span>) (<span class="pl-c1">-</span> (<span class="pl-c1">cadr</span> ekapiste) <span class="pl-digits">1</span>)))
+  (<span class="pl-c1">command</span> <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>Justify<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>TL<span class="pl-pds">"</span></span> tekstipiste <span class="pl-digits">5.0</span> <span class="pl-digits">0.0</span> teksti)
+  (<span class="pl-c1">command</span> <span class="pl-s"><span class="pl-pds">"</span>RECTANG<span class="pl-pds">"</span></span> ekapiste)
+  (<span class="pl-c1">princ</span>)
+)</pre></div>
+<p>Tallennus muuttujaan tapahtuu komennolla <code>setq</code>, jolle annetaan muuttujan nimi ja mitä tietoa tallennetaan - <code>(setq muuttuja tieto)</code>.</p>
+<div style="page-break-after: always;"></div>
+<h4>
+<a id="user-content-getpoint-getstring-" class="anchor" href="#getpoint-getstring-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getpoint, getstring, ...</h4>
+<p>Lispissä annetaan komennoille tietoa oikeassa tietotyypissä. Tämä onnistuu get-funktioilla.</p>
+<ul>
+<li>
+<code>getpoint</code> kysyy käyttäjältä pisteen. Palauttaa listan <code>'(x y z)</code>
+</li>
+<li>
+<code>getstring</code> kysyy tekstiä. Jos tekstiin haluaa välilyöntejä, kirjoitetaan teksti lainausmerkkeihin</li>
+<li>
+<code>getint</code> kysyy kokonaisluvun.</li>
+<li>
+<code>getreal</code> kysyy reaaliluvun.</li>
+<li>
+<code>getfiled</code> kysyy tiedoston. Palauttaa tiedostopolun merkkijonona.</li>
+</ul>
+<p><code>getpoint</code>, <code>getstring</code>, <code>getint</code> ja <code>getreal</code> toimivat joko sellaisenaan tai viestin kanssa. Viesti ilmestyy AutoCADin komentoriville.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getpoint</span>)
+(<span class="pl-c1">getpoint</span> <span class="pl-s"><span class="pl-pds">"</span>Anna piste: <span class="pl-pds">"</span></span>)</pre></div>
+<p><code>getfiled</code> tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopäätteen/-päätteet, asetukset.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getfiled</span> otsikko oletustiedostonimi tiedostopääte asetukset)</pre></div>
+<p>Asetuksissa on paljon vaihtoehtoja, jotka kannattaa katsoa AutoCADin dokumentaatiosta. Kaksi yleishyödyllisintä ovat 0 ja 1: 0 tarkoittaa olemassa olevan tiedoston hakua ja 1 uuden tiedoston luontia.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getfiled</span> <span class="pl-s"><span class="pl-pds">"</span>Valitse tiedosto: <span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>vanha.txt<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> <span class="pl-digits">0</span>)
+(<span class="pl-c1">getfiled</span> <span class="pl-s"><span class="pl-pds">"</span>Anna tiedostopolku: <span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>uusi.txt<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> <span class="pl-digits">1</span>)</pre></div>
+
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+  </div>
+  <div>&nbsp;</div>
+  </div><script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+</body>
+</html>

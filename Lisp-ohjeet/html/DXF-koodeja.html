@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>DXF-koodeja</title>
+  <link rel="icon" href="grip/favicon.ico" />
+  <link rel="stylesheet" href="grip/frameworks-94d2de65a56b07e193e50e91873678b6.css" />
+  <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
+  <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
+  <link rel="stylesheet" href="grip/octicons/octicons.css" />
+  <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;} .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+    }
+    /* User-content tweaks */
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+    /* User-content overrides */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="">
+
+    
+
+      <div role="main" class="main-content">
+        <div class="container new-discussion-timeline experiment-repo-nav">
+          <div class="repository-content">
+            <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+              
+                
+              
+              <article class="markdown-body entry-content" itemprop="text" id="grip-content">
+                <h1>
+<a id="user-content-dxf-koodeja" class="anchor" href="#dxf-koodeja" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DXF-koodeja</h1>
+<p>DXF-koodit on AutoCADin piirustusformaatin tapa jaotella tietoa entiteeteissä. Alla muutama tärkeimmistä arvoista.</p>
+<ul>
+<li>Yhteisiä kaikille entiteeteille
+<ul>
+<li>-1 entiteettinimi (entity name)</li>
+<li>0 entiteettityyppi
+<ul>
+<li>"ATTDEF" = attribuuttimääritys (attribute definition)</li>
+<li>"ATTRIB" = attribuutti (attribute)</li>
+<li>"INSERT" = blokki (block reference)</li>
+<li>"MTEXT" = mteksti (multiline text)</li>
+<li>"TEXT" = teksti</li>
+<li>"ARC" = kaari</li>
+<li>"CIRCLE" = ympyrä</li>
+<li>"LINE" = viiva</li>
+<li>"LWPOLYLINE" = polyline</li>
+</ul>
+</li>
+<li>5 handle
+<ul>
+<li>entiteettitunniste, joka säilyy tallennettaessa toisin kuin entiteettinimi</li>
+</ul>
+</li>
+<li>8 tasonimi (layer name)
+<ul>
+<li>millä tasolla entiteetti on</li>
+</ul>
+</li>
+<li>67 sijaitseeko mallissa vai layoutissa
+<ul>
+<li>0 = mallissa/modelissa (in model space)</li>
+<li>1 = layoutissa (in paper space)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Yhteisiä ATTDEF, ATTRIB ja TEXT-tyypeille
+<ul>
+<li>7 tekstityyli (text style)</li>
+<li>10 tekstin aloituspiste</li>
+<li>11 toinen tasauspiste
+<ul>
+<li>vaikuttaa vain, jos 72 tai 73 =/= 0</li>
+</ul>
+</li>
+<li>40 tekstikorkeus (text height)</li>
+<li>41 tekstin leveyskeroin (text X scale factor / width)</li>
+<li>50 tekstin kulma radiaaneina (text rotation)</li>
+<li>71 tekstin generointiasetus (text generation flags)
+<ul>
+<li>0 = oletus</li>
+<li>2 = teksti on väärinpäin (text is backward (mirrored in X))</li>
+<li>4 = teksti on ylösalaisin (text is upside down (mirrored in Y))</li>
+<li>6 = teksti väärinpäin ja ylösalaisin</li>
+</ul>
+</li>
+<li>72 vaakasuuntainen tasaustyyppi
+<ul>
+<li>0 = vasen (left)</li>
+<li>1 = keski (center)</li>
+<li>2 = oikea (right)</li>
+<li>3 = tasattu kahden pisteen väliin (aligned) (jos 73 = 0)</li>
+<li>4 = keskipiste (middle) (jos 73 = 0)</li>
+<li>5 = sovitettu kahden pisteen väliin (fit) (jos 73 = 0)</li>
+</ul>
+</li>
+<li>73 pystysuuntainen tasaustyyppi
+<ul>
+<li>0 oletus (baseline)</li>
+<li>1 pohja (bottom)</li>
+<li>2 keski (middle)</li>
+<li>3 ylä (top)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ATTDEF-tyyppi
+<ul>
+<li>1 oletusarvo (default value)</li>
+<li>2 attribuutin nimi / tag-nimi (tag name)</li>
+<li>3 prompt-teksti</li>
+</ul>
+</li>
+<li>ATTRIB
+<ul>
+<li>1 oletusarvo (default value)</li>
+<li>2 attribuutin nimi / tag-nimi (tag name)</li>
+</ul>
+</li>
+<li>TEXT
+<ul>
+<li>1 tekstiarvo (text string)</li>
+</ul>
+</li>
+<li>MTEXT
+<ul>
+<li>1 tekstiarvo (text string)</li>
+<li>7 tekstityyli</li>
+<li>10 paikka kuvassa (insertion point)</li>
+<li>40 oletustekstikorkeus (nominal (initial) text height)</li>
+<li>41 viitenelikulmion leveys (reference rectangle width)</li>
+<li>50 tekstin kulma radiaaneina</li>
+<li>71 kiinnityspiste (attachment point);
+tekstilaatikon viitepiste (muuttaa myös insertion pointia vastaamaan asetusta)
+<ul>
+<li>1 ylävasen</li>
+<li>2 yläkeski</li>
+<li>3 yläoikea</li>
+<li>4 keskivasen</li>
+<li>...</li>
+<li>9 alaoikea</li>
+</ul>
+</li>
+<li>72 piirtosuunta
+<ul>
+<li>1 vasemmalta oikealle</li>
+<li>3 ylhäältä alas</li>
+<li>5 tekstityylin mukaan</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>INSERT eli block-viite (block reference)
+<ul>
+<li>2 blokin nimi (block name)</li>
+<li>10 paikka kuvassa (insertion point)</li>
+<li>41 x-skaalaus</li>
+<li>42 y-skaalaus</li>
+<li>43 z-skaalaus</li>
+<li>50 kulma radiaaneina</li>
+<li>66 onko blokilla attribuutteja
+<ul>
+<li>0 ei attribuutteja</li>
+<li>1 on attribuutteja</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ARC
+<ul>
+<li>10 keskipiste</li>
+<li>40 säde (radius)</li>
+<li>50 aloituskulma</li>
+<li>51 lopetuskulma</li>
+</ul>
+</li>
+<li>CIRCLE
+<ul>
+<li>10 keskipiste</li>
+<li>40 säde (radius)</li>
+</ul>
+</li>
+<li>LINE
+<ul>
+<li>10 aloituspiste</li>
+<li>11 lopetuspiste</li>
+</ul>
+</li>
+<li>LWPOLYLINE
+<ul>
+<li>10 moniviivan pisteet; yksi per piste, jonka kautta kuljetaan</li>
+<li>70 piirtoasetukset
+<ul>
+<li>0 = oletus</li>
+<li>1 = suljettu (yhdistää viivan ensimmäisen ja viimeisen pisteen)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+  </div>
+  <div>&nbsp;</div>
+  </div><script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+</body>
+</html>
+

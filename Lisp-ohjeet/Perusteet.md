@@ -21,8 +21,10 @@ Konsoliin voi kirjoittaa useamman rivin ennen suoritusta, jos painaa `shift + en
 #### Mitä tarkoittaa palauttaminen? Miten se toimii lispissä?
 Palauttaminen tarkoittaa, että suoritettu komento/lause antaa kutsujalle jonkin arvon takaisin. Lispissä lause palauttaa aina sen viimeisimmän arvon. Tämän tarkoitus näkyy paremmin myöhemmissä esimerkeissä.
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 ---
-## Lispin syntaksi eli lausemuoto
+## Lispin syntaksi eli kielioppi
 AutoLISPin lauseet noudattavat yhtä kaavaa: `(komento parametri1 parametri2 ...)`. Sulkujen sisällä on ensin komento, ja sen jälkeen komennolle annetut parametrit, joilla komento suoritetaan. 
 Esimerkkinä tähän on pluslasku 1 + 1: `(+ 1 1)`
 ```lisp
@@ -66,6 +68,8 @@ Käyttäjältä voi myös kysyä tiedot etukäteen, tallentaa ne muuttujaan, ja 
 ```
 Tallennus muuttujaan tapahtuu komennolla `setq`, jolle annetaan muuttujan nimi ja mitä tietoa tallennetaan - `(setq muuttuja tieto)`. 
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 #### Getpoint, getstring, ...
 Lispissä annetaan komennoille tietoa oikeassa tietotyypissä. Tämä onnistuu get-funktioilla.
 
@@ -80,7 +84,7 @@ Lispissä annetaan komennoille tietoa oikeassa tietotyypissä. Tämä onnistuu g
 (getpoint)
 (getpoint "Anna piste: ")
 ```
-`getfiled` tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopääte/päätteet, asetukset.
+`getfiled` tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopäätteen/-päätteet, asetukset.
 ```lisp
 (getfiled otsikko oletustiedostonimi tiedostopääte asetukset)
 ```

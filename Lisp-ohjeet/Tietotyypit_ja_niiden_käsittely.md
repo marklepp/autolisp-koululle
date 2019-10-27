@@ -41,6 +41,8 @@ _$ tekstiä
 nil
 ```
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 ---
 ## Symbolit ja muuttujat (symbol, variable)
 Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennetaan muuttujan tai funktion sisältö. Koodaajalle se on kuitenkin käytännössä vain muuttujan tai funktion nimi. Lispissä nimi voi sisältää kirjainten lisäksi monia merkkejä, joista yleisimmin käytössä on vain ala- ja väliviivat. Asteriskilla `*` nimen ympärillä merkataan usein, että muuttuja on yhteinen kaikille eli globaali muuttuja (malli: `*globaali-muuttuja*`), mutta tämä ei ole välttämätöntä.
@@ -89,6 +91,8 @@ _$ (keskiarvo 1 4 9)
 
 Esimerkissä lisp-konsoli palauttaa funktion määrittelyn jälkeen funktion symbolin `KESKIARVO`. Tämän jälkeen keskiarvo-funktio on vapaasti käytettävissä kuten muut komennot. 
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 Mikäli funktio halutaan käyttöön AutoCADin piirtotilassa, laitetaan funktion nimen eteen `c:`:
 ```lisp
 (defun c:heippa ()
@@ -133,6 +137,9 @@ _$ (nimi-globaali "Matti" "Meikäläinen")
 _$ kokonimi
 "Matti Meikäläinen"
 ```
+
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 ---
 ## Lista (list)
 Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka voivat olla mitä vain tietotyyppiä. Listojen käsittelyyn AutoLISPissä on monia valmiita funktioita. Alla on vain pintaraapaisu.
@@ -184,11 +191,14 @@ _$ (subst "uusi" "a" koottu-lista)
 ### Assosiaatiolista (association list, lyhyesti assoc list)
 AutoLISPin tieto on usein tallennettu assosiaatiolistoihin. Assosiaatiolista on lista, jossa kunkin jäsenen ensimmäinen osa on tunniste, ja toinen osa on sisältöä. Tämä mahdollistaa hakea listasta tietoa tunnisteen mukaan. Tätä käytetään entiteettien ominaisuuksien hallinnassa, josta kerrotaan vähän lisää myöhemmin.
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 Käyttötarkoituksena on tiedon jäsennys eri ryhmiin. Esimerkkinä voitaisiin luoda attribuuttilista, jossa listan jäsenen ensimmäisenä arvona on attribuutin nimi, ja sisältönä attribuutin arvo. Esimerkkinä blokki, jolla on attribuutit: Valmistaja: ABB, malli: S201-C10, nimellisjännite: 230V, nimellisvirta: 10A. Assosiaatiolistasta voi hakea tarvitun tiedon nimen perusteella komennolla `assoc`, joka palauttaa sen assiosiaation, joka vastaa annettua arvoa. Usein associa käytetään kuitenkin `cdr`-komennon kanssa, koska halutaan päästä käsiksi varsinaiseen sisältöön.
 
 Visual Lisp Console:
 ```lisp
-_$ (setq johdonsuojakatkaisija '(("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A")))
+_$ (setq johdonsuojakatkaisija '(("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") 
+      ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A")))
 (("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A"))
 _$ (assoc "NIMELLISJÄNNITE" johdonsuojakatkaisija)
 ("NIMELLISJÄNNITE" . "230V")
@@ -234,6 +244,7 @@ _$ '(("tunniste" . "sisältö") . (("tunniste2" . "sisältö2") . nil))
 _$ (cons (cons "tunniste" "sisältö") (cons (cons "tunniste2" "sisältö2") nil))
 (("tunniste" . "sisältö") ("tunniste2" . "sisältö2"))
 ```
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
 
 ---
 ## Tiedosto-osoitin (file descriptor)
@@ -277,6 +288,8 @@ _$ (close avoin-tiedosto)
 nil
 ```
 
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
 ---
 ## Valintajoukko (selection set)
 Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöstä (entiteeteistä lisää seuraavassa osiossa). Kuvasta voi valita/hakea sisältöä annettujen tietojen perusteella. Tiedot annetaan assosiaatiolistana komennolle `ssget`. Valintajoukko tallennetaan muuttujaan aivan kuten muutkin tietotyypit `(setq valintajoukko (ssget))`. Valintajoukkoja voi olla samaan aikaan vain rajattu määrä (128), joten tallennettu valintajoukkomuuttuja kannattaa heti tyhjentää käytön jälkeen antamalla komento `(setq valintajoukko nil)`.
@@ -318,6 +331,8 @@ Ominaisuuden muokkaus voidaan toteuttaa komennoin:
  - tallennetaan muutettu lista entiteettiin: `entmod`
  - päivitetään entiteetti: `entupd`
  - tyhjennetään valintajoukko
+
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
 
 Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".
 
@@ -376,6 +391,8 @@ nil
 ```
 
 *) AutoDeskin kehittämä piirustustallennusmuoto on DXF, "Drawing eXchange Format". Tämän formaatin tarkoituksena oli tehdä AutoCAD-kuvista jaettavia eri suunnitteluohjelmistojen kesken. Dwg-formaatti on kompressoitua DXF-tietoa. AutoDesk edelleen hallinnoi DXF-formaattia. DXF-koodeista saa lisää tietoa hakemalla AutoCADin dokumentaatiosta "DXF". Tiedostossa DXF-koodeja.md on kuitenkin muutama tärkeimmistä arvoista.
+
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
 
 ---
 ## VLA-objekti (VLA-object)
@@ -436,7 +453,11 @@ _$ (vlax-get-property tekstiobjekti "TextString")
 _$ 
 ```
 
-Lähteet AutoCADin sivustolta 15.10.2019
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;
+
+---
+## Lähteet 
+### AutoCADin sivustolta 15.10.2019
 
 - About Data Types (AutoLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-7E568541-F1D0-49C4-B878-15880486825F-htm.html
   - About Integers (AutpLISP) https://knowledge.autodesk.com/search-result/caas/CloudHelp/cloudhelp/2018/ENU/AutoCAD-AutoLISP/files/GUID-EF6114FC-F1E4-4C71-91CC-07D01E6C8ABB-htm.html
