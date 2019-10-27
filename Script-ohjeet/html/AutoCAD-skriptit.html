@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AutoCAD-skriptit</title>
+  <link rel="icon" href="grip/favicon.ico" />
+  <link rel="stylesheet" href="grip/frameworks-94d2de65a56b07e193e50e91873678b6.css" />
+  <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
+  <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
+  <link rel="stylesheet" href="grip/octicons/octicons.css" />
+  <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+    }
+    /* User-content tweaks */
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+    /* User-content overrides */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="preview-page" class="preview-page" data-autorefresh-url="">
+
+    
+
+      <div role="main" class="main-content">
+        <div class="container new-discussion-timeline experiment-repo-nav">
+          <div class="repository-content">
+            <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+              
+                
+              
+              <article class="markdown-body entry-content" itemprop="text" id="grip-content">
+                <h1>
+<a id="user-content-autocad-skriptit" class="anchor" href="#autocad-skriptit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoCAD-skriptit</h1>
+<p>Toistuvia toimintoja on mahdollista automatisoida AutoCADissa. Yksinkertaisin tapa tähän on skriptit. Skripti on lista peräkkäin suoritettavia komentoja. AutoCADissa nämä ovat mitä vain komentoriville kirjoitettavia komentoja.</p>
+<p>Skripti kirjoitetaan tiedostoon samalla tavalla kuin komennot kirjoitettaisiin AutoCADin komentoriville. Esimerkiksi LINE-komento pisteestä (10, 10) pisteeseen (20, 20) kirjoitettaisiin skritpitiedostoon näin:</p>
+<pre><code>LINE
+10,10
+20,20
+
+
+</code></pre>
+<p>LINE-komento kysyy pisteitä yksi kerrallaan, ja komento pysäytetään yhdellä ylimääräisellä rivinvaihdolla. Skritpi tallennetaan sitten <em>.scr</em>-päätteiseen tiedostoon.</p>
+<p>Skripti vaihtaa komentoa myös välilyönnillä, joten kirjoittaessa kannattaa varoa ylimääräisiä välejä. Jos tarvitsee kirjoittaa tekstiä välilyönneillä, kirjoitetaan koko teksti lainausmerkkien sisään. Tämä on usein tarpeen tiedostonimissä, jos tiedostopolussa on välejä. Tiedostoja voi avata ja sulkea skriptissä. Tämä mahdollistaa samojen toimintojen suorittamisen usealle piirustukselle peräjälkeen. Skriptiin kirjoitetaan samat komennot joka tiedostolle:</p>
+<pre><code>open
+"C:\testikansio\piirustus 1.dwg"
+line
+10,10
+20,20
+
+qsave
+close
+open
+"C:\testikansio\piirustus 2.dwg"
+line
+10,10
+20,20
+
+qsave
+close
+
+</code></pre>
+<h2>
+<a id="user-content-kommentit" class="anchor" href="#kommentit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Kommentit</h2>
+<p>Skriptiin voi myös kirjoittaa kommentteja. Kommentti alkaa rivin alussa puolipisteellä ";". Tämä rivi jätetään huomiotta skriptissä. Näin voi kertoa, mitä skriptissä tapahtuu.</p>
+<pre><code>LINE
+;eka piste
+10,10
+;toka piste
+20,20
+;sitten enter
+
+
+</code></pre>
+<h2>
+<a id="user-content-lisp-skriptissä" class="anchor" href="#lisp-skriptiss%C3%A4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lisp skriptissä</h2>
+<p>Mikäli käytössä on AutoCADin täysi versio, voi skriptiin kirjoittaa myös lisp-komentoja. Tämä tapahtuu kuten lispin kirjoitus yleensä, mutta ylimääräiset välilyönnit on huomioitava lisp-komentojen ulkopuolella. Sulkujen sisällä välejä saa olla vapaasti. Lisp-komennot ovat hyödyllisiä esimerkiksi, jos halutaan käyttää kuvasta riippuvaa tietoa jossain komennossa. Lisp-muuttujia voi käyttää skript-rivillä laittamalla niiden eteen huutomerkin "!". Mikäli halutaan viitata lisp-muuttujaan tekstivastauksen aikana, pitää asettaa AutoCADissa asetus TEXTEVAL 1. Tämän voi asettaa takaisin nollaan skriptin lopussa.</p>
+<pre><code>TEXTEVAl 1
+(setq tiedostonimi (getvar "dwgname"))
+TEXT
+30,30
+5
+0
+!tiedostonimi
+TEXTEVAL 0
+
+</code></pre>
+
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+  </div>
+  <div>&nbsp;</div>
+  </div><script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+</body>
+</html>
