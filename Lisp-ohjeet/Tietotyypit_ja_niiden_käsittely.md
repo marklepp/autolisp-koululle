@@ -107,7 +107,7 @@ Funktiomäärittelyn syntaksi koostuu nimen lisäksi neljästä osasta; nimi, ar
   (komento ...)
 )
 ```
-Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun `(nimi arvo-1 arvo-2)` kohdalla arvo-1 kopioituu argumentti-1:een ja arvo-2 kopioituu argumentti-2:een. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumentti-1:tä ja argumentti-2:ta.
+Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun `(nimi arvo-1 arvo-2)` kohdalla arvo-1 kopioituu argumenttiyhteen ja arvo-2 kopioituu argumenttikahteen. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumenttiyhtä ja argumenttikahta.
 
 Paikalliset muuttujat on muuttujia, joita funktiossa käytetään, mutta joiden arvon ei haluta säilyvän funktion ulkopuolella. Jos esimerkiksi asetamme muuttujaan `kokonimi` arvon `"Matti Meikäläinen"` funktion nimi sisällä, ja kerromme muuttujan olevan paikallinen, `kokonimi` unohtaa arvonsa heti kun poistutaan funktiosta.
 

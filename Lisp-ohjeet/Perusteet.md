@@ -2,7 +2,7 @@
 
 AutoLISP (myös Visual Lisp) on AutoDeskin kehittämä ohjelmointikieli AutoCADin toimintojen automatisoimiseen. Tämä tehostaa työtä poistamalla ihmiseltä aikaa vievää, tylsää ja toistuvaa työtä, jättäen aikaa tärkeämpään suunnitteluun.
 
-AutoLISP on helposti lähestyttävä kieli, vaikka ulkonäkö on erikoinen: sulkuja, sulkuja ja sulkuja. Lisp on lyhenne sanoista List processing (listaprosessointi), mikä on kuvaavaa, sillä lispissä on vain yksi, monipuolinen tietorakenne: lista. Itse lisp-koodikin kirjoitetaan lispin ymmärtämässä listamuodossa.
+AutoLISP on helposti lähestyttävä kieli, vaikka ulkonäkö on erikoinen: sulkuja, sulkuja ja sulkuja. Lisp on lyhenne sanoista List processing (listaprosessointi), mikä on kuvaavaa, sillä lispissä on vain yksi, monipuolinen tietorakenne: _lista_. Itse lisp-koodikin kirjoitetaan lispin ymmärtämässä listamuodossa.
 
 ---
 ## Visual Lisp-kehitysympäristö VLIDE
@@ -52,3 +52,40 @@ Tästä saa tehtyä oman komennon kirjoittamalla siitä funktiomäärittelyn. La
 )
 ```
 Tämän jälkeen AutoCAD ehdottaa komentoa "TEKSTI", joka viittaa yllä olevaan funktioon. `c:` laitetaan nimen eteen, että AutoCAD tunnistaa tämän olevan piirtotilassa käytettävä komento.
+
+Käyttäjältä voi myös kysyä tiedot etukäteen, tallentaa ne muuttujaan, ja sitten käyttää niitä useassa komennossa. Alla esimerkkikomento "ALUE", joka kirjoittaa alueen nimen ja piirtää nelikulmion sen ympärille. Tekstin alkupistettä siirretään yksi oikealle ja alas, jotta se ei ole nelikulmion päällä. 
+```lisp
+(defun c:alue ()
+  (setq teksti (getstring "Anna alueen nimi: "))
+  (setq ekapiste (getpoint "Ensimmäinen piste: "))
+  (setq tekstipiste (list (+ (car ekapiste) 1) (- (cadr ekapiste) 1)))
+  (command "TEXT" "Justify" "TL" tekstipiste 5.0 0.0 teksti)
+  (command "RECTANG" ekapiste)
+  (princ)
+)
+```
+Tallennus muuttujaan tapahtuu komennolla `setq`, jolle annetaan muuttujan nimi ja mitä tietoa tallennetaan - `(setq muuttuja tieto)`. 
+
+#### Getpoint, getstring, ...
+Lispissä annetaan komennoille tietoa oikeassa tietotyypissä. Tämä onnistuu get-funktioilla.
+
+* `getpoint` kysyy käyttäjältä pisteen. Palauttaa listan `'(x y z)`
+* `getstring` kysyy tekstiä. Jos tekstiin haluaa välilyöntejä, kirjoitetaan teksti lainausmerkkeihin
+* `getint` kysyy kokonaisluvun.
+* `getreal` kysyy reaaliluvun.
+* `getfiled` kysyy tiedoston. Palauttaa tiedostopolun merkkijonona.
+
+`getpoint`, `getstring`, `getint` ja `getreal` toimivat joko sellaisenaan tai viestin kanssa. Viesti ilmestyy AutoCADin komentoriville.
+```lisp
+(getpoint)
+(getpoint "Anna piste: ")
+```
+`getfiled` tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopääte/päätteet, asetukset.
+```lisp
+(getfiled otsikko oletustiedostonimi tiedostopääte asetukset)
+```
+Asetuksissa on paljon vaihtoehtoja, jotka kannattaa katsoa AutoCADin dokumentaatiosta. Kaksi yleishyödyllisintä ovat 0 ja 1: 0 tarkoittaa olemassa olevan tiedoston hakua ja 1 uuden tiedoston luontia.
+```lisp
+(getfiled "Valitse tiedosto: " "vanha.txt" "*" 0)
+(getfiled "Anna tiedostopolku: " "uusi.txt" "*" 1)
+```
