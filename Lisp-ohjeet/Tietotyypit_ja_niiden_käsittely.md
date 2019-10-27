@@ -101,7 +101,7 @@ Tämän jälkeen komentoa voi käyttää piirtotilassa kuten muita piirtokomento
 ### Funktion määrittelyn osat
 Funktiomäärittelyn syntaksi koostuu nimen lisäksi neljästä osasta; nimi, argumentit, paikalliset muuttujat ja suoritettavat komennot: 
 ```lisp
-(defun nimi (argumentti-1 argumentti-2  / paikalliset-muuttujat)
+(defun nimi (argumenttiyksi argumenttikaksi  / paikalliset-muuttujat)
   (komento ...)
   ...
   (komento ...)
@@ -141,21 +141,21 @@ Lista voidaan luoda monella tapaa. Yksi on käyttää komentoa `list`, joka otta
 
 Visual Lisp Console:
 ```lisp
-_$ (setq lista-1 (list "a" 2 "c"))
+_$ (setq listayksi (list "a" 2 "c"))
 ("a" 2 "c")
 ```
 Saman voi tehdä myös antamalla listan kirjaimellisesti, jolloin kirjoitamme listan heittomerkin jälkeen `'("a" 2 "b")`. Tällöin yksittäiset elementit täytyy olla jo tiedossa, sillä heittomerkki listan edessä tarkoittaa, ettei lisp yritä suorittaa seuraavana tulevaa osaa, vaan ottaa sen sellaisenaan. Tämä tarkoittaa, ettei listan sisäisiä komentoja suoriteta, vaan ne tulkitaan listan jäseniksi.
 
 Listaan voidaan lisätä jäseniä komennolla `cons` (tulee sanasta "construct"). Cons lisää jäsenen listan ensimmäiseksi:
 ```lisp
-_$ (setq lista-2 (cons "jäsen" lista-1))
+_$ (setq listakaksi (cons "jäsen" listayksi))
 ("jäsen" "a" 2 "c")
 ```
 Cons toimii joskus yllättävällä tavalla, mitä selitän assosiaatiolistojen osiossa lisää.
 
 Listoja voidaan myös ketjuttaa toisiinsa komennolla `append`:
 ```lisp
-_$ (setq koottu-lista (append lista-1 lista-2))
+_$ (setq koottu-lista (append listayksi listakaksi))
 ("a" 2 "c" "jäsen" "a" 2 "c")
 ```
 
