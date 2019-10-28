@@ -1,0 +1,6 @@
+open
+TIEDOSTONIMI
+(load (strcat (getvar "dwgprefix") "io-tietojen-haku.lsp"))
+(io-osoitteen-haku (strcat (getvar "dwgprefix") "IO-luettelo.csv"))
+qsave
+close
