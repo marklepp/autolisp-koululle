@@ -6,21 +6,28 @@ $cssCommandClass = "pl-c1"
 $commandsToBeFixed = @( "assoc"
   , "cadr"
   , "cddddr"
-  , "command"
   , "close"
+  , "command"
+  , "cond"
   , "entget"
   , "entmod"
   , "entnext"
   , "entupd"
+  , "equal"
+  , "foreach"
+  , "getdist"
   , "getfiled"
   , "getint"
   , "getpoint"
   , "getreal"
   , "getstring"
+  , "if"
   , "nth"
   , "open"
   , "princ"
+  , "progn"
   , "read-line"
+  , "repeat"
   , "reverse"
   , "ssget"
   , "sslength"
@@ -32,12 +39,20 @@ $commandsToBeFixed = @( "assoc"
   , "vlax-get-property"
   , "vlax-put-property"
   , "vl-load-com"
+  , "while"
   , "write-line"
   , "1+"
   , "1-"
   , "+"
   , "-"
+  , "*"
   , "/"
+  , "&lt;"
+  , "&lt;="
+  , "&gt;"
+  , "&gt;="
+  , "="
+  , "/="
 )
 Get-ChildItem *.html | 
   ForEach-Object {
@@ -52,7 +67,7 @@ Get-ChildItem *.html |
         -replace "(<span class=`")$cssCommandClass(`">\d+`.?\d*</span>)",
                   '$1pl-digits$2' `
         -replace "(<style>)",
-                  '$1 .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}' `
+                  '$1 .pl-k{color: #005cc5;} .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}' `
         -replace "<p>&lt;(div style=`"page-break-after: always;`")&gt;&lt;(/div)&gt;</p>",
                   '<$1><$2>' `
         -replace "http://localhost:\d+/",

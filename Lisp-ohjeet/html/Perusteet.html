@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
   <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
   <link rel="stylesheet" href="grip/octicons/octicons.css" />
-  <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
+  <style> .pl-k{color: #005cc5;} .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
     /* Page tweaks */
     .preview-page {
       margin-top: 64px;
@@ -89,8 +89,8 @@ Esimerkkinä tähän on pluslasku 1 + 1: <code>(<span class="pl-c1">+</span> 1 1
 )</pre></div>
 <p>Tallennus muuttujaan tapahtuu komennolla <code>setq</code>, jolle annetaan muuttujan nimi ja mitä tietoa tallennetaan - <code>(setq muuttuja tieto)</code>.</p>
 <div style="page-break-after: always;"></div>
-<h4>
-<a id="user-content-getpoint-getstring-" class="anchor" href="#getpoint-getstring-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getpoint, getstring, ...</h4>
+<h3>
+<a id="user-content-getpoint-getstring-" class="anchor" href="#getpoint-getstring-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getpoint, getstring, ...</h3>
 <p>Lispissä annetaan komennoille tietoa oikeassa tietotyypissä. Tämä onnistuu get-funktioilla.</p>
 <ul>
 <li>
@@ -103,16 +103,189 @@ Esimerkkinä tähän on pluslasku 1 + 1: <code>(<span class="pl-c1">+</span> 1 1
 <li>
 <code>getreal</code> kysyy reaaliluvun.</li>
 <li>
+<code>getdist</code> kysyy kaksi pistettä ja palauttaa näiden etäisyyden</li>
+<li>
 <code>getfiled</code> kysyy tiedoston. Palauttaa tiedostopolun merkkijonona.</li>
 </ul>
 <p><code>getpoint</code>, <code>getstring</code>, <code>getint</code> ja <code>getreal</code> toimivat joko sellaisenaan tai viestin kanssa. Viesti ilmestyy AutoCADin komentoriville.</p>
 <div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getpoint</span>)
 (<span class="pl-c1">getpoint</span> <span class="pl-s"><span class="pl-pds">"</span>Anna piste: <span class="pl-pds">"</span></span>)</pre></div>
-<p><code>getfiled</code> tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopäätteen/-päätteet, asetukset.</p>
+<p><code>getdist</code> sellaisenaan kysyy kaksi pistettä, mutta sille voi myös syöttää yhden pisteen koodissa, jolloin <code>getdist</code> kysyy vain yhden pisteen lisää. Viimeinen argumentti on viesti, kuten muissa get-funktioissa. Alla esimerkkejä, miten tätä funktiota voi kutsua:</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getdist</span>)
+(<span class="pl-c1">getdist</span> <span class="pl-s"><span class="pl-pds">"</span>Pisteiden etäisyys, valitse piste:<span class="pl-pds">"</span></span>)
+(<span class="pl-c1">getdist</span> '(<span class="pl-digits">10</span> <span class="pl-digits">10</span>))
+(<span class="pl-c1">getdist</span> '(<span class="pl-digits">10</span> <span class="pl-digits">10</span>) <span class="pl-s"><span class="pl-pds">"</span>Pisteiden etäisyys, valitse piste:<span class="pl-pds">"</span></span>)</pre></div>
+<p><code>getfiled</code> tarvitsee enemmän tietoja toimiakseen: otsikon, oletustiedostonimen, tiedostopäätteen/-päätteet ja asetukset.</p>
 <div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getfiled</span> otsikko oletustiedostonimi tiedostopääte asetukset)</pre></div>
 <p>Asetuksissa on paljon vaihtoehtoja, jotka kannattaa katsoa AutoCADin dokumentaatiosta. Kaksi yleishyödyllisintä ovat 0 ja 1: 0 tarkoittaa olemassa olevan tiedoston hakua ja 1 uuden tiedoston luontia.</p>
 <div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">getfiled</span> <span class="pl-s"><span class="pl-pds">"</span>Valitse tiedosto: <span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>vanha.txt<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> <span class="pl-digits">0</span>)
 (<span class="pl-c1">getfiled</span> <span class="pl-s"><span class="pl-pds">"</span>Anna tiedostopolku: <span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>uusi.txt<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> <span class="pl-digits">1</span>)</pre></div>
+<hr>
+<h2>
+<a id="user-content-ohjelman-kulun-hallinta" class="anchor" href="#ohjelman-kulun-hallinta" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ohjelman kulun hallinta</h2>
+<p>Toisin kuin skripteissä, lispissä ohjelman kulkua voi ohjata päätösrakenteilla kuten <code>if</code> ja <code>cond</code>, ja toistorakenteilla kuten <code>while</code>, <code>repeat</code> ja <code>foreach</code>.</p>
+<h3>
+<a id="user-content-if" class="anchor" href="#if" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>if</h3>
+<p><code>if</code> päättää ehdon perusteella, kumpi kahdesta komennosta suoritetaan. Pseudokoodilla toimintaa voisi kuvata näin:</p>
+<pre><code>Jos ehto on tosi,
+  suoritetaan komento yksi.
+Muuten
+  suoritetaan komento kaksi.
+</code></pre>
+<div style="page-break-after: always;"></div>
+<p>Lispissä tämä kirjoitetaan näin:</p>
+<div class="highlight highlight-source-lisp"><pre><span class="pl-c"><span class="pl-c">;</span>Monella rivillä</span>
+(<span class="pl-k">if</span> ehto
+  (komento-yksi)
+  (komento-kaksi)
+)
+
+<span class="pl-c"><span class="pl-c">;</span>Yhdellä rivillä</span>
+(<span class="pl-k">if</span> ehto (komento-yksi) (komento-kaksi))</pre></div>
+<h6>
+<a id="user-content-if----visual-lisp-console" class="anchor" href="#if----visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>if -  Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-k">if</span> (<span class="pl-c1">=</span> <span class="pl-digits">1</span> <span class="pl-digits">1</span>) <span class="pl-s"><span class="pl-pds">"</span>eka eli tosi<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>toka eli epätosi<span class="pl-pds">"</span></span>)
+<span class="pl-s"><span class="pl-pds">"</span>eka eli tosi<span class="pl-pds">"</span></span>
+_$ (<span class="pl-k">if</span> (<span class="pl-c1">=</span> <span class="pl-digits">1</span> <span class="pl-digits">2</span>) <span class="pl-s"><span class="pl-pds">"</span>eka eli tosi<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>toka eli epätosi<span class="pl-pds">"</span></span>)
+<span class="pl-s"><span class="pl-pds">"</span>toka eli epätosi<span class="pl-pds">"</span></span></pre></div>
+<h4>
+<a id="user-content-ehdot-ja-vertailu" class="anchor" href="#ehdot-ja-vertailu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ehdot ja vertailu</h4>
+<p>AutoLISPissä vertailu tapahtuu komennoilla:</p>
+<ul>
+<li>
+<code>&lt;</code> pienempi kuin</li>
+<li>
+<code>&lt;=</code> pienempi tai yhtä suuri kuin</li>
+<li>
+<code>&gt;</code> suurempi kuin</li>
+<li>
+<code>&gt;=</code> suurempi tai yhtä suuri kuin</li>
+<li>
+<code>=</code> yhtä suuri kuin</li>
+<li>
+<code>/=</code> eri suuri kuin</li>
+<li>
+<code>equal</code> ovatko samanlaisia*</li>
+<li>
+<code>eq</code> ovatko sama*</li>
+</ul>
+<p>Näitä käytetään kuten mitä tahansa muuta komentoa. Vertailu, joka on tosi, palauttaa <code>t</code>, ja epätosi palauttaa <code>nil</code>. Ehtolauseet voivat myös olla muuttujia sellaisenaan. Lisp tulkitsee kaiken, paitsi <code>nil</code>-arvon, todeksi.</p>
+<p>Joskus tarvitaan, että useampi ehto toteutuu ennen kuin suoritetaan komento. Näissä tilanteissa voidaan käyttää komentoja <code>and</code> ja <code>or</code>. <code>and</code> palauttaa t vain, jos kaikki sen argumentit ovat tosia. <code>or</code> palauttaa tosi, jos yksikin sen argumenteista on tosi. Ehtojen arvoa voi myös kääntää <code>t -&gt; nil</code> tai <code>nil -&gt; t</code> komennolla <code>not</code>.</p>
+<h6>
+<a id="user-content-ehdot-ja-vertailu---visual-lisp-console" class="anchor" href="#ehdot-ja-vertailu---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ehdot ja vertailu - Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">&lt;</span> <span class="pl-digits">1</span> <span class="pl-digits">2</span>)
+<span class="pl-c1">T</span>
+_$ (<span class="pl-c1">&lt;</span> <span class="pl-digits">2</span> <span class="pl-digits">1</span>)
+<span class="pl-c1">nil</span>
+_$ (<span class="pl-k">if</span> <span class="pl-s"><span class="pl-pds">"</span>tekstiä<span class="pl-pds">"</span></span> 'TOSI 'EPÄTOSI)
+TOSI
+_$ (<span class="pl-k">if</span> <span class="pl-c1">nil</span> 'TOSI 'EPÄTOSI)
+EPÄTOSI
+_$ (<span class="pl-k">and</span> <span class="pl-c1">t</span> <span class="pl-c1">t</span>)
+<span class="pl-c1">T</span>
+_$ (<span class="pl-k">and</span> <span class="pl-c1">t</span> <span class="pl-c1">nil</span>)
+<span class="pl-c1">nil</span>
+_$ (<span class="pl-k">or</span> <span class="pl-c1">nil</span> <span class="pl-c1">nil</span>)
+<span class="pl-c1">nil</span>
+_$ (<span class="pl-k">or</span> <span class="pl-c1">t</span> <span class="pl-c1">nil</span>)
+<span class="pl-c1">T</span>
+_$ (<span class="pl-k">not</span> <span class="pl-c1">t</span>)
+<span class="pl-c1">nil</span>
+_$ (<span class="pl-k">not</span> <span class="pl-c1">nil</span>)
+<span class="pl-c1">T</span></pre></div>
+<p>*) <code>equal</code> vertaa, onko verrattavien muuttujien sisältö samanlainen, <code>eq</code> vertaa osoittavako verrattavat muuttujat samaan asiaan muistissa; <code>eq</code> voi palauttaa <code>nil</code> vaikka muuttujien sisältö olisi samanlainen, mutta ne sijaitsevat eri paikassa muistia.
+&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</p>
+<h4>
+<a id="user-content-progn" class="anchor" href="#progn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>progn</h4>
+<p>Komennolla <code>progn</code> voi ketjuttaa komentoja. Näin voi suorittaa useita komentoja kohdassa, jossa odotetaan vain yhtä komentoa. Tätä käytetään usein <code>if</code>:in kanssa:</p>
+<h6>
+<a id="user-content-progn---visual-lisp-console" class="anchor" href="#progn---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>progn - Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-k">if</span> (<span class="pl-c1">&lt;</span> <span class="pl-digits">1</span> <span class="pl-digits">2</span>)
+     (<span class="pl-c1">progn</span>
+       (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span>Tosi<span class="pl-pds">"</span></span>)
+       (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span>Progn voi suorittaa monta komentoa<span class="pl-pds">"</span></span>)
+       (<span class="pl-c1">princ</span>)
+     )
+     (<span class="pl-c1">progn</span>
+       (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span>Epätosi<span class="pl-pds">"</span></span>)
+       (<span class="pl-c1">princ</span>)
+     )
+   )
+Tosi
+<span class="pl-c1">Progn</span> voi suorittaa monta komentoa</pre></div>
+<h3>
+<a id="user-content-cond" class="anchor" href="#cond" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>cond</h3>
+<p><code>cond</code> on kuin monta <code>if</code>-lausetta yhdessä. Se käy ehdon kerrallaan läpi, ja suorittaa ensimmäisen totta olevaa ehtoa vastaavat komennot. Viimeiseksi ehdoksi laitetaan yleensä aina tosi ehto sekä sen kanssa oletuskomento, joka suoritetaan jos mikään muu ehdoista ei ole toteutunut:</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">cond</span>
+  (ehto-yksi
+    (komento-yksi)
+  )
+  (ehto-kaksi
+    (komento-kaksi)
+  )
+  (<span class="pl-c1">t</span>
+    (oletuskomento)
+  )
+)</pre></div>
+<h3>
+<a id="user-content-while" class="anchor" href="#while" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>while</h3>
+<p><code>while</code> toistaa komentoja niin kauan kuin ehto on tosi. Ehto tarkastetaan, ja jos se on tosi, suoritetaan komennot <code>while</code>:n sulkujen sisällä. Näiden komentojen jälkeen tarkastetaan ehto uudelleen. Tätä jatketaan, kunnes ehto ei enää ole tosi. Mikäli ehto on aina tosi, ohjelma jatkaa silmukkaa loputtomiin. Tällaisista tilanteista selviää usein painamalla <code>esc</code>-näppäintä pohjassa.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">while</span> ehto
+  (komento-yksi)
+  (komento-kaksi)
+  (komento-kolme)
+)</pre></div>
+<h6>
+<a id="user-content-while---visual-lisp-console" class="anchor" href="#while---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>while - Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> i <span class="pl-digits">0</span>)
+   (<span class="pl-c1">while</span> (<span class="pl-c1">&lt;</span> i <span class="pl-digits">10</span>)
+     (<span class="pl-c1">princ</span> i)
+     (<span class="pl-c1">setq</span> i (<span class="pl-digits">1</span>+ i))
+     (<span class="pl-c1">princ</span>)
+   )
+<span class="pl-digits">0</span>
+<span class="pl-digits">0123456789</span></pre></div>
+<div style="page-break-after: always;"></div>
+<h3>
+<a id="user-content-repeat" class="anchor" href="#repeat" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>repeat</h3>
+<p><code>repeat</code> toistaa komentoja niin monta kertaa kuin käsketään.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">repeat</span> montako-kertaa
+  (komento-yksi)
+  (komento-kaksi)
+  (komento-kolme)
+)</pre></div>
+<h6>
+<a id="user-content-repeat---visual-lisp-console" class="anchor" href="#repeat---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>repeat - Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">repeat</span> <span class="pl-digits">5</span>
+     (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span>Kierros loopissa<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>)´
+     (<span class="pl-c1">princ</span>)
+   )
+Kierros loopissa
+Kierros loopissa
+Kierros loopissa
+Kierros loopissa
+Kierros loopissa</pre></div>
+<h3>
+<a id="user-content-foreach" class="anchor" href="#foreach" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>foreach</h3>
+<p><code>foreach</code> suorittaa komennot jokaista listan jäsentä kohden. Jäsen tallennetaan väliaikaisesti muuttujaan, jota voi käyttää komennoissa <code>foreach</code>:n sulkujen sisällä.</p>
+<div class="highlight highlight-source-lisp"><pre>(<span class="pl-c1">foreach</span> jäsen lista
+  (komento-yksi)
+  (komento-kaksi)
+  (komento-kolme)
+)</pre></div>
+<h6>
+<a id="user-content-foreach---visual-lisp-console" class="anchor" href="#foreach---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>foreach - Visual Lisp Console:</h6>
+<div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> lista (<span class="pl-c1">list</span> <span class="pl-s"><span class="pl-pds">"</span>Tämä<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>on<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>lista<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>tekstejä<span class="pl-pds">"</span></span>))
+   (<span class="pl-c1">foreach</span> teksti lista
+     (<span class="pl-c1">princ</span> teksti)
+     (<span class="pl-c1">princ</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>)
+     (<span class="pl-c1">princ</span>)
+   )
+(<span class="pl-s"><span class="pl-pds">"</span>Tämä<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>on<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>lista<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>tekstejä<span class="pl-pds">"</span></span>)
+<span class="pl-c1">T</span>ämä
+on
+lista
+tekstejä</pre></div>
 
               </article>
             </div>

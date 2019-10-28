@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="grip/github-3c4881237e97cb689271ee2f91e36269.css" />
   <link rel="stylesheet" href="grip/site-09367dd1ae1784b858e71c8471ca0949.css" />
   <link rel="stylesheet" href="grip/octicons/octicons.css" />
-  <style> .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
+  <style> .pl-k{color: #005cc5;} .pl-digits{ color:forestgreen;} .pl-pds, .pl-s, .pl-s .pl-pse .pl-s1, .pl-sr, .pl-sr .pl-cce, .pl-sr .pl-sra, .pl-sr .pl-sre {color: firebrick;}
     /* Page tweaks */
     .preview-page {
       margin-top: 64px;
@@ -58,7 +58,8 @@
 <h2>
 <a id="user-content-luvut-kokonaisluku-integer-ja-reaaliluku-real" class="anchor" href="#luvut-kokonaisluku-integer-ja-reaaliluku-real" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Luvut: kokonaisluku (integer) ja reaaliluku (real)</h2>
 <p>Luvut ovat joko kokonaislukuja <code>5</code> tai reaalilukuja <code>5.0</code>. Lisp muuttaa kokonaisluvun automaattisesti reaaliluvuksi, jos yksi laskutoimituksen luvuista on reaaliluku. Jakolaskut kokonaisluvuilla eivät huomioi tuloksen desimaaleja lainkaan, mutta jos toiseen luvuista on merkattu desimaalit, lisp muuntaa tuloksenkin reaaliluvuksi.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-luvut---visual-lisp-console" class="anchor" href="#luvut---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Luvut - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">/</span> <span class="pl-digits">5</span> <span class="pl-digits">2</span>)
 <span class="pl-digits">2</span>
 _$ (<span class="pl-c1">/</span> <span class="pl-digits">5</span> <span class="pl-digits">2.0</span>)
@@ -69,7 +70,8 @@ _$ (<span class="pl-c1">/</span> <span class="pl-digits">5.0</span> <span class=
 <h2>
 <a id="user-content-merkkijono-string" class="anchor" href="#merkkijono-string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Merkkijono (string)</h2>
 <p>Lisp ymmärtää koodin merkkijonoksi, jos sen ympäröi lainausmerkeillä. Esimerkissä alla on ensin kirjoitettu konsoliin merkkijono "tekstiä", jonka lisp ymmärtää merkkijonoksi ja palauttaa sen. Ilman lainausmerkkejä lisp ymmärtää kirjoitetun asian symboliksi, ja yrittää lukea symbolin arvoa, mutta koska sillä ei ole arvoa, lisp palauttaa nil.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-merkkijono---visual-lisp-console" class="anchor" href="#merkkijono---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Merkkijono - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ <span class="pl-s"><span class="pl-pds">"</span>tekstiä<span class="pl-pds">"</span></span>
 <span class="pl-s"><span class="pl-pds">"</span>tekstiä<span class="pl-pds">"</span></span>
 _$ tekstiä
@@ -82,7 +84,8 @@ _$ tekstiä
 <h3>
 <a id="user-content-muuttujat" class="anchor" href="#muuttujat" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Muuttujat</h3>
 <p>Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muistiin muuttujaan. Toisin kuin monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan tallennetaan tietoa komennolla <code>setq</code>, joka myös palauttaa muuttujaan asetetun arvon. Muuttujaa voi tallennuksen jälkeen käyttää myöhemmissä komennoissa. Muuttujan arvo ei muutu, ennen kuin siihen tallentaa uuden arvon <code>setq</code>-komennolla.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-muuttujat---visual-lisp-console" class="anchor" href="#muuttujat---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Muuttujat - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> numero <span class="pl-digits">5</span>)
 <span class="pl-digits">5</span>
 _$ (<span class="pl-c1">+</span> numero <span class="pl-digits">1</span>)
@@ -103,7 +106,8 @@ Funktio määritellään komennolla <code>defun</code> (lyhenne sanoista "define
 <div class="highlight highlight-source-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-en">keskiarvo</span> (eka toka kolmas)
   (<span class="pl-c1">/</span> (<span class="pl-c1">+</span> eka toka kolmas) <span class="pl-digits">3.0</span>)
 )</pre></div>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-funktiot---visual-lisp-console" class="anchor" href="#funktiot---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Funktiot - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-k">defun</span> <span class="pl-en">keskiarvo</span> (eka toka kolmas)
   (<span class="pl-c1">/</span> (<span class="pl-c1">+</span> eka toka kolmas) <span class="pl-digits">3.0</span>)
 )
@@ -130,7 +134,8 @@ _$ (keskiarvo <span class="pl-digits">1</span> <span class="pl-digits">4</span> 
 )</pre></div>
 <p>Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan funktiota kutsuvasta ohjelmasta funktion parametreina. Kutsun <code>(nimi arvo-1 arvo-2)</code> kohdalla arvo-1 kopioituu argumenttiyhteen ja arvo-2 kopioituu argumenttikahteen. Tämän jälkeen funktio suorittaa komentonsa käyttäen argumenttiyhtä ja argumenttikahta.</p>
 <p>Paikalliset muuttujat on muuttujia, joita funktiossa käytetään, mutta joiden arvon ei haluta säilyvän funktion ulkopuolella. Jos esimerkiksi asetamme muuttujaan <code>kokonimi</code> arvon <code>"Matti Meikäläinen"</code> funktion nimi sisällä, ja kerromme muuttujan olevan paikallinen, <code>kokonimi</code> unohtaa arvonsa heti kun poistutaan funktiosta.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-funktiot-ja-globaalit-muuttujat---visual-lisp-console" class="anchor" href="#funktiot-ja-globaalit-muuttujat---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Funktiot ja globaalit muuttujat - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ <span class="pl-c"><span class="pl-c">;</span> Funktio globaalilla muuttujalla:</span>
 (<span class="pl-k">defun</span> <span class="pl-en">nimi-globaali</span> (etunimi sukunimi)
   (<span class="pl-c1">setq</span> kokonimi (<span class="pl-c1">strcat</span> etunimi <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> sukunimi))
@@ -156,7 +161,8 @@ _$ kokonimi
 <a id="user-content-lista-list" class="anchor" href="#lista-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lista (list)</h2>
 <p>Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka voivat olla mitä vain tietotyyppiä. Listojen käsittelyyn AutoLISPissä on monia valmiita funktioita. Alla on vain pintaraapaisu.</p>
 <p>Lista voidaan luoda monella tapaa. Yksi on käyttää komentoa <code>list</code>, joka ottaa annetut arvot ja kasaa niistä listan siinä järjestyksessä kuin ne on sille annettu:</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-lista---visual-lisp-console" class="anchor" href="#lista---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lista - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> listayksi (<span class="pl-c1">list</span> <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span> <span class="pl-digits">2</span> <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>))
 (<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span> <span class="pl-digits">2</span> <span class="pl-s"><span class="pl-pds">"</span>c<span class="pl-pds">"</span></span>)</pre></div>
 <p>Saman voi tehdä myös antamalla listan kirjaimellisesti, jolloin kirjoitamme listan heittomerkin jälkeen <code>'("a" 2 "b")</code>. Tällöin yksittäiset elementit täytyy olla jo tiedossa, sillä heittomerkki listan edessä tarkoittaa, ettei lisp yritä suorittaa seuraavana tulevaa osaa, vaan ottaa sen sellaisenaan. Tämä tarkoittaa, ettei listan sisäisiä komentoja suoriteta, vaan ne tulkitaan listan jäseniksi.</p>
@@ -188,7 +194,8 @@ _$ (<span class="pl-c1">subst</span> <span class="pl-s"><span class="pl-pds">"</
 <p>AutoLISPin tieto on usein tallennettu assosiaatiolistoihin. Assosiaatiolista on lista, jossa kunkin jäsenen ensimmäinen osa on tunniste, ja toinen osa on sisältöä. Tämä mahdollistaa hakea listasta tietoa tunnisteen mukaan. Tätä käytetään entiteettien ominaisuuksien hallinnassa, josta kerrotaan vähän lisää myöhemmin.</p>
 <div style="page-break-after: always;"></div>
 <p>Käyttötarkoituksena on tiedon jäsennys eri ryhmiin. Esimerkkinä voitaisiin luoda attribuuttilista, jossa listan jäsenen ensimmäisenä arvona on attribuutin nimi, ja sisältönä attribuutin arvo. Esimerkkinä blokki, jolla on attribuutit: Valmistaja: ABB, malli: S201-C10, nimellisjännite: 230V, nimellisvirta: 10A. Assosiaatiolistasta voi hakea tarvitun tiedon nimen perusteella komennolla <code>assoc</code>, joka palauttaa sen assiosiaation, joka vastaa annettua arvoa. Usein associa käytetään kuitenkin <code>cdr</code>-komennon kanssa, koska halutaan päästä käsiksi varsinaiseen sisältöön.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-assosiaatiolista---visual-lisp-console" class="anchor" href="#assosiaatiolista---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assosiaatiolista - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> johdonsuojakatkaisija '((<span class="pl-s"><span class="pl-pds">"</span>VALMISTAJA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>ABB<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>MALLI<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>S201-C10<span class="pl-pds">"</span></span>) 
       (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISVIRTA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>10A<span class="pl-pds">"</span></span>)))
 ((<span class="pl-s"><span class="pl-pds">"</span>VALMISTAJA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>ABB<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>MALLI<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>S201-C10<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISJÄNNITE<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>230V<span class="pl-pds">"</span></span>) (<span class="pl-s"><span class="pl-pds">"</span>NIMELLISVIRTA<span class="pl-pds">"</span></span> . <span class="pl-s"><span class="pl-pds">"</span>10A<span class="pl-pds">"</span></span>))
@@ -236,7 +243,8 @@ _$ (<span class="pl-c1">cons</span> (<span class="pl-c1">cons</span> <span class
 <p>Tiedostosta voidaan lukea rivi kerrallaan komennolla <code>read-line</code>. <code>read-line</code> palauttaa rivin tekstinä, ja mikäli tiedosto on loppu, se palauttaa <code>nil</code>. Vastaavasti tekstiä voi kirjoittaa tiedostoon rivi kerrallaan komennolla <code>write-line</code>. Mikäli tiedostoa ei ole vielä olemassa merkityssä kansiossa ennen kirjoitusta, moodit "w" ja "a" alkavat kirjoittaa suoraan uuteen tiedostoon annetulla tiedostonimellä.</p>
 <p>Mikäli lispille ei anna koko tiedostopolkua, se luo tiedoston tämänhetkiseen oletuskansioon.</p>
 <p>Tiedosto täytyy muistaa sulkea käytön jälkeen, tai muut ohjelmat eivät voi muokata sitä tai tiedosto voi olla vaikea poistaa. Tiedosto suljetaan komennolla <code>close</code>. Mikäli tämä unohtuu, voi joutua käynnistämään koneen uudelleen, jotta kaikki tiedostot sulkeutuvat ja niitä voi muokata taas.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-tiedostot---visual-lisp-console" class="anchor" href="#tiedostot---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tiedostot - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ <span class="pl-c"><span class="pl-c">;</span> Avataan uusi tiedosto kirjoitettavaksi, kirjoitetaan siihen rivi ja suljetaan se.</span>
 _$ (<span class="pl-c1">setq</span> uusi-tiedosto (<span class="pl-c1">open</span> <span class="pl-s"><span class="pl-pds">"</span>testi.txt<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>w<span class="pl-pds">"</span></span>))
 <span class="pl-c1">#&lt;file</span> <span class="pl-s"><span class="pl-pds">"</span>testi.txt<span class="pl-pds">"</span></span>&gt;
@@ -271,7 +279,8 @@ _$ (<span class="pl-c1">close</span> avoin-tiedosto)
 <p><code>ssget</code>:llä voi hakea entiteettejä joko tietyltä alueelta kuvasta tai koko kuvan tietokannasta. Tarkemmat tiedot löytyy AutoCADin lisp-referenssistä, johon pääsee CADin helpin kautta. Eniten kuvan käsittelyssä tulee kuitenkin käytettyä kolmea moodia: koko kuvan tietokannasta hakua, valmiista valinnasta hakua tai annetaan käyttäjän valita. Jos ei anneta käyttäjän valita, <code>ssget</code> ottaa kaksi parametria: valintamoodin ja assosiaatiolistan haettavista ominaisuukista. <code>"X"</code> tarkoittaa, että haetaan asioita koko kuvan tietokannasta, ja <code>"I"</code> tarkoittaa, että haetaan sopivia entiteettejä käyttäjän valmiiksi valitsemalta alueelta. Kun moodi-parametri jätetään pois, Lisp odottaa, että käyttäjä valitsee kuvasta haluamansa asiat. Jos esimerkiksi halutaan valita kaikki text-tyyppiset entiteetit kuvasta, käytetään komentoa <code>(<span class="pl-c1">ssget</span> "X" '((0 . "TEXT")))</code>. Mikäli haku halutaan rajata valmiiksi valittuihin asioihin, vaihdetaan X:n paikalle I: <code>(<span class="pl-c1">ssget</span> "I" '((0 . "TEXT")))</code>. Ilman moodia käyttäjä saa valita tekstit itse, ja valinta ei ota muita entiteettejä ollenkaan huomioon <code>(<span class="pl-c1">ssget</span> '((0 . "TEXT")))</code>. Jos halutaan antaa käyttäjälle täysi vapaus valintaan, ei anneta mitään parametreja: <code>(<span class="pl-c1">ssget</span>)</code>.</p>
 <p><code>sslength</code> palauttaa valintajoukon pituuden, eli sen, montako entiteettiä on valittuna. <code>ssname</code> palauttaa annetun järjestysnumeron mukaisen entiteettinimen. Jälleen, järjestysnumerot lähtevät nollasta.
 Esimerkissä avoinna on piirustus, jossa on yksi teksti ja 72 blokkia. 0 on assosiaatiotunniste, joka viittaa entiteettityyppiin. Näistä arvoista lisää seuraavassa kappaleessa, ja tiedostossa DXF-koodeja.md.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-valintajoukko---visual-lisp-console" class="anchor" href="#valintajoukko---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Valintajoukko - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> tekstit (<span class="pl-c1">ssget</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> '((<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>))))
 &lt;Selection set: <span class="pl-digits">71</span>&gt;
 _$ (<span class="pl-c1">sslength</span> tekstit)
@@ -310,7 +319,8 @@ _$ (<span class="pl-c1">setq</span> blokit <span class="pl-c1">nil</span>)
 </ul>
 <div style="page-break-after: always;"></div>
 <p>Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-entiteetit---visual-lisp-console" class="anchor" href="#entiteetit---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entiteetit - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> kaikki-tekstit (<span class="pl-c1">ssget</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> '((<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>))))
 &lt;Selection set: <span class="pl-digits">6</span>&gt;
 _$ (<span class="pl-c1">setq</span> tekstientity (<span class="pl-c1">ssname</span> kaikki-tekstit <span class="pl-digits">0</span>))
@@ -327,7 +337,8 @@ _$ (<span class="pl-c1">setq</span> kaikki-tekstit <span class="pl-c1">nil</span
 <span class="pl-c1">nil</span></pre></div>
 <p>Attribuutit ovat erityisiä siinä, ettei niitä pysty suoraan valitsemaan, vaan niihin pääsee käsiksi vain blokin kautta. Eli ensin valitaan blokki, selvitetään sen entiteettinimi, jonka jälkeen aletaan kulkea blokin alaisia entiteettejä <code>entnext</code>-komennolla.
 <code>entnext</code> palauttaa seuraavan entitynimen tietokannassa, ja jos blokilla on attribuutteja, nämä ovat listana blokin jälkeen. Attribuutit on käyty läpi, kun seuraava entiteettityyppi (DXF-koodi 0) ei enää ole "ATTRIB". Esimerkissä valitaan blokki nimeltä "BJR_TUNNUS" ja käydään sen attribuutit läpi. Blokilla on kuusi attribuuttia: PROSESSIASEMA, JR_PA, NAYTTO, JR_NAUTTO, POS ja JR_HUONE. Attribuutin näkyvä tekstiarvo on DXF-koodi 1. Blokin tai attribuutin nimi on DXF-koodi 2.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-attribuutit---visual-lisp-console" class="anchor" href="#attribuutit---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Attribuutit - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">setq</span> bjr-tunnus-valinta (<span class="pl-c1">ssget</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> '((<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>INSERT<span class="pl-pds">"</span></span>) (<span class="pl-digits">2</span> . <span class="pl-s"><span class="pl-pds">"</span>BJR_TUNNUS<span class="pl-pds">"</span></span>))))
 &lt;Selection set: <span class="pl-digits">64</span>&gt;
 _$ (<span class="pl-c1">setq</span> bjr-tunnus-blokki (<span class="pl-c1">ssname</span> bjr-tunnus-valinta <span class="pl-digits">0</span>))
@@ -366,7 +377,8 @@ _$ (<span class="pl-c1">setq</span> bjr-tunnus-valinta <span class="pl-c1">nil</
 <p>Kuvan sisältöä voi muokata entiteetti-esitystavan lisäksi myös VLA-objekteina. Tämä toiminnallisuus on saatavilla vain Windowsilla.</p>
 <p>VLA-objektit kuuluvat AutoCADin ActiveX-objektirakenteeseen, ja niitä muokataan Visual Basic for Applications (VBA) tyyppisillä komennoilla. ActiveX:n / Common Object Modelin kautta pääsee käsiksi myös muihin ohjelmiin (kuten Exceliin). AutoCADissä tuli ennen VBA-kehitysympäristö mukana, mutta tätä kieltä ei tueta enää Microsoftin kautta, joten se pudotettiin AutoCADin oletussisällöstä. Tämän saa kuitenkin vielä ladattua laajennoksena AutoCADin sivuilta. AutoCADin ActiveX-rakennetta kuitenkin tuetaan Visual Lispin kautta. Tämä antaa pääsyn VBA:n komentoihin vla- ja vlax-laajennoksilla. Laajennos otetaan käyttöön antamalla komento <code>(<span class="pl-c1">vl-load-com</span>)</code>. Tämän mukana tulee monia muitakin apufunktioita kuin ActiveX-rakenteeseen pääsevät komennot.</p>
 <p>Lisp entiteettinimen pystyy muuttamaan VLA-objektiksi komennolla <code>vlax-ename-&gt;vla-object</code> ja takaisin <code>vlax-vla-object-&gt;ename</code>. VLA-objektin ominaisuuksia (property) voi hakea komennolla <code>vlax-get-property</code> ja muuttaa komennolla <code>vlax-put-property</code>. Objektin kaikki ominaisuudet saa "dumpattua" komennolla <code>vlax-dump-object</code>. VLA-objektikomennot tekevät ominaisuuksien muokkamisesta helpompaa, sillä ominaisuuksien nimet ovat selkokielisiä DXF-koodien sijaan.</p>
-<p>Visual Lisp Console:</p>
+<h6>
+<a id="user-content-vla-objekti---visual-lisp-console" class="anchor" href="#vla-objekti---visual-lisp-console" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VLA-objekti - Visual Lisp Console:</h6>
 <div class="highlight highlight-source-lisp"><pre>_$ (<span class="pl-c1">vl-load-com</span>)
 _$ (<span class="pl-c1">setq</span> ss (<span class="pl-c1">ssget</span> <span class="pl-s"><span class="pl-pds">"</span>X<span class="pl-pds">"</span></span> '((<span class="pl-digits">0</span> . <span class="pl-s"><span class="pl-pds">"</span>TEXT<span class="pl-pds">"</span></span>))))
 &lt;Selection set: <span class="pl-digits">71</span>&gt;

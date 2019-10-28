@@ -19,7 +19,7 @@ Näiden lisäksi on nil, joka tarkoittaa tiedon puutetta*. Muilla kielillä täm
 ## Luvut: kokonaisluku (integer) ja reaaliluku (real)
 Luvut ovat joko kokonaislukuja `5` tai reaalilukuja `5.0`. Lisp muuttaa kokonaisluvun automaattisesti reaaliluvuksi, jos yksi laskutoimituksen luvuista on reaaliluku. Jakolaskut kokonaisluvuilla eivät huomioi tuloksen desimaaleja lainkaan, mutta jos toiseen luvuista on merkattu desimaalit, lisp muuntaa tuloksenkin reaaliluvuksi.
 
-Visual Lisp Console:
+###### Luvut - Visual Lisp Console:
 ```lisp
 _$ (/ 5 2)
 2
@@ -33,7 +33,7 @@ _$ (/ 5.0 2)
 ## Merkkijono (string)
 Lisp ymmärtää koodin merkkijonoksi, jos sen ympäröi lainausmerkeillä. Esimerkissä alla on ensin kirjoitettu konsoliin merkkijono "tekstiä", jonka lisp ymmärtää merkkijonoksi ja palauttaa sen. Ilman lainausmerkkejä lisp ymmärtää kirjoitetun asian symboliksi, ja yrittää lukea symbolin arvoa, mutta koska sillä ei ole arvoa, lisp palauttaa nil. 
 
-Visual Lisp Console:
+###### Merkkijono - Visual Lisp Console:
 ```lisp
 _$ "tekstiä"
 "tekstiä"
@@ -50,7 +50,7 @@ Symbolit on lispin tapa käsitellä muuttujia ja funktioita. Symboliin tallennet
 ### Muuttujat
 Jotta tietoa voidaan käyttää myöhemmin ohjelmassa, voidaan se tallentaa muistiin muuttujaan. Toisin kuin monessa muussa ohjelmointikielessä, lispissä ei tarvitse ilmoittaa muuttujan olemassaoloa ennen sen käyttöä, vaan muuttuja otetaan käyttöön automaattisesti kun se lisätään koodiin. Muuttujaan voi tallentaa mitä vain tietotyyppiä olevaa dataa. Muuttujaan tallennetaan tietoa komennolla `setq`, joka myös palauttaa muuttujaan asetetun arvon. Muuttujaa voi tallennuksen jälkeen käyttää myöhemmissä komennoissa. Muuttujan arvo ei muutu, ennen kuin siihen tallentaa uuden arvon `setq`-komennolla. 
 
-Visual Lisp Console:
+###### Muuttujat - Visual Lisp Console:
 ```lisp
 _$ (setq numero 5)
 5
@@ -77,7 +77,7 @@ Syötetään Visual Lisp -konsoliin alla oleva esimerkkifunktio, joka laskee kol
 )
 ```
 
-Visual Lisp Console:
+###### Funktiot - Visual Lisp Console:
 ```lisp
 _$ (defun keskiarvo (eka toka kolmas)
   (/ (+ eka toka kolmas) 3.0)
@@ -115,7 +115,7 @@ Argumentit on arvoja, joita funktio käyttää suoritukseen. Nämä annetaan fun
 
 Paikalliset muuttujat on muuttujia, joita funktiossa käytetään, mutta joiden arvon ei haluta säilyvän funktion ulkopuolella. Jos esimerkiksi asetamme muuttujaan `kokonimi` arvon `"Matti Meikäläinen"` funktion nimi sisällä, ja kerromme muuttujan olevan paikallinen, `kokonimi` unohtaa arvonsa heti kun poistutaan funktiosta.
 
-Visual Lisp Console:
+###### Funktiot ja globaalit muuttujat - Visual Lisp Console:
 ```lisp
 _$ ; Funktio globaalilla muuttujalla:
 (defun nimi-globaali (etunimi sukunimi)
@@ -146,7 +146,7 @@ Lista on lispin pohjimmainen tietorakenne. Lista koostuu elementeistä, jotka vo
 
 Lista voidaan luoda monella tapaa. Yksi on käyttää komentoa `list`, joka ottaa annetut arvot ja kasaa niistä listan siinä järjestyksessä kuin ne on sille annettu:
 
-Visual Lisp Console:
+###### Lista - Visual Lisp Console:
 ```lisp
 _$ (setq listayksi (list "a" 2 "c"))
 ("a" 2 "c")
@@ -195,7 +195,7 @@ AutoLISPin tieto on usein tallennettu assosiaatiolistoihin. Assosiaatiolista on 
 
 Käyttötarkoituksena on tiedon jäsennys eri ryhmiin. Esimerkkinä voitaisiin luoda attribuuttilista, jossa listan jäsenen ensimmäisenä arvona on attribuutin nimi, ja sisältönä attribuutin arvo. Esimerkkinä blokki, jolla on attribuutit: Valmistaja: ABB, malli: S201-C10, nimellisjännite: 230V, nimellisvirta: 10A. Assosiaatiolistasta voi hakea tarvitun tiedon nimen perusteella komennolla `assoc`, joka palauttaa sen assiosiaation, joka vastaa annettua arvoa. Usein associa käytetään kuitenkin `cdr`-komennon kanssa, koska halutaan päästä käsiksi varsinaiseen sisältöön.
 
-Visual Lisp Console:
+###### Assosiaatiolista - Visual Lisp Console:
 ```lisp
 _$ (setq johdonsuojakatkaisija '(("VALMISTAJA" . "ABB") ("MALLI" . "S201-C10") 
       ("NIMELLISJÄNNITE" . "230V") ("NIMELLISVIRTA" . "10A")))
@@ -258,7 +258,7 @@ Mikäli lispille ei anna koko tiedostopolkua, se luo tiedoston tämänhetkiseen 
 
 Tiedosto täytyy muistaa sulkea käytön jälkeen, tai muut ohjelmat eivät voi muokata sitä tai tiedosto voi olla vaikea poistaa. Tiedosto suljetaan komennolla `close`. Mikäli tämä unohtuu, voi joutua käynnistämään koneen uudelleen, jotta kaikki tiedostot sulkeutuvat ja niitä voi muokata taas.
 
-Visual Lisp Console:
+###### Tiedostot - Visual Lisp Console:
 ```lisp
 _$ ; Avataan uusi tiedosto kirjoitettavaksi, kirjoitetaan siihen rivi ja suljetaan se.
 _$ (setq uusi-tiedosto (open "testi.txt" "w"))
@@ -299,7 +299,7 @@ Valintajoukot ovat kokoelma entiteettejä, eli kokoelma piirustuksen sisällöst
 `sslength` palauttaa valintajoukon pituuden, eli sen, montako entiteettiä on valittuna. `ssname` palauttaa annetun järjestysnumeron mukaisen entiteettinimen. Jälleen, järjestysnumerot lähtevät nollasta.
 Esimerkissä avoinna on piirustus, jossa on yksi teksti ja 72 blokkia. 0 on assosiaatiotunniste, joka viittaa entiteettityyppiin. Näistä arvoista lisää seuraavassa kappaleessa, ja tiedostossa DXF-koodeja.md. 
 
-Visual Lisp Console:
+###### Valintajoukko - Visual Lisp Console:
 ```lisp
 _$ (setq tekstit (ssget "X" '((0 . "TEXT"))))
 <Selection set: 71>
@@ -336,7 +336,7 @@ Ominaisuuden muokkaus voidaan toteuttaa komennoin:
 
 Assosiaatiolistat ovat melko pitkiä, joten niitä on lyhennetty tässä korvaamalla osia kolmella pisteellä "...".
 
-Visual Lisp Console:
+###### Entiteetit - Visual Lisp Console:
  ```lisp
 _$ (setq kaikki-tekstit (ssget "X" '((0 . "TEXT"))))
 <Selection set: 6>
@@ -356,7 +356,7 @@ nil
 Attribuutit ovat erityisiä siinä, ettei niitä pysty suoraan valitsemaan, vaan niihin pääsee käsiksi vain blokin kautta. Eli ensin valitaan blokki, selvitetään sen entiteettinimi, jonka jälkeen aletaan kulkea blokin alaisia entiteettejä `entnext`-komennolla.
 `entnext` palauttaa seuraavan entitynimen tietokannassa, ja jos blokilla on attribuutteja, nämä ovat listana blokin jälkeen. Attribuutit on käyty läpi, kun seuraava entiteettityyppi (DXF-koodi 0) ei enää ole "ATTRIB". Esimerkissä valitaan blokki nimeltä "BJR_TUNNUS" ja käydään sen attribuutit läpi. Blokilla on kuusi attribuuttia: PROSESSIASEMA, JR_PA, NAYTTO, JR_NAUTTO, POS ja JR_HUONE. Attribuutin näkyvä tekstiarvo on DXF-koodi 1. Blokin tai attribuutin nimi on DXF-koodi 2.
 
-Visual Lisp Console:
+###### Attribuutit - Visual Lisp Console:
 ```lisp
 _$ (setq bjr-tunnus-valinta (ssget "X" '((0 . "INSERT") (2 . "BJR_TUNNUS"))))
 <Selection set: 64>
@@ -402,7 +402,7 @@ VLA-objektit kuuluvat AutoCADin ActiveX-objektirakenteeseen, ja niitä muokataan
 
 Lisp entiteettinimen pystyy muuttamaan VLA-objektiksi komennolla `vlax-ename->vla-object` ja takaisin `vlax-vla-object->ename`. VLA-objektin ominaisuuksia (property) voi hakea komennolla `vlax-get-property` ja muuttaa komennolla `vlax-put-property`. Objektin kaikki ominaisuudet saa "dumpattua" komennolla `vlax-dump-object`. VLA-objektikomennot tekevät ominaisuuksien muokkamisesta helpompaa, sillä ominaisuuksien nimet ovat selkokielisiä DXF-koodien sijaan.
 
-Visual Lisp Console:
+###### VLA-objekti - Visual Lisp Console:
 ```lisp
 _$ (vl-load-com)
 _$ (setq ss (ssget "X" '((0 . "TEXT"))))
